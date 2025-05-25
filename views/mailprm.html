@@ -1,0 +1,51 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width" />
+  <title>E-mail</title>
+  <link rel="icon" href="../img/Icono_TUMMY.png">
+  <style>
+    .button {
+      border: none !important;
+      color: #fff !important;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none !important;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 65px;
+    }
+  </style>
+</head>
+
+<body style="color: #000; background-color: #fff;">
+  <div>
+    <table class="body-wrap w320">
+      <tr>
+        <td class="soapbox-title" style="color: #000;">
+          Cordial saludo, {{first_name}}.<br><br>{{message}}<br><br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a href="{{link1}}" class="button" style="background-color: #4CAF50;" target="_blank">Aceptar</a>
+          <a href="{{link2}}" class="button" style="background-color: #af4c4c;" target="_blank">Rechazar</a>
+        </td>
+      </tr>
+    </table>
+    <table class="body-wrap w320" style="padding-top: 20px;">
+      <tr>
+        <td>
+          <img src="cid:firma_cid" alt="Firma Correo" style="height: 90px;">
+        </td>
+        <td style="color: #0e0242;">
+          {{fir}}
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
