@@ -12,7 +12,7 @@
     $arc = isset($_REQUEST['arc']) ? $_REQUEST['arc'] : NULL;
     $pg = isset($_REQUEST['pg']) ? $_REQUEST['pg'] : NULL; 
 
-    if ($pg == 111) {
+    if ($pg == 110) {
         $mdot->setIdent($id); 
         if ($arc) {
             $dt = $mdot->getPdf(); 
@@ -21,7 +21,7 @@
             header('Content-Disposition: inline; filename="' . basename($rut) . '"');
             readfile($rut);
         }
-    }if ($pg == 112) {
+    }if ($pg == 111) {
         $mprm->setIdprm($id); 
         if ($arc) {
             $dt = $mprm->getPdf($arc);

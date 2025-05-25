@@ -10,7 +10,7 @@ if($ope=="dircc"){
     $idpef = isset($_POST['idpef']) ? $_POST['idpef']:NULL;
 }elseif($ope=="cg"){
     $idmod = 1;
-    $idpef = 5;  
+    $idpef = 3;  
 }
 
 $mosmdl = false;

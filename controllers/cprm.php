@@ -25,7 +25,7 @@
 
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
 
-    $pg = 112;
+    $pg = 111;
     $datOne = NULL;
 
     $nomprm = $mprm->getAllDom($idvtprm);
@@ -81,15 +81,15 @@
         $mprm->setIdvtprm($idvtprm);
         $mprm->setEstprm($estprm);
         $datAll = $mprm->getAll("bus");
-    } else if($_SESSION['idpef']==5) $datAll = $mprm->getAll("prop");
-    else if($_SESSION['idpef']==7) $datAll = $mprm->getAll("rrhhf");
+    } else if($_SESSION['idpef']==3) $datAll = $mprm->getAll("prop");
+    else if($_SESSION['idpef']==2) $datAll = $mprm->getAll("rrhhf");
     
     if($ope=='limp') echo "<script>window.location='home.php?pg=".$pg."';</script>";
     
-    $datTprm = $mprm->getAllDom(4);
+    $datTprm = $mprm->getAllDom(1);
     $datJef = $mprm->getAllPer();
     $datGra = $mprm->getAllGraf();
     
-    if($_SESSION['idpef']==7) $solper = $mprm->getAll("rrhhp");
+    if($_SESSION['idpef']==2) $solper = $mprm->getAll("rrhhp");
     else $solper = $mprm->getAll($_SESSION['idper']);
 ?>

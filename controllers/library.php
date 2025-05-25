@@ -4,7 +4,7 @@
 //------------Titulos-----------
 function titulo($ico, $tit, $mos, $pg)
 {
-	if($_SESSION['idpef']==5 && $pg==106) $tit = "Datos Personales";
+	if($_SESSION['idpef']==3 && $pg==106) $tit = "Datos Personales";
 	$txt = '';
 	$txt .= '<div class="titu">';
 		$txt .= '<div class="titaju">';
@@ -13,7 +13,7 @@ function titulo($ico, $tit, $mos, $pg)
 			$txt .= '<hr class="hrtitu">';
 		$txt .= '</div>';
 		
-		if ($mos == 1  and $pg!=63) {
+		if ($mos == 1) {
 			$txt .= '<div class="titaju" style="float: right; font-size: 20px">';
 			$txt .= '<style"text-align: right;">Registrar </class=style>';
 				$txt .= '<i class="fa-solid fa-circle-plus" id="mas" onclick="ocul(' . $mos . ',1);"></i>';
@@ -74,6 +74,35 @@ function modalChk($nm, $id, $tit, $mods, $dps, $pg)
 					$txt .= '</div>';
 				$txt .= '</form>';
 			$txt .= '</div>';
+		$txt .= '</div>';
+	$txt .= '</div>';
+	echo $txt;
+}
+
+//------------Modal importar-----------
+function modalImp($nm, $pg, $tit, $ope){
+	$txt = '';
+	$txt .= '<div class="modal fade" id="' . $nm . $pg . $ope.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+		$txt .= '<div class="modal-dialog">';
+			$txt .= '<form action="home.php?pg='.$pg.'"';
+			$txt .= '" method="POST" enctype="multipart/form-data">';
+				$txt .= '<div class="modal-content">';
+					$txt .= '<div class="modal-header">';
+						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Carga Masiva - '.$tit.'</strong></h1>';
+						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-body" style="text-align: left;">';
+						$txt .= '<label for="arc" style="margin-bottom: 10px"><strong>Cargar archivo Excel:</strong></label>';
+						$txt .= '<input class="form-control" type="file" id="arc" name="arc" accept=".xls,.xlsx" required>';
+						$txt .= '<small><small><br>*Por favor, asegúrese de subir únicamente archivos con extensión .xls o .xlsx. Estos formatos son específicos de archivos de Excel y son necesarios para garantizar la correcta lectura y procesamiento de los datos.</small></small>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-footer">';
+						$txt .= '<input type="hidden" value="'.$ope.'" name="ope">';
+						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';
+						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+					$txt .= '</div>';
+				$txt .= '</div>';
+			$txt .= '</form>';
 		$txt .= '</div>';
 	$txt .= '</div>';
 	echo $txt;
@@ -314,65 +343,6 @@ function modalFir($nm, $id, $det, $pg) {
 }
 
 
-
-//-------------Modal estado de novedad y factura-----------
-function modalNov($nm, $id, $pg, $info, $nmfl){
-	$hoy = date("Y-m-d");
-	$txt = '';
-	$txt .= '<div class="modal fade" id="'.$nm.$id.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
-		$txt .= '<div class="modal-dialog">';
-			$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
-				$txt .= '<div class="modal-content">';
-					$txt .= '<div class="modal-header">';
-						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Factura en novedad</strong></h1>';
-						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
-					$txt .= '</div>';
-					$txt .= '<div class="modal-body" style="margin: 0px 25px; text-align: left;">';
-						$txt .= '<div class="row">';
-						$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
-						$txt .= '<div class="row"';
-							$txt .= '<div">';
-								$txt .= '<table>';
-									$txt .= '<tr><td><strong>Provedor: </strong></td><td class="inffac">'.$info[0]['razsoem'].'</td></tr>';	
-									$txt .= '<tr><td><strong>Fecha de emisión: </strong></td><td class="inffac">'.$info[0]['fefac'].'</td></tr>';
-									$txt .= '<tr><td><strong>Fecha de vencimiento: </strong></td><td class="inffac">'.$info[0]['fvfac'].'</td></tr>';
-									$txt .= '<tr><td><strong>Forma de pago: </strong></td><td class="inffac">'.$info[0]['fpag'].'</td></tr>';
-									$txt .= '<tr><td><strong>Tipo: </strong></td><td class="inffac">'.$info[0]['tip'].'</td></tr>';
-									if($info[0]['numegr'])$txt .= '<tr><td><strong>Número Egreso: </strong></td><td class="inffac">'.$info[0]['numegr'].'</td></tr>';
-									$txt .= '<tr><td><strong><hr>Registro: </strong></td><td class="inffac"><br><hr>'.$info[0]['nompcre'].'<br>' .$info[0]['fifac'].'</td></tr>';
-									if($info[0]['prev'])$txt .= '<tr><td><strong>Primer revisión: </strong></td><td class="inffac">'.$info[0]['nomprev'].'<br>'.$info[0]['fprfac'].'</td></tr>';
-									if($info[0]['papr'])$txt .= '<tr><td><strong>Aprobada: </strong></td><td class="inffac">'.$info[0]['nompapr'].'<br>'.$info[0]['faprfac'].'</td></tr>';
-									if($info[0]['pent'])$txt .= '<tr><td><strong>Entregada: </strong></td><td class="inffac">'.$info[0]['nompent'].'<br>'.$info[0]['fffac'].'</td></tr>';
-									if($info[0]['ppag'])$txt .= '<tr><td><strong>Pagada: </strong></td><td class="inffac">'.$info[0]['nomppag'].'<br>'.$info[0]['fpagfac'].'</td></tr>';
-								$txt .= '</table>';
-								$txt .= '<strong><br>Novedad:</strong><hr>';
-							$txt .= '<div class="form-group col-md-6">';
-								$txt .= '<label for="fnov" class="titulo"><strong>Fecha aviso: </strong></label>';
-								$txt .= '<input class="form-control" max='.$nmfl.' type="datetime-local" id="fnov" name="fnov" value="'.$nmfl.'" required>';
-							$txt .= '</div>';
-							$txt .= '<div class="form-group col-md-12">';
-								$txt .= '<label for="obsnov" class="titulo"><strong>Observaciones: </strong></label>';
-								$txt .= '<textarea class="form-control" type="text" id="obsnov" name="obsnov" required></textarea>';
-							$txt .= '</div>';
-						$txt .= '</div>';
-					$txt .= '</div>';
-							$txt .= '</div>';
-						$txt .= '</div>';
-					$txt .= '<br><div class="modal-footer">';
-						$txt .= '<input type="hidden" value="'.$info[0]['pnov'].'">';
-						$txt .= '<input type="hidden" value="'.$info[0]['idfac'].'" name="idfac">';
-						$txt .= '<input type="hidden" value="nov" name="ope">';
-						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';	
-						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
-					$txt .= '</div>';
-				$txt .= '</div>';
-			$txt .= '</form>';
-		$txt .= '</div>';
-	$txt .= '</div>';
-	echo $txt;
-}
-
-
 //------------Modal vdot, devolucion-----------
 function modalDev($nm, $id, $acc, $det, $pg, $nmfl){
 	$hoy = date("Y-m-d");
@@ -500,232 +470,6 @@ function modalCmb($nm, $id, $tit, $pef, $dga, $pg)
 						$txt .= '<input type="hidden" value="savepxf" name="ope">';
 						$txt .= '<input type="hidden" value="' . $id . '" name="idper">';
 						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';
-						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
-					$txt .= '</div>';
-				$txt .= '</div>';
-			$txt .= '</form>';
-		$txt .= '</div>';
-	$txt .= '</div>';
-	echo $txt;
-}
-
-
-
-//------------Modal vfac, info facturas-----------
-function modalDet($nom, $id, $titulo, $info){
-	$txt = '';
-	$txt .= '<div class="modal fade" id="' . $nom . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
-		$txt .= '<div class="modal-dialog">';
-			$txt .= '<div class="modal-content">';
-				$txt .= '<div class="modal-header">';
-					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$titulo.'</strong></h1>';
-					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
-				$txt .= '</div>';
-				$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
-				$txt .= '<div class="row"';
-					$txt .= '<div">';
-						$txt .= '<table>';
-							$txt .= '<tr><td><strong>Provedor: </strong></td><td class="inffac">'.$info[0]['razsoem'].'</td></tr>';	
-							$txt .= '<tr><td><strong>Fecha de emisión: </strong></td><td class="inffac">'.$info[0]['fefac'].'</td></tr>';
-							$txt .= '<tr><td><strong>Fecha de vencimiento: </strong></td><td class="inffac">'.$info[0]['fvfac'].'</td></tr>';
-							$txt .= '<tr><td><strong>Forma de pago: </strong></td><td class="inffac">'.$info[0]['fpag'].'</td></tr>';
-							$txt .= '<tr><td><strong>Tipo: </strong></td><td class="inffac">'.$info[0]['tip'].'</td></tr>';
-							if($info[0]['vneto'])$txt .= '<tr><td><strong>Valor neto: </strong></td><td class="inffac">'.$info[0]['vneto'].'</td></tr>';
-							if($info[0]['numegr'])$txt .= '<tr><td><strong>Número Egreso: </strong></td><td class="inffac">'.$info[0]['numegr'].'</td></tr>';
-							if($info[0]['numbod'])$txt .= '<tr><td><strong>Bodega: </strong></td><td class="inffac">'.$info[0]['bod'].'</td></tr>';
-							$txt .= '<tr><td><strong><hr>Registro: </strong></td><td class="inffac"><br><hr>'.$info[0]['nompcre'].'<br>' .$info[0]['fifac'].'</td></tr>';
-							if($info[0]['prev'])$txt .= '<tr><td><strong>Primer revisión: </strong></td><td class="inffac">'.$info[0]['nomprev'].'<br>'.$info[0]['fprfac'].'</td></tr>';
-							if($info[0]['papr'])$txt .= '<tr><td><strong>Aprobada: </strong></td><td class="inffac">'.$info[0]['nompapr'].'<br>'.$info[0]['faprfac'].'</td></tr>';
-							if($info[0]['pent'])$txt .= '<tr><td><strong>Entregada: </strong></td><td class="inffac">'.$info[0]['nompent'].'<br>'.$info[0]['fffac'].'</td></tr>';
-							if($info[0]['ppag'])$txt .= '<tr><td><strong>Pagada: </strong></td><td class="inffac">'.$info[0]['nomppag'].'<br>'.$info[0]['fpagfac'].'</td></tr>';
-							$txt .= '<tr><td><hr></td><td><hr>';
-							if($info[0]['pnov']){
-							$txt .= '<tr><td style="text-align: right;"><strong>Novedad</strong></td><td><br><br>';
-							$txt .= '<tr><td><strong>Aviso:</strong></td><td class="inffac">'.$info[0]['nompnov'].'</td></tr>';
-							$txt .= '<tr><td><strong>Fecha:</strong></td><td class="inffac">'.$info[0]['fnov'].'</td></tr>';
-							$txt .= '<tr><td><strong>Observación: </td><td class="inffac">'.$info[0]['obsnov'].'</td><td class="inffac"></td></tr>';
-							}
-						$txt .= '</table>';
-					$txt .= '</div>';
-				$txt .= '</div>';
-				$txt .= '<div class="modal-footer">';
-					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
-				$txt .= '</div>';
-			$txt .= '</div>';
-		$txt .= '</div>';
-	$txt .= '</div>';
-	echo $txt;
-}
-
-//modal numero de personas en almuerzos
-function modalnper($nom, $id, $titulo, $info){
-	$txt = '';
-	$txt .= '<div class="modal fade" id="' . $nom . $id . '" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">';
-		$txt .= '<div class="modal-dialog modal-lg">';
-			$txt .= '<div class="modal-content">';
-				$txt .= '<div class="modal-header">';
-					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$titulo.'</strong></h1>';
-					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
-				$txt .= '</div>';
-				$txt .= '<div class="modal-body row" style="margin: 0px 25px;">';
-				$txt .= '<div class="form-group col-md-3" style="text-align: left;"> <strong>Nombre </strong></div>';
-				$txt .= '<div class="form-group col-md-3" style="text-align: center;"> <strong>Cantidad/Sopa</strong></div>';
-				$txt .= '<div class="form-group col-md-3" style="text-align: left;"> <strong>Nombre </strong></div>';
-				$txt .= '<div class="form-group col-md-2" style="text-align: center;"> <strong>Cantidad/Sopa</strong></div>';
-				if($info){ foreach($info AS $if){
-						$txt .= '<div class="form-group col-md-3" style="text-align: left;">'.$if['nomper'].'</div>';
-						if($info[0]['tipalm'] == 1) {
-							$alm = "Almuerzo completo";
-						} elseif ($info[0]['tipalm'] == 2) {
-							$alm = "Seco";
-						} elseif ($info[0]['tipalm'] == 3) {
-							$alm = "Sopa";
-						}else{
-							$alm = "";
-						}
-						$txt .= '<div class="form-group col-md-3" style="text-align: center;">('.$if['canalm'].') / '.$alm.'</div>';
-				}}
-				$txt .= '</div>';
-				$txt .= '<div class="modal-footer">';
-					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
-				$txt .= '</div>';
-			$txt .= '</div>';
-		$txt .= '</div>';
-	$txt .= '</div>';
-	echo $txt;
-}
-
-//modal numero de pedidos de una persona
-function modalnpedper($nom, $id, $titulo, $info){
-	$txt = '';
-	$txt .= '<div class="modal fade" id="' . $nom . $id . '" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">';
-		$txt .= '<div class="modal-dialog">';
-			$txt .= '<div class="modal-content">';
-				$txt .= '<div class="modal-header" style="text-align: left">';
-					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$titulo.'</strong></h1>';
-					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
-				$txt .= '</div>';
-				$txt .= '<div class="modal-body row" style="margin: 0px 25px;">';	
-				$txt .= '<div class="form-group col-md-12" style="text-align: left;"> <strong>Fechas </strong></div>';			
-				if($info){ foreach($info AS $if){
-					if($if['tipalm'] == 1) {
-						$alm = "Almuerzo completo";
-					} elseif ($if['tipalm'] == 2) {
-						$alm = "Seco";
-					} elseif ($if['tipalm'] == 3) {
-						$alm = "Sopa";
-					}else{
-						$alm = "";
-					}
-					// $txt .= '<div class="form-group col-md-2" style="text-align: left;">'.$if['nomper'].'</div>';
-					$txt .= '<div class="form-group col-md-12" style="text-align: left;"><strong>~ </strong>' . $if['fecped'] . ' / ' . $alm . '  (' . $if['canalm'] . ')</div>';
-			}}
-				$txt .= '</div>';
-				$txt .= '<div class="modal-footer">';
-					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
-				$txt .= '</div>';
-			$txt .= '</div>';
-		$txt .= '</div>';
-	$txt .= '</div>';
-	echo $txt;
-}
-
-
-//modal info novedad
-
-function modalinfonov($nom, $id, $titulo, $info, $nov){
-	$txt = '';
-	$txt .= '<div class="modal fade" id="' . $nom . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
-		$txt .= '<div class="modal-dialog">';
-			$txt .= '<div class="modal-content">';
-				$txt .= '<div class="modal-header">';
-					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$titulo.'</strong></h1>';
-					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
-				$txt .= '</div>';
-				$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
-				$txt .= '<div class="row"';
-					$txt .= '<div">';
-						$txt .= '<table>';
-						if($info[0]['fecinov'] AND $info[0]['fecfnov'])$txt .= '<tr><td><strong>Rango de fechas: </strong></td><td class="innov">'.$info[0]['fecinov'].'<strong> al </strong>'.$info[0]['fecfnov'].'</td></tr>';
-						if($info[0]['tini'])$txt .= '<tr><td><strong>Hora estipulada: </strong></td><td class="innov">'.$info[0]['tini'].'</td></tr>';
-						if($info[0]['tfin'])$txt .= '<tr><td><strong>Hora de llegada: </strong></td><td class="innov">'.$info[0]['tfin'].'</td></tr>';
-						if($info[0]['tini'] AND $info[0]['tfin'])$txt .= '<tr><td><strong>Diferencia: </strong></td><td class="innov">'.$info[0]['tot'].'</td></tr>';
-						if ($nov=="news")$txt .= '<tr><td><strong>Tipo: </strong></td><td class="innov">'.$info[0]['tip'].'</td></tr>';
-						if ($nov=="news")$txt .= '<tr><td><strong>Observación: </strong></td><td class="innov">'.$info[0]['obsnov'].'</td></tr>';
-						$txt .= '<tr><td><strong>Area: </strong></td><td class="innov">'.$info[0]['area'].'</td></tr>';
-						$txt .= '<tr><td><strong><hr>Registro: </strong></td><td class="innov"><hr>'.$info[0]['nomperc'].'</td></tr>';
-						if($info[0]['prev'])$txt .= '<tr><td><strong>Revisada: </strong></td><td class="innov">'.$info[0]['nomprev'].' <br> '.$info[0]['fecrev'].'</td></tr>';
-						$txt .= '</table>';
-					$txt .= '</div>';
-				$txt .= '</div>';
-				$txt .= '<div class="modal-footer">';
-					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
-				$txt .= '</div>';
-			$txt .= '</div>';
-		$txt .= '</div>';
-	$txt .= '</div>';
-	echo $txt;
-}
-
-//------------Modal importar, vfac-----------
-function modalImp($nm, $pg, $tit, $ope){
-	$txt = '';
-	$txt .= '<div class="modal fade" id="' . $nm . $pg . $ope.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
-		$txt .= '<div class="modal-dialog">';
-			$txt .= '<form action="home.php?pg='.$pg.'"';
-			$txt .= '" method="POST" enctype="multipart/form-data">';
-				$txt .= '<div class="modal-content">';
-					$txt .= '<div class="modal-header">';
-						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Carga Masiva - '.$tit.'</strong></h1>';
-						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
-					$txt .= '</div>';
-					$txt .= '<div class="modal-body" style="text-align: left;">';
-						$txt .= '<label for="arc" style="margin-bottom: 10px"><strong>Cargar archivo Excel:</strong></label>';
-						$txt .= '<input class="form-control" type="file" id="arc" name="arc" accept=".xls,.xlsx" required>';
-						$txt .= '<small><small><br>*Por favor, asegúrese de subir únicamente archivos con extensión .xls o .xlsx. Estos formatos son específicos de archivos de Excel y son necesarios para garantizar la correcta lectura y procesamiento de los datos.</small></small>';
-					$txt .= '</div>';
-					$txt .= '<div class="modal-footer">';
-						$txt .= '<input type="hidden" value="'.$ope.'" name="ope">';
-						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';
-						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
-					$txt .= '</div>';
-				$txt .= '</div>';
-			$txt .= '</form>';
-		$txt .= '</div>';
-	$txt .= '</div>';
-	echo $txt;
-}
-
-//modal numero de egreso vfac
-function modalegre($nm, $id, $pg, $info){
-	$hoy = date("Y-m-d");
-	$txt = '';
-	$txt .= '<div class="modal fade" id="'.$nm.$id.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
-		$txt .= '<div class="modal-dialog">';
-			$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
-				$txt .= '<div class="modal-content">';
-					$txt .= '<div class="modal-header">';
-						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$info[0]['nofac'].'-'.$info[0]['razsoem'].'</strong></h1>';
-						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
-					$txt .= '</div>';
-					$txt .= '<div class="modal-body" style="margin: 0px 25px; text-align: left;">';
-						$txt .= '<div class="row">';
-						$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
-						$txt .= '<div class="row"';
-							$txt .= '<div">';
-							$txt .= '<div class="form-group col-md-12">';
-								$txt .= '<label for="numegr" class="titulo"><strong>Número Egreso: </strong></label>';
-								$txt .= '<input class="form-control" type="text" id="numegr" name="numegr" required></input>';
-							$txt .= '</div>';
-						$txt .= '</div>';
-					$txt .= '</div>';
-							$txt .= '</div>';
-						$txt .= '</div>';
-					$txt .= '<br><div class="modal-footer">';
-						$txt .= '<input type="hidden" value="'.$info[0]['numegr'].'">';
-						$txt .= '<input type="hidden" value="'.$info[0]['idfac'].'" name="idfac">';
-						$txt .= '<input type="hidden" value="egreso" name="ope">';
-						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';	
 						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
 					$txt .= '</div>';
 				$txt .= '</div>';

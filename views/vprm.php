@@ -4,7 +4,7 @@ if ($datOne) {
     $fechai = (new DateTime($datOne[0]['fecini']))->format('Y-m-d\TH:i');
     $fechaf = (new DateTime($datOne[0]['fecfin']))->format('Y-m-d\TH:i');
 }
-if($_SESSION['idpef']==7){?>
+if($_SESSION['idpef']==2){?>
     <form action="home.php?pg=<?= $pg; ?>" method="post">
         <div class="row">
             <div class="form-group col-md-2 col-sm-4">
@@ -118,7 +118,7 @@ if($_SESSION['idpef']==7){?>
         <tr>
             <th>Datos permisos</th>
             <th>Estado</th>
-            <?php if($_SESSION['idpef']==5){ ?><th></th><?php } ?>
+            <?php if($_SESSION['idpef']==3){ ?><th></th><?php } ?>
         </tr>
     </thead>
     <tbody>
@@ -127,13 +127,13 @@ if($_SESSION['idpef']==7){?>
                 <td>
                     <div class="row">
                         <div class="form-group col-md-10">
-                            <?php if($_SESSION['idpef']==7){ ?>
+                            <?php if($_SESSION['idpef']==2){ ?>
                                 <span style="font-size: 0px;opacity: 0;"><?=$dta['fecsol'];?></span>
                             <?php } ?>
-                            <BIG><strong><?php if($_SESSION['idpef']==5) echo $dta['tprm']; else echo $dta['dper']." - ".$dta['aper']." ".$dta['nper']?></strong></BIG>
+                            <BIG><strong><?php if($_SESSION['idpef']==3) echo $dta['tprm']; else echo $dta['dper']." - ".$dta['aper']." ".$dta['nper']?></strong></BIG>
                             <small>
                                 <div class="row">
-                                    <?php if($_SESSION['idpef']==7 && $dta['tprm']){?>
+                                    <?php if($_SESSION['idpef']==2 && $dta['tprm']){?>
                                         <div class="form-group col-md-12">
                                             <strong><?php if($dta['noprm']) echo "N° ".$dta['noprm']." - "; echo $dta['tprm'];?></strong>
                                         </div>
@@ -162,9 +162,9 @@ if($_SESSION['idpef']==7){?>
                                 $mprm->setIdprm($dta['idprm']);
                                 $det = $mprm->getOne();
                                 modalInfPrm("mcbprm", $dta['idprm'], $det);
-                            if($_SESSION['idpef']==5 && $dta['sptrut'] && file_exists($dta['sptrut'])) { ?>
+                            if($_SESSION['idpef']==3 && $dta['sptrut'] && file_exists($dta['sptrut'])) { ?>
                                 <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['idprm'] ?>', 'spt', '<?= basename($dta['sptrut']) ?>')"></i>
-                            <?php } elseif($_SESSION['idpef']==7 && $dta['rutpdf'] && file_exists($dta['rutpdf'])) { ?>
+                            <?php } elseif($_SESSION['idpef']==2 && $dta['rutpdf'] && file_exists($dta['rutpdf'])) { ?>
                                 <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['idprm'] ?>', 'pdf', '<?= basename($dta['rutpdf']) ?>', '<?= '112' ?>')"></i>
                             <?php } ?>
                         </div>
@@ -173,7 +173,7 @@ if($_SESSION['idpef']==7){?>
                 <td style="text-align: left;">
                     <?php
                     $fecini = date("Y-m-d", strtotime($dta['fecini'])); 
-                    if($dta['idvtprm']==31) $fecha = $hoy; 
+                    if($dta['idvtprm']==1) $fecha = $hoy; 
                     else $fecha = $mañana;
                     if ($dta['estprm'] == 1){
                         if ($fecha<=$fecini) { ?>
@@ -206,7 +206,7 @@ if($_SESSION['idpef']==7){?>
                         <i class="fa fa-solid fa-circle-xmark fa-2x desact" title="Rechazado"></i>
                     <?php } ?>
                 </td>
-                <?php if($_SESSION['idpef']==5){ ?>
+                <?php if($_SESSION['idpef']==3){ ?>
                     <td style="text-align: right;">
                         <?php if ($dta['estprm'] == 1) { ?>
                             <a href="home.php?pg=<?= $pg; ?>&idprm=<?= $dta['idprm']; ?>&ope=edi" title="Editar">
@@ -225,7 +225,7 @@ if($_SESSION['idpef']==7){?>
         <tr>
             <th>Datos permisos</th>
             <th>Estado</th>
-            <?php if($_SESSION['idpef']==5){ ?><th></th><?php } ?>
+            <?php if($_SESSION['idpef']==3){ ?><th></th><?php } ?>
         </tr>
     </tfoot>
 </table>

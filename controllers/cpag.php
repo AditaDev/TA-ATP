@@ -15,6 +15,7 @@ $idmod = isset($_REQUEST['idmod']) ? $_REQUEST['idmod']:NULL;
 $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
 $datOne = NULL;
 
+
 $mpag->setIdpag($idpag);
 if($ope=="save"){
 	$mpag->setIcono($icono);

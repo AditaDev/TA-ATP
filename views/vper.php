@@ -1,10 +1,10 @@
 <?php
 require_once('controllers/cper.php');
 
-if($_SESSION['idpef']!=5){ ?>
+if($_SESSION['idpef']!=3){ ?>
     <div style="text-align: right;">
     <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?>carper" title="Importar Personas"></i>
-    <?php modalImp("mod", $pg, "Personas", "carper", ""); ?>
+    <!-- <?php modalImp("mod", $pg, "Personas", "carper", ""); ?> -->
     </div>
 <?php } ?>
 
@@ -24,7 +24,7 @@ if($_SESSION['idpef']!=5){ ?>
         </div>
         <div class="form-group col-md-4">
             <label for="area"><strong>Area:</strong></label>
-            <select name="area" id="area" class="form-control form-select" required <?php if($_SESSION['idpef']==5) echo " disabled "?>>
+            <select name="area" id="area" class="form-control form-select" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
                     <?php foreach ($datarea as $dte) { ?>
                         <option value="<?= $dte['idval']; ?>" <?php if ($datOne && $dte['idval'] == $datOne[0]['area']) echo " selected "; ?>>
                             <?= $dte['nomval']; ?>
@@ -49,7 +49,7 @@ if($_SESSION['idpef']!=5){ ?>
                 </select>
             </div>
         <?php }} ?>
-        <?php if ($_SESSION['idpef'] != 5) { ?>
+        <?php if ($_SESSION['idpef'] != 3) { ?>
             <div class="form-group col-md-4">
                 <label for="actper" class="titulo"><strong>Activo:</strong></label>
                 <select name="actper" id="actper" class="form-control form-select" required>
@@ -59,17 +59,17 @@ if($_SESSION['idpef']!=5){ ?>
             </div>
 
 
-        <?php } if ($datOne && $_SESSION['idpef'] == 5) { ?>
+        <?php } if ($datOne && $_SESSION['idpef'] == 3) { ?>
             <div class="form-group col-md-4">
                 <label for="pasper"><strong>Contraseña:</strong></label>
-                <input class="form-control" type="password" value="**********" <?php if($_SESSION['idpef']==5) echo " disabled "?>>
+                <input class="form-control" type="password" value="**********" <?php if($_SESSION['idpef']==3) echo " disabled "?>>
                 <span class="txtcontra" data-bs-toggle="modal" data-bs-target="#pass<?=$_SESSION['idper']?>">(Cambiar contraseña)</span>                   
             </div>
             <?php } ?>
 
         <div class="form-group col-md-12" id="boxbtn">
             <br><br>
-            <?php if($_SESSION['idpef'] != 5){ ?>
+            <?php if($_SESSION['idpef'] != 3){ ?>
             <input class="btn btn-primary" type="submit" value="Registrar">
             <input type="hidden" name="ope" value="save">
             <?php } ?>
@@ -78,12 +78,12 @@ if($_SESSION['idpef']!=5){ ?>
     </div>
 </form>
 
-<?php if($_SESSION['idpef']!=5){ ?>
+<?php if($_SESSION['idpef']!=3){ ?>
 <table id="mytable" class="table table-striped">
     <thead>
         <tr>
             <th>Datos personales</th>
-            <?php if ($_SESSION['idpef'] != 5) { ?>
+            <?php if ($_SESSION['idpef'] != 3) { ?>
                 <th>Estado</th>
             <?php } ?>
             <th></th>
@@ -120,7 +120,7 @@ if($_SESSION['idpef']!=5){ ?>
                         </div>
                     </small>
                 </td>
-                <?php if ($_SESSION['idpef'] != 5) { ?>
+                <?php if ($_SESSION['idpef'] != 3) { ?>
                     <td style="text-align: left;">
                         <?php if ($dta['actper'] == 1) { ?>
                             <span style="font-size: 1px;opacity: 0;">+</span>

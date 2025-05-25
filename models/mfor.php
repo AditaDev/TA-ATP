@@ -150,7 +150,7 @@
         //SELECT p.idper, p.nomper, p.apeper FROM persona p LEFT JOIN jefxper j ON p.idper = j.idjef WHERE j.idjef IS NULL;
 
         function getAll(){
-            $sql = "SELECT r.idres, r.idpereval AS peva, CONCAT(pe.nomper, ' ', pe.apeper) AS nompeva, j.idjef AS peval, CONCAT(pj.nomper, ' ', pj.apeper) AS nompeval, r.tipeva, r.pre1, r.pre2, r.pre3, r.pre4, r.pre5, r.pre6, r.pre7, r.pre8, r.pre9, r.pre10, r.pre11, r.pre12, r.pre13, r.pre14, r.pre15, r.fecres FROM respuestas AS r LEFT JOIN persona AS pe ON r.idpereval = pe.idper LEFT JOIN jefxper AS j ON r.idpereval = j.idper LEFT JOIN persona AS pj ON j.idjef = pj.idper";
+            $sql = "SELECT r.idres, r.idpereval AS peva, CONCAT(pe.nomper, ' ', pe.apeper) AS nompeva, j.idjef AS peval, CONCAT(pj.nomper, ' ', pj.apeper) AS nompeval, r.tipeva, r.pre1, r.pre2, r.pre3, r.pre4, r.pre5, r.pre6, r.pre7, r.pre8, r.pre9, r.pre10, r.pre11, r.pre12, r.pre13, r.pre14, r.pre15, r.fecres FROM respuesta AS r LEFT JOIN persona AS pe ON r.idpereval = pe.idper LEFT JOIN jefxper AS j ON r.idpereval = j.idper LEFT JOIN persona AS pj ON j.idjef = pj.idper";
                     $modelo = new conexion();
                     $conexion = $modelo->get_conexion();
                     $result = $conexion->prepare($sql);
@@ -163,7 +163,7 @@
 
         function save(){
             // try {
-                $sql = "INSERT INTO respuestas (idpereval, idperevald, pre1, pre2, pre3, pre4, pre5, pre6, pre7, pre8, pre9, pre10, pre11, pre12, fecres, tipeva) VALUES (:idpereval, :idperevald, :pre1, :pre2, :pre3, :pre4, :pre5, :pre6, :pre7, :pre8, :pre9, :pre10, :pre11, :pre12, :fecres, :tipeva)";
+                $sql = "INSERT INTO respuesta (idpereval, idperevald, pre1, pre2, pre3, pre4, pre5, pre6, pre7, pre8, pre9, pre10, pre11, pre12, fecres, tipeva) VALUES (:idpereval, :idperevald, :pre1, :pre2, :pre3, :pre4, :pre5, :pre6, :pre7, :pre8, :pre9, :pre10, :pre11, :pre12, :fecres, :tipeva)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);

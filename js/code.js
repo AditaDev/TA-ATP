@@ -116,14 +116,6 @@ function eliminar(nom){
     return v;
 }
 
-function confirmar(nom){
-  let v = confirm("¿Está seguro de cambiar el estado de esta factura?\n\n- "+nom);
-  return v;
-}
-function aceptar(nom){
-  let v = confirm("¿Está seguro de cambiar el estado de esta novedad?\n\n- "+nom);
-  return v;
-}
 
 function confirmar(nom, url) {
   if (confirm(nom)) {

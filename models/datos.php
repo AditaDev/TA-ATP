@@ -1,6 +1,6 @@
 <?php
     $host = "localhost";
-    $db = "artepansas";
+    $db = "ta";
     $user = "root";
     $pass = "";
 
@@ -21,6 +21,6 @@
 
    
 
-    $url = "http://localhost/artepansas/";
+    $url = "http://localhost/atp-at/";
 
 ?>

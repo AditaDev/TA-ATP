@@ -575,14 +575,6 @@ a {
   min-width: 45%;
 }
 
-/*-----------------------------Pedido---------------------------*/
-.contenido-pedido {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  text-align: center;
-}
-
 /*-----------------------------Inicio sesion---------------------------*/
 
 .form-login {

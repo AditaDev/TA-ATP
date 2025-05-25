@@ -29,13 +29,13 @@ if($ident){
     $mdot->setIdent($ident);
     $datDet = $mdot->getOne();
     $det = $datDet[0];
-        $datDot = $mdot->getAllDom(7);
-        $datTalS = $mdot->getAllDom(8); 
-        $datTalP = $mdot->getAllDom(9); 
-        $datTalZ = $mdot->getAllDom(10);
-        $datTalG = $mdot->getAllDom(11);
-        $datCol = $mdot->getAllDom(12);
-        $datDia = $mdot->getAllDom(13);
+        $datDot = $mdot->getAllDom(3);
+        $datTalS = $mdot->getAllDom(4); 
+        $datTalP = $mdot->getAllDom(5); 
+        $datTalZ = $mdot->getAllDom(6);
+        $datTalG = $mdot->getAllDom(7);
+        $datCol = $mdot->getAllDom(8);
+        $datDia = $mdot->getAllDom(9);
      
 
     $datCxC = $mdot->getAllCxc($datDet[0]["ident"]);

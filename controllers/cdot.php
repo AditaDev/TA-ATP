@@ -32,7 +32,7 @@
     $cant = isset($_POST['cant']) ? $_POST['cant']:NULL;
     
     //------------ColorxCamisa-----------
-    $idvdia = $mdot->getAllDom(13);
+    $idvdia = $mdot->getAllDom(9);
     $idvcol = isset($_POST['idvcol']) ? $_POST['idvcol']:NULL;
 
   
@@ -42,7 +42,7 @@
     $datTxD = NULL;
     $datCxD = NULL;
     
-    $pg = 111;
+    $pg = 110;
     
     $mdot->setIdent($ident);
     
@@ -137,12 +137,12 @@
 
     $datAllD = $mdot->getAllD();
     $datPer = $mdot->getAllPer($ope);
-    $datDot = $mdot->getAllDom(7);
-    $datTalS = $mdot->getAllDom(8); 
-    $datTalP = $mdot->getAllDom(9); 
-    $datTalZ = $mdot->getAllDom(10);
-    $datTalG = $mdot->getAllDom(11);
-    $datCol = $mdot->getAllDom(12);
-    $datDia = $mdot->getAllDom(13);
+    $datDot = $mdot->getAllDom(3);
+    $datTalS = $mdot->getAllDom(4); 
+    $datTalP = $mdot->getAllDom(5); 
+    $datTalZ = $mdot->getAllDom(6);
+    $datTalG = $mdot->getAllDom(7);
+    $datCol = $mdot->getAllDom(8);
+    $datDia = $mdot->getAllDom(9);
    
 ?>

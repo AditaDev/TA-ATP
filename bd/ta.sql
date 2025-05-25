@@ -226,8 +226,8 @@ CREATE TABLE `persona` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `persona` (`idper`, `nomper`, `emaper`, `telper`, `apeper`, `ndper`, `actper`, `area`, `hashl`, `salt`, `token`, `feccam`) VALUES
-(1, 'Nicole Adamarys', 'rodriada24@gmail.com', NULL, 'Rodriguez Estevez', '1071328321', 1, 45, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL),
-(2, 'Juan David', 'juanda.chapar@gmail.com', NULL, 'Chaparro Dominguez', '1072642921', 1, 45, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
+(1, 'Nicole Adamarys', 'rodriada24@gmail.com', NULL, 'Rodriguez Estevez', '1071328321', 1, 9, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL),
+(2, 'Juan David', 'juanda.chapar@gmail.com', NULL, 'Chaparro Dominguez', '1072642921', 1, 9, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
 
 CREATE TABLE `perxpef` (
   `idper` bigint(11) NOT NULL,

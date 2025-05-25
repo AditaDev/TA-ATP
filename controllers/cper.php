@@ -27,7 +27,7 @@
     $idjef = isset($_POST['idjef']) ? $_POST['idjef']:NULL;
 
     //------------Perfil-----------
-    $idpef = isset($_POST['idpef']) ? $_POST['idpef']:5;
+    $idpef = isset($_POST['idpef']) ? $_POST['idpef']:3;
     
     $arc = isset($_FILES["arc"]["name"]) ? $_FILES["arc"]["name"] : NULL;
     $arc = substr($arc, 0, strpos($arc, ".xls"));
@@ -110,7 +110,7 @@
         $datJxP=$mper->getOneJxP();
     }
 
-    if($_SESSION['idpef']==5){
+    if($_SESSION['idpef']==3){
         $mper->setIdper($_SESSION['idper']);
         $datOne=$mper->getOne();
         $datJxP=$mper->getOneJxP();
@@ -135,7 +135,7 @@
     }
      //------------Traer valores-----------
     $datAll = $mper->getAll();
-    $datarea = $mper->getAllDom(5);
+    $datarea = $mper->getAllDom(2);
     $datPer = $mper->getPer();
 
 
