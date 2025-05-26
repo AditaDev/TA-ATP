@@ -55,9 +55,15 @@ CREATE TABLE `jefxper` (
   `tipjef` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `jefxper` (`idjef`, `idper`, `tipjef`) VALUES
+(1, 2, 1),
+(2, 1, 1);
+
 CREATE TABLE `formato` (
     `idfor` bigint(11) NOT NULL, 
     `nomfor` varchar(50) NOT NULL,
+    `codfor` varchar(25) DEFAULT NULL,
+    `fecfor` date NOT NULL,
     `pre1` varchar(255) DEFAULT NULL,                                         
     `pre2` varchar(255) DEFAULT NULL,                                         
     `pre3` varchar(255) DEFAULT NULL,                                         
@@ -76,7 +82,8 @@ CREATE TABLE `formato` (
     `porjef` int(2) DEFAULT NULL,
     `porpar` int(2) DEFAULT NULL,
     `poraut` int(2) DEFAULT NULL,
-    `porsub` int(2) DEFAULT NULL
+    `porsub` int(2) DEFAULT NULL,
+    `actfor` tinyint(1) NOT NULL DEFAULT 1
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `respuesta` (
@@ -138,10 +145,10 @@ INSERT INTO `pagina` (`idpag`, `icono`, `nompag`, `arcpag`, `ordpag`, `menpag`, 
 (106, 'fa fa-solid fa-user', 'Personas', 'views/vper.php', 6, 'home.php', 1, 1),
 (107, 'fa fa-solid fa-boxes-stacked', 'Dominio', 'views/vdom.php', 7, 'home.php', 1, 1),
 (108, 'fa fa-solid fa-dollar-sign', 'Valor', 'views/vval.php', 8, 'home.php', 1, 1),
-(109, 'fa fa-solid fa-magnifying-glass-chart', 'Formatos', 'views/vfor.php', 9, 'home.php', 1, 2),
+(109, 'fa fa-solid fa-list-ol', 'Formatos', 'views/vfor.php', 9, 'home.php', 1, 2),
 (110, 'fa fa-solid fa-solid fa-lightbulb', 'Dotación', 'views/vdot.php', 10, 'home.php', 1, 2),
 (111, 'fa fa-solid fa-file-circle-check', 'Permisos', 'views/vprm.php', 11, 'home.php', 1, 2),
-(112, 'fa fa-solid fa-file-circle-check', 'Evaluación', 'views/veva.php', 12, 'home.php', 1, 2);
+(112, 'fa fa-solid fa-square-poll-vertical', 'Evaluación', 'views/veva.php', 12, 'home.php', 1, 2);
 -- (112, 'fa fa-solid fa-square-poll-vertical', 'Calificación', 'views/vres.php', 12, 'home.php', 1, 2),
 
 CREATE TABLE `pagxpef` (
@@ -213,21 +220,22 @@ CREATE TABLE `permiso` (
 CREATE TABLE `persona` (
   `idper` bigint(11) NOT NULL,
   `nomper` varchar(100) NOT NULL,
+  `apeper` varchar(50) NOT NULL,
   `emaper` varchar(255) NOT NULL,
   `telper` varchar(10) DEFAULT NULL,
-  `apeper` varchar(50) NOT NULL,
   `ndper` varchar(12) NOT NULL,
   `actper` tinyint(1) DEFAULT 1,
   `area` bigint(11) NOT NULL,
+  `idfor` bigint(11) DEFAULT NULL,
   `hashl` tinytext DEFAULT NULL,
   `salt` tinytext DEFAULT NULL,
   `token` tinytext DEFAULT NULL,
   `feccam` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `persona` (`idper`, `nomper`, `emaper`, `telper`, `apeper`, `ndper`, `actper`, `area`, `hashl`, `salt`, `token`, `feccam`) VALUES
-(1, 'Nicole Adamarys', 'rodriada24@gmail.com', NULL, 'Rodriguez Estevez', '1071328321', 1, 9, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL),
-(2, 'Juan David', 'juanda.chapar@gmail.com', NULL, 'Chaparro Dominguez', '1072642921', 1, 9, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
+INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `emaper`, `telper`, `ndper`, `actper`, `area`, `idfor`, `hashl`, `salt`, `token`, `feccam`) VALUES
+(1, 'Nicole Adamarys', 'Rodriguez Estevez', 'rodriada24@gmail.com', NULL, '1071328321', 1, 9, NULL, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL),
+(2, 'Juan David', 'Chaparro Dominguez', 'juanda.chapar@gmail.com', NULL, '1072642921', 1, 9, NULL, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
 
 CREATE TABLE `perxpef` (
   `idper` bigint(11) NOT NULL,
@@ -373,7 +381,8 @@ ALTER TABLE `permiso`
 
 ALTER TABLE `persona`
   ADD PRIMARY KEY (`idper`),
-  ADD KEY `area` (`area`);
+  ADD KEY `area` (`area`),
+  ADD KEY `idfor` (`idfor`);
 
 ALTER TABLE `perxpef`
   ADD KEY `idper` (`idper`),
@@ -454,6 +463,9 @@ ALTER TABLE `pefxmod`
 ALTER TABLE `permiso`
   ADD CONSTRAINT `permiso_ibfk_1` FOREIGN KEY (`idjef`) REFERENCES `persona` (`idper`),
   ADD CONSTRAINT `permiso_ibfk_2` FOREIGN KEY (`idper`) REFERENCES `persona` (`idper`);
+
+ALTER TABLE `persona`
+  ADD CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`idfor`) REFERENCES `formato` (`idfor`);
 
 ALTER TABLE `perxpef`
   ADD CONSTRAINT `perxpef_ibfk_1` FOREIGN KEY (`idpef`) REFERENCES `perfil` (`idpef`),
