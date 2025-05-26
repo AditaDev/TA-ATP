@@ -40,24 +40,23 @@ if($_SESSION['idpef']==2){?>
             </div>
             <input type="hidden" name="ope" value="busc">
             <div class="form-group col-md-1" id="btnprm">
-            <div style="display: flex; align-items: flex-start;">
-            <div>
-                <button type="submit" title="Limpiar" value="limp" name="ope" style="border: none;">
-                    <i class="fa fa-solid fa-eraser fa-2x desact"></i>
-                </button>
-            </div>
-            <div>
-                <a href="excel/xprm.php?exl=prm" title="Exportar Permisos">
-                    <i class="fa fa-solid fa-file-export fa-2x exp"></i>
-                </a>
-            </div>
-            <?php if ($datGra) { ?>
-                <div>
-                    <i class="fa fa-solid fa-chart-simple fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#grafprm" title="Gráfica"></i>
+                <div style="display: flex; align-items: flex-start;">
+                    <div >
+                        <button type="submit" title="Limpiar" value="limp" name="ope" style="border:none; background-color: #f7f2ef;">
+                            <i class="fa fa-solid fa-eraser fa-2x desact"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <a href="excel/xprm.php?exl=prm" title="Exportar Permisos">
+                            <i class="fa fa-solid fa-file-export fa-2x exp"></i>
+                        </a>
+                    </div>
+                    <?php if ($datGra) { ?>
+                        <div>
+                            <i class="fa fa-solid fa-chart-simple fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#grafprm" title="Gráfica"></i>
+                        </div>
+                    <?php } ?>
                 </div>
-            <?php } ?>
-            </div>
-            
             </div>
         </div>
     </form>

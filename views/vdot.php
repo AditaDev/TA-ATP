@@ -13,7 +13,7 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
 
 <form action="home.php?pg=<?= $pg; ?>" method="POST" id="frmins">
     <div class="row">
-        <div class="form-group col-md-8 ui-widget">
+        <div class="form-group col-sm-8 ui-widget">
             <label for="idperrec"><strong>Usuario:</strong></label>
             <select id="combobox1" name="idperrec" class="form-control form-select" <?php if ($datOne) echo 'disabled'; else echo 'required';?>>
                 <option value="0"></option>
@@ -27,81 +27,103 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
             </select>
         </div>
         <?php ?>
-        <div class="form-group col-md-4">
+        <div class="form-group col-sm-4">
             <label for="fecent"><strong>Fecha Entrega:</strong></label>
             <input class="form-control" type="date" id="fecent" name="fecent" max=<?php echo $hoy; ?> <?php if ($datOne) echo 'value="' . $datOne[0]['fecent'] . '" disabled';
                 else echo 'value="' . $hoy . '" required'; ?>>
         </div>
-        <div class="form-group col-md-12"></div>
-        <br>
-        <div class="form-group col-md-4" style="text-align: center;"><strong><u>Horario de Camisa</u></strong></div>
-        <div class="form-group col-md-4" style="text-align: left;" ><strong><u>Cantidad - Elementos</u></strong></div>
-        <div class="form-group col-md-3" style="text-align: center;"><strong><u>Tallas</u></strong></div>
-        <div class="form-group col-md-12"></div><br>
-        <div class="form-group col-md-4 row">
-            <?php if ($datDia && $datCol ) {
-                foreach ($datDia as $ddo) { ?>
-                    <div class="form-group col-sm-6">
-                        <label for="idvdia"><strong><?= $ddo['nomval']; ?></strong></label>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <select name="idvcol[]" id="idvcol" class="form-control form-select">
-                            <option value="0"></option>
-                            <?php if ($datCol) { foreach ($datCol as $ddt) { ?>
-                                <option value="<?= $ddt['idval'] ?>" <?php if ($datCxD){ foreach ($datCxD as $ddot){ if ($ddt['idval'] == $ddot['idvcol'] && $ddot['idvdia'] == $ddo['idval']) echo " selected ";}}?>>
-                                    <?= $ddt['nomval']; ?>
-                                </option>
-                            <?php }} ?>
-                        </select>
-                    </div>
+        <div class="form-group col-sm-4" style="text-align: center; margin-top: 20px">
+            <strong><u>Horario de Camisa</u></strong>
+            <div class="row" style="margin-top: 20px">
+                <?php if ($datDia && $datCol ) {
+                    foreach ($datDia as $ddo) { ?>
+                        <div class="form-group col-sm-6" style="text-align: left;">
+                            <label for="idvdia"><strong><?= $ddo['nomval']; ?></strong></label>
+                        </div>
+                        <div class="form-group col-sm-6" style="text-align: right;">
+                            <select name="idvcol[]" id="idvcol" class="form-control form-select">
+                                <option value="0"></option>
+                                <?php if ($datCol) { foreach ($datCol as $ddt) { ?>
+                                    <option value="<?= $ddt['idval'] ?>" <?php if ($datCxD){ foreach ($datCxD as $ddot){ if ($ddt['idval'] == $ddot['idvcol'] && $ddot['idvdia'] == $ddo['idval']) echo " selected ";}}?>>
+                                        <?= $ddt['nomval']; ?>
+                                    </option>
+                                <?php }} ?>
+                            </select>
+                        </div>
+                <?php }} ?>
+            </div>
+        </div>
+        <div class="form-group col-sm-4" style="text-align: center; margin-top: 20px" >
+            <strong><u>Cantidad - Elementos</u></strong>
+            <div class="row" style="margin-top: 20px">
+                <?php if ($datDia && $datCol ) {
+                    foreach ($datDia as $ddo) { ?>
+                        <div class="form-group col-sm-6" style="text-align: left;">
+                            <label for="idvdia"><strong><?= $ddo['nomval']; ?></strong></label>
+                        </div>
+                        <div class="form-group col-sm-6" style="text-align: right;">
+                            <select name="idvcol[]" id="idvcol" class="form-control form-select">
+                                <option value="0"></option>
+                                <?php if ($datCol) { foreach ($datCol as $ddt) { ?>
+                                    <option value="<?= $ddt['idval'] ?>" <?php if ($datCxD){ foreach ($datCxD as $ddot){ if ($ddt['idval'] == $ddot['idvcol'] && $ddot['idvdia'] == $ddo['idval']) echo " selected ";}}?>>
+                                        <?= $ddt['nomval']; ?>
+                                    </option>
+                                <?php }} ?>
+                            </select>
+                        </div>
             <?php }} ?>
+            </div>
         </div>
-        <div class="form-group col-md-8 row">
-        <?php if ($datDot && $datTalS && $datTalP && $datTalZ) {
-            $i = 0;
-            foreach ($datDot as $ddo) {?>
-                <div class="form-group col-6 row">
-                    <div class="form-group col-3">
-                        <input class="form-control" type="text" name="cant[]" value="<?php if ($datTxD) {
-                            foreach ($datTxD as $ddt) {
-                                if ($ddo['idval'] == $ddt['idvdot']){ echo $datTxD[$i]['cant']; $i++;
-                                    }}
-                                } ?>" onkeypress="return solonum(event);">
-                        <input type="hidden" name="idvdot[]" value="<?= $ddo['idval'] ?>">
-                    </div>
-                    <div class="form-group col-9">   
-                        <label for="idvdot"><strong><?= $ddo['nomval']; ?></strong></label>
-                    </div>
-                </div>
-                <div class="form-group col-sm-6">
-                    <select name="idvtal[]" id="idvtal" class="form-control form-select">
-                        <option value="0"></option>
-                        <?php
-                        if ($ddo['idval'] == 78 or $ddo['idval'] == 79) $datTal = $datTalS;
-                        elseif ($ddo['idval'] == 77) $datTal = $datTalP;
-                        elseif ($ddo['idval'] == 80) $datTal = $datTalZ;
-                        elseif ($ddo['idval'] == 81) $datTal = $datTalG;
-                        if ($datTal) {
-                            foreach ($datTal as $ddt) { ?>
-                                <option value="<?= $ddt['idval'] ?>" <?php if ($datTxD) {
-                                        foreach ($datTxD as $ddot) {
-                                            if ($ddt['idval'] == $ddot['idvtal'] && $ddo['idval'] == $ddot['idvdot']) echo " selected ";
-                                            }
-                                        } ?>>
-                                    <?= $ddt['nomval']; ?>
-                                </option>
-                        <?php }
-                        } ?>
-                    </select>
-                </div>
-        <?php }} ?>
+        <div class="form-group col-sm-4" style="text-align: center; margin-top: 20px">
+            <strong><u>Tallas</u></strong>
+            <div class="row" style="margin-top: 20px">
+                <?php if ($datDot && $datTalS && $datTalP && $datTalZ) {
+                    $i = 0;
+                    foreach ($datDot as $ddo) {?>
+                        <div class="form-group col-6" style="text-align: left;">
+                            <div class="row">
+                                <div class="form-group col-3">
+                                    <input class="form-control" type="text" name="cant[]" value="<?php if ($datTxD) {
+                                        foreach ($datTxD as $ddt) {
+                                            if ($ddo['idval'] == $ddt['idvdot']){ echo $datTxD[$i]['cant']; $i++;
+                                                }}
+                                            } ?>" onkeypress="return solonum(event);">
+                                    <input type="hidden" name="idvdot[]" value="<?= $ddo['idval'] ?>">
+                                </div>
+                                <div class="form-group col-9">   
+                                    <label for="idvdot"><strong><?= $ddo['nomval']; ?></strong></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-6" style="text-align: right;">
+                            <select name="idvtal[]" id="idvtal" class="form-control form-select">
+                                <option value="0"></option>
+                                <?php
+                                if ($ddo['idval'] == 13 or $ddo['idval'] == 14) $datTal = $datTalS;
+                                elseif ($ddo['idval'] == 12) $datTal = $datTalP;
+                                elseif ($ddo['idval'] == 15) $datTal = $datTalZ;
+                                elseif ($ddo['idval'] == 16) $datTal = $datTalG;
+                                if ($datTal) {
+                                    foreach ($datTal as $ddt) { ?>
+                                        <option value="<?= $ddt['idval'] ?>" <?php if ($datTxD) {
+                                            foreach ($datTxD as $ddot) {
+                                                if ($ddt['idval'] == $ddot['idvtal'] && $ddo['idval'] == $ddot['idvdot']) echo " selected ";
+                                                }
+                                            } ?>>
+                                            <?= $ddt['nomval']; ?>
+                                        </option>
+                                <?php }} ?>
+                            </select>
+                        </div>
+                    <?php }} ?>
+            </div>
         </div>
-        <div class="form-group col-md-12">
+        <div class="form-group col-sm-12">
             <br>
             <label for="observ"><strong>Observaciones Entrega:</strong></label>
             <textarea class="form-control" type="text" id="observ" name="observ" <?php if ($datOne) echo 'required'; ?>><?php if ($datOne) echo $datOne[0]['observ']; ?></textarea>
         </div>
-        <div class="form-group col-md-12" id="boxbtn">
+        <div class="form-group col-sm-12" id="boxbtn">
             <br><br>
             <input class="btn btn-primary" type="submit" value="Registrar">
             <input type="hidden" name="ope" value="save">
@@ -125,14 +147,14 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
                 <tr>
                     <td tyle="text-align: left;">
                         <div class="row">
-                            <div class="form-group col-md-10">
+                            <div class="form-group col-sm-10">
                                 <strong> <?= ($dta['fecent']) .  " - "  . $dta['nomprec']; ?></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <small><strong>Área: </strong> <?= $dta['aprec']; ?></small><br>
                                 <small>
                                     <strong>Observación: </strong><?= $dta['observ']; ?><br>
                                 </small>
                             </div>
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-sm-2">
                                 <i class="fa fa-solid fa-eye iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbdet<?= $dta['ident']; ?>" title="Detalles"></i>
                                 <?php
                                     $mdot->setIdent($dta['ident']);
