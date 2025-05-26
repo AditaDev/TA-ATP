@@ -23,6 +23,10 @@ if($_SESSION['idpef']!=3){ ?>
             <input class="form-control" type="text" id="ndper" name="ndper" value="<?php if ($datOne) echo $datOne[0]['ndper']; ?>" onkeypress="return solonum(event);" required>
         </div>
         <div class="form-group col-md-4">
+            <label for="apeper"><strong>Correo Electrónico:</strong></label>
+            <input class="form-control" type="email" id="emaper" name="emaper" value="<?php if ($datOne) echo $datOne[0]['emaper']; ?>" required>
+        </div>
+        <div class="form-group col-md-4">
             <label for="area"><strong>Area:</strong></label>
             <select name="area" id="area" class="form-control form-select" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
                     <?php foreach ($datarea as $dte) { ?>
@@ -33,13 +37,19 @@ if($_SESSION['idpef']!=3){ ?>
             </select>
         </div>
         <div class="form-group col-md-4">
-            <label for="apeper"><strong>Correo Electrónico:</strong></label>
-            <input class="form-control" type="email" id="emaper" name="emaper" value="<?php if ($datOne) echo $datOne[0]['emaper']; ?>" required>
+            <label for="idfor"><strong>Formato:</strong></label>
+            <select name="idfor" id="idfor" class="form-control form-select" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
+                    <?php foreach ($datFor as $dtf) { ?>
+                        <option value="<?= $dtf['idfor']; ?>" <?php if ($datOne && $dtf['idfor'] == $datOne[0]['idfor']) echo " selected "; ?>>
+                            <?= $dte['nomfor']; ?>
+                        </option>
+                    <?php } ?>
+            </select>
         </div>
-        <?php if($_SESSION['idpef']!=5){ for($i=0; $i<=1; $i++){ ?>
+        <?php if($_SESSION['idpef']!=3){ for($i=0; $i<=1; $i++){ ?>
             <div class="form-group col-md-4 ui-widget">
                 <label for="idjef"><strong>Jefe <?php if($i==0) echo "Inmediato"; else echo "Area";?></strong></label>
-                <select id="combobox<?php ($i+1)?>" name="idjef[]" class="form-control form-select" <?php if($i==0) echo "required";?>>
+                <select id="combobox<?php echo ($i+1)?>" name="idjef[]" class="form-control form-select" <?php if($i==0) echo "required";?>>
                     <option value="0"></option>
                     <?php if ($datPer) { foreach ($datPer as $dpr) { ?>
                             <option value="<?= $dpr['idper']; ?>" <?php if ($datJxP){ foreach ($datJxP AS $dtj) { if($dpr['idper'] == $dtj['idjef'] && $dtj['tipjef'] == ($i+1)) echo " selected "; }}?>>
@@ -108,15 +118,19 @@ if($_SESSION['idpef']!=3){ ?>
                                 <div class="form-group col-md-8">
                                     <strong>Email: </strong> <?= $dta['emaper']; ?>
                                 </div> 
+                            <?php } if ($dtj) { ?>
+                                <div class="form-group col-md-12">
+                                    <strong>Jefe: </strong> <?= explode(' ', $dtj[0]['nomper'])[0] . " " . explode(' ', $dtj[0]['apeper'])[0]; ?>
+                                </div>
                             <?php } if ($dta['area']) { ?>
                                 <div class="form-group col-md-4">
                                     <strong>Area: </strong> <?= $dta['nomval']; ?>
                                 </div> 
-                            <?php } if ($dtj) { ?>
-                                    <div class="form-group col-md-12">
-                                        <strong>Jefe: </strong> <?= explode(' ', $dtj[0]['nomper'])[0] . " " . explode(' ', $dtj[0]['apeper'])[0]; ?>
-                                    </div>
-                                <?php } ?>
+                            <?php } if ($dta['idfor']) { ?>
+                                <div class="form-group col-md-4">
+                                    <strong>Formato: </strong> <?= $dta['nomfor']; ?>
+                                </div> 
+                            <?php } ?>
                         </div>
                     </small>
                 </td>

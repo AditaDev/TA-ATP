@@ -7,6 +7,7 @@ class Mper
     private $apeper;
     private $ndper;
     private $area;
+    private $idfor;
     private $emaper;
     private $actper;
     private $idval;
@@ -37,6 +38,9 @@ class Mper
     }
     public function getArea(){
         return $this->area;
+    }
+    public function getIdfor(){
+        return $this->idfor;
     }
     public function getEmaper(){
         return $this->emaper;
@@ -86,6 +90,9 @@ class Mper
     public function setArea($area){
         $this->area = $area;
     }
+    public function setIdfor($idfor){
+        $this->idfor = $idfor;
+    }
     public function setEmaper($emaper){
         $this->emaper = $emaper;
     }
@@ -121,13 +128,13 @@ class Mper
     //------------Persona-----------
     function getAll()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.actper, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.area=v.idval";
-        if($_SESSION['idpef']==5) $sql .= " WHERE p.idper=:idper ";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.actper, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.area=v.idval LEFT JOIN formato AS f ON p.idfor=f.idfor";
+        if($_SESSION['idpef']==3) $sql .= " WHERE p.idper=:idper ";
         $sql .= " GROUP BY p.idper";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
-        if($_SESSION['idpef']==5){
+        if($_SESSION['idpef']==3){
             $idper = $_SESSION['idper'];
             $result->bindParam(":idper", $idper);
         }
@@ -138,7 +145,7 @@ class Mper
 
     function getOne()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.actper,  v.nomval FROM persona AS p INNER JOIN valor AS v ON p.area=v.idval WHERE p.idper=:idper";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.actper, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.area=v.idval LEFT JOIN formato AS f ON p.idfor=f.idfor WHERE p.idper=:idper";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
@@ -154,10 +161,10 @@ class Mper
         //try {
             $hash = $this->getHash();
             $salt = $this->getSalt();
-            $sql = "INSERT INTO persona(nomper, apeper, ndper, area, emaper, actper";
+            $sql = "INSERT INTO persona(nomper, apeper, ndper, area, idfor, emaper, actper";
             if ($hash) $sql .= ", hashl";
             if ($salt) $sql .= ", salt";
-            $sql .= ") VALUES (:nomper, :apeper, :ndper, :area, :emaper, :actper";
+            $sql .= ") VALUES (:nomper, :apeper, :ndper, :area, :idfor, :emaper, :actper";
             if ($hash) $sql .= ", :hashl";
             if ($salt) $sql .= ", :salt";
             $sql .= ")";
@@ -172,6 +179,8 @@ class Mper
             $result->bindParam(":ndper", $ndper);
             $area = $this->getArea();
             $result->bindParam(":area", $area);
+            $idfor = $this->getIdfor();
+            $result->bindParam(":idfor", $idfor);
             $emaper = $this->getEmaper();
             $result->bindParam(":emaper", $emaper);
             $actper = $this->getActper();
@@ -199,7 +208,7 @@ class Mper
 
     function edit(){
         try{
-            $sql = "UPDATE persona SET nomper=:nomper, apeper=:apeper, ndper=:ndper, area=:area, emaper=:emaper, actper=:actper WHERE idper=:idper";
+            $sql = "UPDATE persona SET nomper=:nomper, apeper=:apeper, ndper=:ndper, area=:area, idfor=:idfor, emaper=:emaper, actper=:actper WHERE idper=:idper";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -213,6 +222,8 @@ class Mper
             $result->bindParam(":ndper", $ndper);
             $area = $this->getArea();
             $result->bindParam(":area", $area);
+            $idfor = $this->getIdfor();
+            $result->bindParam(":idfor", $idfor);
             $emaper = $this->getEmaper();
             $result->bindParam(":emaper", $emaper);
             $actper = $this->getActper();
@@ -431,6 +442,17 @@ class Mper
         return $res;
     }
 
+    function getFor()
+    {
+        $sql = "SELECT idfor, nomfor FROM formato";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
     function CompVal(){
 		$sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:idval GROUP BY idval";
 		$modelo = new conexion();
@@ -464,4 +486,15 @@ class Mper
 		$res = $result->fetchAll(PDO::FETCH_ASSOC);
 		return $res;
 	}
+    function CompFor(){
+		$sql = "SELECT idfor, COUNT(*) AS sum FROM formato WHERE idfor=:idfor GROUP BY idfor";
+		$modelo = new conexion();
+		$conexion = $modelo->get_conexion();
+		$result = $conexion->prepare($sql);
+        $idfor = $this->getIdfor();
+        $result->bindParam(":idfor", $idfor);
+		$result->execute();
+		$res = $result->fetchAll(PDO::FETCH_ASSOC);
+		return $res;
+	}    
 }

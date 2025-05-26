@@ -14,6 +14,7 @@
     $apeper = isset($_POST['apeper']) ? $_POST['apeper']:NULL;
     $ndper = isset($_POST['ndper']) ? $_POST['ndper']:NULL;
     $area = isset($_POST['area']) ? $_POST['area']:NULL;
+    $idfor = isset($_POST['idfor']) ? $_POST['idfor']:NULL;
     $emaper = isset($_POST['emaper']) ? strtolower($_POST['emaper']):NULL;
     $actper = isset($_REQUEST['actper']) ? $_REQUEST['actper']:1;
 
@@ -61,11 +62,16 @@
         $mper->setEmaper($emaper);
         $mper->setNdper($ndper);
         $mper->setArea($area);
+        $mper->setIdfor($idfor);
         $mper->setActper($actper);
         $mper->setIdjef($idjef);
         $mper->setHash($hash);
         $mper->setSalt($salt);
-        if(!$idper) {
+        $existusu = $mper->selectUsu();
+        if($exitusu){
+           $idper = $exitusu[0]['idper'];
+           $mper->setIdper($idper);
+        }if(!$idper) {
             $mper->save();
             $per = $mper->getOneSPxF($ndper); 
             $mper->savePxFAut($per[0]['idper'],$idpef);
@@ -79,8 +85,7 @@
                     $c++;
                 }
                 if($exito==2) echo '<script>err("Ooops... No se pudo enviar el correo.");</script>';
-        }}
-        else{
+        }}else{
             $mper->edit();
             if($idper == $_SESSION["idper"]){
                 $_SESSION['nomper'] = $nomper;
@@ -137,6 +142,7 @@
     $datAll = $mper->getAll();
     $datarea = $mper->getAllDom(2);
     $datPer = $mper->getPer();
+    $datFor = $mper->getFor();
 
 
         //------------Importar empleados-----------
@@ -154,19 +160,24 @@
             $idpefA = [];
             $idjefi = NULL;
             $idjefa = NULL;
-            $idper = NULL;
+            $idjefa = NULL;
+            $idfor = NULL;
             $ndper = $sheet->getCell("B" . $row)->getValue();
             $nomper = $sheet->getCell("C" . $row)->getValue();
             $apeper = $sheet->getCell("D" . $row)->getValue();
             $emaper = $sheet->getCell("E" . $row)->getValue();
             $area = $sheet->getCell("F" . $row)->getValue();
-
             $mper->setIdval($area);
             $carea = $mper->CompVal();
             $area = $carea[0]['idval'];
+
+            $idfor = $sheet->getCell("G" . $row)->getValue();
+            $mper->setIdfor($idfor);
+            $cidfor = $mper->CompFor();
+            $idfori = $cidfor[0]['idfor'];
             
-            $actper = $sheet->getCell("G" . $row)->getValue();
-            $idpef = $sheet->getCell("H" . $row)->getValue();
+            $actper = $sheet->getCell("H" . $row)->getValue();
+            $idpef = $sheet->getCell("I" . $row)->getValue();
             $idpef = str_replace(' ', '', $idpef);
             $idpefA = explode("*", $idpef);
             foreach($idpefA AS $pa){
@@ -175,13 +186,13 @@
                 $pef = $pef[0]['idpef'];
                 if($pef) $pf++;
             }
-            $ndjefi = $sheet->getCell("I" . $row)->getValue();
+            $ndjefi = $sheet->getCell("J" . $row)->getValue();
             $mper->setNdper($ndjefi); 
             $idjefia = $mper->selectUsu(); 
             if($idjefia) $idjefi = $idjefia[0]['idper'];
 
 
-            $ndjefa = $sheet->getCell("J" . $row)->getValue();
+            $ndjefa = $sheet->getCell("K" . $row)->getValue();
             $mper->setNdper($ndjefa); 
             $idjefaa = $mper->selectUsu(); 
             if($idjefaa) $idjefa = $idjefaa[0]['idper'];
@@ -204,6 +215,7 @@
             $mper->setNdper($ndper);
             $mper->setEmaper($emaper);
             $mper->setArea($area);
+            $mper->setIdfor($idfor);
             $mper->setActper($actper);
             $mper->setIdpef($idpef);
             $mper->setHash($hash);
@@ -212,7 +224,7 @@
     		 if($existingData){
                 $idper = $existingData[0]['idper'];
                 $mper->setIdper($idper);
-    		} if (count($idpefA)==$pf && (!$ndjefi OR ($ndjefi && $idjefi)) && (!$ndjefa OR ($ndjefa && $idjefa))) {
+    		} if (count($idpefA)==$pf && (!$idfor OR ($idfori && $idfor)) && (!$ndjefi OR ($ndjefi && $idjefi)) && (!$ndjefa OR ($ndjefa && $idjefa))) {
     		    if (!empty($ndper)) {
     		    	if (!$idper) {
     		    		$mper->save();
