@@ -79,7 +79,8 @@ include("models/seguridad.php");
 		$est = 0;
 		$rut = validarpg($pg);
 		if ($rut) {
-			if ($_SESSION['idpef']==5 && $pg==106) $mos = 2;
+			if ($_SESSION['idpef']==3 && $pg==106) $mos = 2;
+			else if ($_SESSION['idpef']==2 && $pg==111) $mos = 0;
 			else $mos = $rut[0]['mospag'];
 			if ($ope == "edi") $est = 1;
 			// if (!$_SESSION['new']){
@@ -104,7 +105,7 @@ include("models/seguridad.php");
 		?>
 	</footer>
 </body>
-<script type="text/javascript" src="js/time.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
 <script type="text/javascript">
 	ocul(<?= $mos; ?>, <?= $est; ?>);
 </script>

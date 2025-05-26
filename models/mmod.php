@@ -164,15 +164,19 @@
         }
         
         function editAct(){
-            $sql = "UPDATE modulo SET actmod=:actmod WHERE idmod=:idmod";
-            $modelo = new conexion();
-            $conexion = $modelo->get_conexion();
-            $result = $conexion->prepare($sql);
-            $idmod = $this->getIdmod();
-            $result->bindParam(":idmod",$idmod);
-            $actmod = $this->getActmod();
-            $result->bindParam(":actmod",$actmod);
-            $result->execute();
+            try{
+                $sql = "UPDATE modulo SET actmod=:actmod WHERE idmod=:idmod";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $idmod = $this->getIdmod();
+                $result->bindParam(":idmod",$idmod);
+                $actmod = $this->getActmod();
+                $result->bindParam(":actmod",$actmod);
+                $result->execute();
+            }catch(Exception $e){
+                ManejoError($e);
+            }
         }
 
         function del(){

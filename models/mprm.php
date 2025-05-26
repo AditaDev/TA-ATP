@@ -328,9 +328,7 @@
         }
 
         function getAllDom($id){
-            $sql = "SELECT idval, nomval FROM valor WHERE ";
-            if($id==4) $sql .= "iddom=:id";
-            else $sql .= "idval=:id";
+            $sql = "SELECT idval, nomval FROM valor WHERE iddom=:id";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
