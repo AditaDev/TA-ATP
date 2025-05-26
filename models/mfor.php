@@ -1,11 +1,10 @@
 <?php
-
     class Mfor{
 
-        private $idres;
-        private $idpereval;
-        private $idperevald;
-        private $tipeva;
+        private $idfor;
+        private $nomfor;
+        private $codfor;
+        private $fecfor;
         private $pre1;
         private $pre2;
         private $pre3;
@@ -21,20 +20,24 @@
         private $pre13;
         private $pre14;
         private $pre15;
-        private $fecres;
+        private $porjef;
+        private $porpar;
+        private $poraut;
+        private $porsub;
+        private $actfor;
 
 
-        public function getIdres(){
-            return $this->idres;
+        public function getIdfor(){
+            return $this->idfor;
         }
-        public function getIdpereval(){
-            return $this->idpereval;
+        public function getNomfor(){
+            return $this->nomfor;
         }
-        public function getIdperevald(){
-            return $this->idperevald;
+        public function getCodfor(){
+            return $this->codfor;
         }
-        public function getTipeva(){
-            return $this->tipeva;
+        public function getFecfor(){
+            return $this->fecfor;
         }
         public function getPre1(){
             return $this->pre1;
@@ -81,22 +84,34 @@
         public function getPre15(){
             return $this->pre15;
         }
-        public function getFecres(){
-            return $this->fecres;
+        public function getPorjef(){
+            return $this->porjef;
+        }
+        public function getPorpar(){
+            return $this->porpar;
+        }
+        public function getPoraut(){
+            return $this->poraut;
+        }
+        public function getPorsub(){
+            return $this->porsub;
+        }
+        public function getActfor(){
+            return $this->actfor;
         }
        
 
-        public function setIdres($idres){
-            $this->idres=$idres;
+        public function setIdfor($idfor){
+            $this->idfor=$idfor;
         }
-        public function setIdpereval($idpereval){
-            $this->idpereval=$idpereval;
+        public function setNomfor($nomfor){
+            $this->nomfor=$nomfor;
         }
-        public function setIdperevald($idperevald){
-            $this->idperevald=$idperevald;
+        public function setCodfor($codfor){
+            $this->codfor=$codfor;
         }
-        public function setTipeva($tipeva){
-            $this->tipeva=$tipeva;
+        public function setFecfor($fecfor){
+            $this->fecfor=$fecfor;
         }
         public function setPre1($pre1){
             $this->pre1=$pre1;
@@ -143,34 +158,57 @@
         public function setPre15($pre15){
             $this->pre15=$pre15;
         }
-        public function setFecres($fecres){
-            $this->fecres=$fecres;
+        public function setPorjef($porjef){
+            $this->porjef=$porjef;
+        }
+        public function setPorpar($porpar){
+            $this->porpar=$porpar;
+        }
+        public function setPoraut($poraut){
+            $this->poraut=$poraut;
+        }
+        public function setPorsub($porsub){
+            $this->porsub=$porsub;
+        }
+        public function setActfor($actfor){
+            $this->actfor=$actfor;
         }
 
-        //SELECT p.idper, p.nomper, p.apeper FROM persona p LEFT JOIN jefxper j ON p.idper = j.idjef WHERE j.idjef IS NULL;
 
         function getAll(){
-            $sql = "SELECT r.idres, r.idpereval AS peva, CONCAT(pe.nomper, ' ', pe.apeper) AS nompeva, j.idjef AS peval, CONCAT(pj.nomper, ' ', pj.apeper) AS nompeval, r.tipeva, r.pre1, r.pre2, r.pre3, r.pre4, r.pre5, r.pre6, r.pre7, r.pre8, r.pre9, r.pre10, r.pre11, r.pre12, r.pre13, r.pre14, r.pre15, r.fecres FROM respuesta AS r LEFT JOIN persona AS pe ON r.idpereval = pe.idper LEFT JOIN jefxper AS j ON r.idpereval = j.idper LEFT JOIN persona AS pj ON j.idjef = pj.idper";
-                    $modelo = new conexion();
-                    $conexion = $modelo->get_conexion();
-                    $result = $conexion->prepare($sql);
-                    $result->execute();
-                    $res = $result->fetchall(PDO::FETCH_ASSOC);
-                    return $res;
+            $sql = "SELECT idfor, nomfor, codfor, fecfor, pre1, pre2, pre3, pre4, pre5, pre6, pre7, pre8, pre9, pre10, pre11, pre12, pre13, pre14, pre15, porjef, porpar, poraut, porsub, actfor FROM formato";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
         }
 
-
+        function getOne(){
+            $sql = "SELECT idfor, nomfor, codfor, fecfor, pre1, pre2, pre3, pre4, pre5, pre6, pre7, pre8, pre9, pre10, pre11, pre12, pre13, pre14, pre15, porjef, porpar, poraut, porsub, actfor FROM formato WHERE idfor=:idfor";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idfor = $this->getIdfor();
+            $result->bindParam(":idfor", $idfor);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
 
         function save(){
-            // try {
-                $sql = "INSERT INTO respuesta (idpereval, idperevald, pre1, pre2, pre3, pre4, pre5, pre6, pre7, pre8, pre9, pre10, pre11, pre12, fecres, tipeva) VALUES (:idpereval, :idperevald, :pre1, :pre2, :pre3, :pre4, :pre5, :pre6, :pre7, :pre8, :pre9, :pre10, :pre11, :pre12, :fecres, :tipeva)";
+            try {
+                $sql = "INSERT INTO formato (nomfor, codfor, fecfor, pre1, pre2, pre3, pre4, pre5, pre6, pre7, pre8, pre9, pre10, pre11, pre12, pre13, pre14, pre15, porjef, porpar, poraut, porsub, actfor) VALUES (:nomfor, :codfor, :fecfor, :pre1, :pre2, :pre3, :pre4, :pre5, :pre6, :pre7, :pre8, :pre9, :pre10, :pre11, :pre12, :pre13, :pre14, :pre15, :porjef, :porpar, :poraut, :porsub, :actfor)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
-                $idpereval = $this->getIdpereval();
-                $result->bindParam(":idpereval", $idpereval);
-                $idperevald = $this->getIdperevald();
-                $result->bindParam(":idperevald", $idperevald);
+                $nomfor = $this->getNomfor();
+                $result->bindParam(":nomfor", $nomfor);
+                $codfor = $this->getCodfor();
+                $result->bindParam(":codfor", $codfor);
+                $fecfor = $this->getFecfor();
+                $result->bindParam(":fecfor", $fecfor);
                 $pre1 = $this->getPre1();
                 $result->bindParam(":pre1", $pre1);
                 $pre2 = $this->getPre2();
@@ -195,29 +233,42 @@
                 $result->bindParam(":pre11", $pre11);
                 $pre12 = $this->getPre12();
                 $result->bindParam(":pre12", $pre12);
-                $fecres = $this->getFecres();
-                $result->bindParam(":fecres", $fecres); 
-                $tipeva = $this->getTipeva();
-                $result->bindParam(":tipeva", $tipeva);  
+                $pre13 = $this->getPre13();
+                $result->bindParam(":pre13", $pre13);
+                $pre14 = $this->getPre14();
+                $result->bindParam(":pre14", $pre14);
+                $pre15 = $this->getPre15();
+                $result->bindParam(":pre15", $pre15);
+                $porjef = $this->getPorjef();
+                $result->bindParam(":porjef", $porjef);
+                $porpar = $this->getPorpar();
+                $result->bindParam(":porpar", $porpar);
+                $poraut = $this->getPoraut();
+                $result->bindParam(":poraut", $poraut); 
+                $porsub = $this->getPorsub();
+                $result->bindParam(":porsub", $porsub);  
+                $actfor = $this->getActfor();
+                $result->bindParam(":actfor", $actfor);  
                 $result->execute();
-            // } catch (Exception $e) {
-            //     ManejoError($e);
-            // }
+            } catch (Exception $e) {
+                ManejoError($e);
+            }
         }
 
         function edit(){
-            //try {
-                $sql = "UPDATE respuuestas SET idpereval=:idpereval, idperevald=:idperevald, pre1=:pre1, pre2=:pre2, pre3=:pre3, pre4=:pre4, pre5=:pre5, pre6=:pre6, pre7=:pre7, pre8=:pre8, pre9=:pre9, pre10=:pre10, pre11=:pre11, pre12=:pre12 WHERE idres=:idres";
+            // try {
+                $sql = "UPDATE formato SET nomfor=:nomfor, codfor=:codfor, fecfor=:fecfor, pre1=:pre1, pre2=:pre2, pre3=:pre3, pre4=:pre4, pre5=:pre5, pre6=:pre6, pre7=:pre7, pre8=:pre8, pre9=:pre9, pre10=:pre10, pre11=:pre11, pre12=:pre12, pre13=:pre13, pre14=:pre14, pre15=:pre15, porjef=:porjef, porpar=:porpar, poraut=:poraut, porsub=:porsub, actfor=:actfor WHERE idfor=:idfor";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
-                $idres = $this->getIdres();
-                $result->bindParam(":idres", $idres);
-
-                $idpereval = $this->getIdpereval();
-                $result->bindParam(":idpereval", $idpereval);
-                $idperevald = $this->getIdperevald();
-                $result->bindParam(":idperevald", $idperevald);
+                $idfor = $this->getIdfor();
+                $result->bindParam(":idfor", $idfor);
+                $nomfor = $this->getNomfor();
+                $result->bindParam(":nomfor", $nomfor);
+                $codfor = $this->getCodfor();
+                $result->bindParam(":codfor", $codfor);
+                $fecfor = $this->getFecfor();
+                $result->bindParam(":fecfor", $fecfor);
                 $pre1 = $this->getPre1();
                 $result->bindParam(":pre1", $pre1);
                 $pre2 = $this->getPre2();
@@ -241,28 +292,68 @@
                 $pre11 = $this->getPre11();
                 $result->bindParam(":pre11", $pre11);
                 $pre12 = $this->getPre12();
-                $result->bindParam(":pre12", $pre12);       
+                $result->bindParam(":pre12", $pre12);
+                $pre13 = $this->getPre13();
+                $result->bindParam(":pre13", $pre13);
+                $pre14 = $this->getPre14();
+                $result->bindParam(":pre14", $pre14);
+                $pre15 = $this->getPre15();
+                $result->bindParam(":pre15", $pre15);
+                $porjef = $this->getPorjef();
+                $result->bindParam(":porjef", $porjef);
+                $porpar = $this->getPorpar();
+                $result->bindParam(":porpar", $porpar);
+                $poraut = $this->getPoraut();
+                $result->bindParam(":poraut", $poraut); 
+                $porsub = $this->getPorsub();
+                $result->bindParam(":porsub", $porsub);  
+                $actfor = $this->getActfor();
+                $result->bindParam(":actfor", $actfor);     
                 $result->execute();
             // } catch (Exception $e) {
             //     ManejoError($e);
             // }
         }
 
+        function editAct(){
+            // try{
+                $sql = "UPDATE formato SET actfor=:actfor WHERE idfor=:idfor";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $idfor = $this->getIdfor();
+                $result->bindParam(":idfor",$idfor);
+                $actfor = $this->getActfor();
+                $result->bindParam(":actfor", $actfor);
+                $result->execute();
+            // }catch(Exception $e){
+            //     ManejoError($e);
+            // }
+        }
 
-        //------------Traer valores-----------
-        function getAllDom($iddom){
-            $sql = "SELECT idval, nomval FROM valor WHERE iddom=:iddom";
-            $modelo = new conexion();
+        function del(){
+            // try{
+                $sql = "DELETE FROM formato WHERE idfor=:idfor";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $idfor = $this->getIdfor();
+                $result->bindParam(":idfor",$idfor);
+                $result->execute();
+            // }catch(Exception $e){
+            //     ManejoError($e);
+            // }
+        }
+
+        function getFxP($idfor){
+            $sql ="SELECT COUNT(idfor) AS can FROM persona WHERE idfor=:idfor";
+            $modelo =new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
-            $result->bindParam(":iddom", $iddom);
+            $result->bindParam(":idfor",$idfor);
             $result->execute();
-            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            $res = $result-> fetchall(PDO::FETCH_ASSOC);
             return $res;
         }
     }
-
-
-
-
 ?>
