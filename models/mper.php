@@ -128,7 +128,7 @@ class Mper
     //------------Persona-----------
     function getAll()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.actper, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.area=v.idval LEFT JOIN formato AS f ON p.idfor=f.idfor";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.actper, v.nomval, f.idfor, f.nomfor FROM persona AS p INNER JOIN valor AS v ON p.area=v.idval LEFT JOIN formato AS f ON p.idfor=f.idfor";
         if($_SESSION['idpef']==3) $sql .= " WHERE p.idper=:idper ";
         $sql .= " GROUP BY p.idper";
         $modelo = new conexion();
@@ -145,7 +145,7 @@ class Mper
 
     function getOne()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.actper, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.area=v.idval LEFT JOIN formato AS f ON p.idfor=f.idfor WHERE p.idper=:idper";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.actper, v.nomval, f.idfor, f.nomfor FROM persona AS p INNER JOIN valor AS v ON p.area=v.idval LEFT JOIN formato AS f ON p.idfor=f.idfor WHERE p.idper=:idper";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
@@ -444,7 +444,7 @@ class Mper
 
     function getFor()
     {
-        $sql = "SELECT idfor, nomfor FROM formato";
+        $sql = "SELECT idfor, nomfor FROM formato WHERE actfor=1";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);

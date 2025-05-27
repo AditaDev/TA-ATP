@@ -256,7 +256,7 @@
         }
 
         function edit(){
-            // try {
+            try {
                 $sql = "UPDATE formato SET nomfor=:nomfor, codfor=:codfor, fecfor=:fecfor, pre1=:pre1, pre2=:pre2, pre3=:pre3, pre4=:pre4, pre5=:pre5, pre6=:pre6, pre7=:pre7, pre8=:pre8, pre9=:pre9, pre10=:pre10, pre11=:pre11, pre12=:pre12, pre13=:pre13, pre14=:pre14, pre15=:pre15, porjef=:porjef, porpar=:porpar, poraut=:poraut, porsub=:porsub, actfor=:actfor WHERE idfor=:idfor";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
@@ -310,13 +310,13 @@
                 $actfor = $this->getActfor();
                 $result->bindParam(":actfor", $actfor);     
                 $result->execute();
-            // } catch (Exception $e) {
-            //     ManejoError($e);
-            // }
+            } catch (Exception $e) {
+                ManejoError($e);
+            }
         }
 
         function editAct(){
-            // try{
+            try{
                 $sql = "UPDATE formato SET actfor=:actfor WHERE idfor=:idfor";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
@@ -326,13 +326,13 @@
                 $actfor = $this->getActfor();
                 $result->bindParam(":actfor", $actfor);
                 $result->execute();
-            // }catch(Exception $e){
-            //     ManejoError($e);
-            // }
+            }catch(Exception $e){
+                ManejoError($e);
+            }
         }
 
         function del(){
-            // try{
+            try{
                 $sql = "DELETE FROM formato WHERE idfor=:idfor";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
@@ -340,9 +340,9 @@
                 $idfor = $this->getIdfor();
                 $result->bindParam(":idfor",$idfor);
                 $result->execute();
-            // }catch(Exception $e){
-            //     ManejoError($e);
-            // }
+            }catch(Exception $e){
+                ManejoError($e);
+            }
         }
 
         function getFxP($idfor){

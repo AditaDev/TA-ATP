@@ -113,7 +113,19 @@ include('controllers/cfor.php');
             foreach ($datAll as $dta) { ?>
                 <tr>
                     <td>
-                        <BIG><strong> <?= $dta['idfor']." - ".$dta['nomfor'];?></strong></BIG>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <BIG><strong> <?= $dta['idfor']." - ".$dta['nomfor'];?></strong></BIG>
+                            </div>
+                            <div class="col-sm-2">
+                                <i class="fa fa-solid fa-eye iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mdlfor<?= $dta['idfor']; ?>" title="Detalles"></i>
+                                <?php 
+                                    $mfor->setIdfor($dta['idfor']);
+                                    $det = $mfor->getOne();
+                                    modalInfFor("mdlfor", $dta['idfor'], $det[0]);
+                                ?>
+                            </div>
+                        </div>
                         <small>
                             <div class="row">
                                 <?php if ($dta['codfor']) { ?>
