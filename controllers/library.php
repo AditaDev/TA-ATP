@@ -558,6 +558,33 @@ function modalRecPrm($nm, $id, $tit){
 	echo $txt;
 }
 
+//------------Modal vfor, ver preguntas-----------
+function modalInfFor($nm, $id, $det){		
+	$txt = '';
+	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+		$txt .= '<div class="modal-dialog">';
+			$txt .= '<div class="modal-content">';
+				$txt .= '<div class="modal-header">';
+					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$det['nomfor'].'</strong></h1>';
+					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
+				$txt .= '</div>';
+				$txt .= '<div class="modal-body" style="margin: 0px 25p	x;">';
+					$txt .= '<big><br><strong>Preguntas:</strong></big><hr>';
+					$txt .= '<ol>';
+						for($i=1; $i<=15; $i++){
+							if($det['pre'.$i]) $txt .= '<li>'.$det['pre'.$i].'</li>';
+						}
+					$txt .= '</ol>';
+				$txt .= '</div>';
+				$txt .= '<div class="modal-footer">';
+					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+				$txt .= '</div>';
+			$txt .= '</div>';
+		$txt .= '</div>';
+	$txt .= '</div>';
+	echo $txt;
+}
+
 // //------------Modal vprm, excel-----------
 // function modalExport($fi, $ff, $n) {
 //     $txt = '';
