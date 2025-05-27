@@ -86,6 +86,10 @@ CREATE TABLE `formato` (
     `actfor` tinyint(1) NOT NULL DEFAULT 1
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `formato` (`idfor`, `nomfor`, `codfor`, `fecfor`, `pre1`, `pre2`, `pre3`, `pre4`, `pre5`, `pre6`, `pre7`, `pre8`, `pre9`, `pre10`, `pre11`, `pre12`, `pre13`, `pre14`, `pre15`, `porjef`, `porpar`, `poraut`, `porsub`, `actfor`) VALUES
+(1, 'JEFE', 'ATP-EV-JEF', '2025-05-26', 'pregunta1', 'pregunta2', 'pregunta3', 'pregunta4', 'pregunta5', 'pregunta6', 'pregunta7', 'pregunta8', 'pregunta9', 'pregunta10', 'pregunta11', 'pregunta12', 'pregunta13', 'pregunta14', 'pregunta15', 50, 20, 10, 20, 1);
+
+
 CREATE TABLE `respuesta` (
     `idres` bigint(11) NOT NULL, 
     `ideva` bigint(11) NOT NULL,
@@ -110,8 +114,7 @@ CREATE TABLE `evaluacion` (
     `ideva` bigint(11) NOT NULL,
     `idpereval` bigint(11) NOT NULL,                                        
     `idperevald` bigint(11) NOT NULL,
-    `idfor` bigint(11) NOT NULL,
-    `fecres` date
+    `feceva` date
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `modulo` (
@@ -351,8 +354,7 @@ ALTER TABLE `respuesta`
 ALTER TABLE `evaluacion`
   ADD PRIMARY KEY (`ideva`),
   ADD KEY `idpereval` (`idpereval`),
-  ADD KEY `idperevald` (`idperevald`),
-  ADD KEY `idfor` (`idfor`);
+  ADD KEY `idperevald` (`idperevald`);
 
 ALTER TABLE `modulo`
   ADD PRIMARY KEY (`idmod`);
@@ -446,8 +448,7 @@ ALTER TABLE `respuesta`
 
 ALTER TABLE `evaluacion`
   ADD CONSTRAINT `evaluacion_ibfk_1` FOREIGN KEY (`idpereval`) REFERENCES `persona` (`idper`),
-  ADD CONSTRAINT `evaluacion_ibfk_2` FOREIGN KEY (`idperevald`) REFERENCES `persona` (`idper`),
-  ADD CONSTRAINT `evaluacion_ibfk_3` FOREIGN KEY (`idfor`) REFERENCES `formato` (`idfor`);
+  ADD CONSTRAINT `evaluacion_ibfk_2` FOREIGN KEY (`idperevald`) REFERENCES `persona` (`idper`);
 
 ALTER TABLE `pagina`
   ADD CONSTRAINT `pagina_ibfk_1` FOREIGN KEY (`idmod`) REFERENCES `modulo` (`idmod`);
