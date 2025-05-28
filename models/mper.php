@@ -158,7 +158,7 @@ class Mper
 
     function save()
     {
-        //try {
+        try {
             $hash = $this->getHash();
             $salt = $this->getSalt();
             $sql = "INSERT INTO persona(nomper, apeper, ndper, area, idfor, emaper, actper";
@@ -188,9 +188,9 @@ class Mper
             if ($hash) $result->bindParam(":hashl", $hash);
             if ($salt) $result->bindParam(":salt", $salt);
             $result->execute();
-        // } catch (Exception $e) {
-        //     ManejoError($e);
-        // }
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
     }
 
     function editAct()
@@ -444,7 +444,7 @@ class Mper
 
     function getFor()
     {
-        $sql = "SELECT idfor, nomfor FROM formato WHERE actfor=1";
+        $sql = "SELECT idfor, nomfor, codfor FROM formato WHERE actfor=1";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);

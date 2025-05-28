@@ -41,7 +41,7 @@ if($_SESSION['idpef']!=3){ ?>
             <select name="idfor" id="idfor" class="form-control form-select" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
                     <?php foreach ($datFor as $dtf) { ?>
                         <option value="<?= $dtf['idfor']; ?>" <?php if ($datOne && $dtf['idfor'] == $datOne[0]['idfor']) echo " selected "; ?>>
-                            <?= $dte['nomfor']; ?>
+                            <?= $dte['nomfor']." / ".$dte['codfor']; ?>
                         </option>
                     <?php } ?>
             </select>
