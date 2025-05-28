@@ -286,6 +286,14 @@ label {
   bottom: 0;
 } */
 
+/*--------------------------------------Formato----------------------------------------*/
+.formato {
+    text-align: left;
+    margin: 20px auto 0 auto;
+    padding: 15px;
+    border-radius: 10px;
+    width: 98%;
+}
 
 
 .tabla {
@@ -873,6 +881,10 @@ a:hover {
     overflow-y: scroll;
     margin-top: 10px;
   }
+
+  .formato {
+    width: 90%;
+  }
 }
 
 /*---------------------------------------tablet mas pequeña---------------------------------------*/
@@ -887,7 +899,6 @@ a:hover {
   .img img {
     width: 400px;
   }
-
 
 }
 
@@ -924,6 +935,10 @@ a:hover {
   .contenido-login img {
     height: 70px;
     margin-bottom: 25px;
+  }
+  
+  .formato {
+    width: 94%;
   }
 
 }

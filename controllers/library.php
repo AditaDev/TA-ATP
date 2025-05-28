@@ -568,14 +568,21 @@ function modalInfFor($nm, $id, $det){
 					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$det['nomfor'].'</strong></h1>';
 					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
 				$txt .= '</div>';
-				$txt .= '<div class="modal-body" style="margin: 0px 25p	x;">';
-					$txt .= '<big><br><strong>Preguntas:</strong></big><hr>';
-					$txt .= '<ol>';
-						for($i=1; $i<=15; $i++){
-							if($det['pre'.$i]) $txt .= '<li>'.$det['pre'.$i].'</li>';
-						}
-					$txt .= '</ol>';
-				$txt .= '</div>';
+				$txt .= '<div class="modal-body">';
+					$txt .= '<big><strong>Preguntas:</strong></big><hr>';
+        			for($i=1; $i<=25; $i++){
+						$c = 0;
+        			    if($i==1) $c = 1;
+						elseif($i==6) $c = 2;
+						elseif($i==11) $c = 3;
+						elseif($i==16) $c = 4;
+						elseif($i==21) $c = 5;
+        			    if($i==1 || $i==6 || $i==11 || $i==16 || $i==21){
+							if($det['nomsec'.$c]) $txt .= '<strong><u>'.$det['nomsec'.$c].'</u></strong><br>';
+							$txt .= '<ol>';
+						}if($det['pre'.$i]) $txt .= '<li>'.$det['pre'.$i].'</li>';
+						if($i==5 || $i==10 || $i==15 || $i==20 || $i==25) $txt .= '</ol>';
+					}
 				$txt .= '<div class="modal-footer">';
 					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
 				$txt .= '</div>';

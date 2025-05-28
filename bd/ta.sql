@@ -64,30 +64,42 @@ CREATE TABLE `formato` (
     `nomfor` varchar(50) NOT NULL,
     `codfor` varchar(25) DEFAULT NULL,
     `fecfor` date NOT NULL,
+    `nomsec1` varchar(100) DEFAULT NULL,                                         
     `pre1` varchar(255) DEFAULT NULL,                                         
     `pre2` varchar(255) DEFAULT NULL,                                         
     `pre3` varchar(255) DEFAULT NULL,                                         
     `pre4` varchar(255) DEFAULT NULL,                                         
     `pre5` varchar(255) DEFAULT NULL,                                         
+    `nomsec2` varchar(100) DEFAULT NULL,                                         
     `pre6` varchar(255) DEFAULT NULL,                                         
     `pre7` varchar(255) DEFAULT NULL,                                         
     `pre8` varchar(255) DEFAULT NULL,                                         
     `pre9` varchar(255) DEFAULT NULL,                                         
     `pre10` varchar(255) DEFAULT NULL,                                         
+    `nomsec3` varchar(100) DEFAULT NULL,                                         
     `pre11` varchar(255) DEFAULT NULL,                                         
     `pre12` varchar(255) DEFAULT NULL,                                         
     `pre13` varchar(255) DEFAULT NULL,                                         
     `pre14` varchar(255) DEFAULT NULL,                                         
     `pre15` varchar(255) DEFAULT NULL,
+    `nomsec4` varchar(100) DEFAULT NULL,                                         
+    `pre16` varchar(255) DEFAULT NULL,
+    `pre17` varchar(255) DEFAULT NULL,
+    `pre18` varchar(255) DEFAULT NULL,
+    `pre19` varchar(255) DEFAULT NULL,
+    `pre20` varchar(255) DEFAULT NULL,
+    `nomsec5` varchar(100) DEFAULT NULL,                                         
+    `pre21` varchar(255) DEFAULT NULL,
+    `pre22` varchar(255) DEFAULT NULL,
+    `pre23` varchar(255) DEFAULT NULL,
+    `pre24` varchar(255) DEFAULT NULL,
+    `pre25` varchar(255) DEFAULT NULL,
     `porjef` int(2) DEFAULT NULL,
     `porpar` int(2) DEFAULT NULL,
     `poraut` int(2) DEFAULT NULL,
     `porsub` int(2) DEFAULT NULL,
     `actfor` tinyint(1) NOT NULL DEFAULT 1
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `formato` (`idfor`, `nomfor`, `codfor`, `fecfor`, `pre1`, `pre2`, `pre3`, `pre4`, `pre5`, `pre6`, `pre7`, `pre8`, `pre9`, `pre10`, `pre11`, `pre12`, `pre13`, `pre14`, `pre15`, `porjef`, `porpar`, `poraut`, `porsub`, `actfor`) VALUES
-(1, 'JEFE', 'ATP-EV-JEF', '2025-05-26', 'pregunta1', 'pregunta2', 'pregunta3', 'pregunta4', 'pregunta5', 'pregunta6', 'pregunta7', 'pregunta8', 'pregunta9', 'pregunta10', 'pregunta11', 'pregunta12', 'pregunta13', 'pregunta14', 'pregunta15', 50, 20, 10, 20, 1);
 
 
 CREATE TABLE `respuesta` (

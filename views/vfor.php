@@ -12,66 +12,48 @@ include('controllers/cfor.php');
             <label for="codfor"><strong>Código:</strong></label>
             <input class="form-control" type="text" id="codfor" name="codfor" value="<?php if ($datOne) echo $datOne[0]['codfor']; ?>" required>
         </div>
-        <div class="form-group col-lg-6">
-            <label for="pre1"><strong>Pregunta 1:</strong></label>
-            <input class="form-control" type="text" id="pre1" name="pre1" value="<?php if ($datOne) echo $datOne[0]['pre1']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre2"><strong>Pregunta 2:</strong></label>
-            <input class="form-control" type="text" id="pre2" name="pre2" value="<?php if ($datOne) echo $datOne[0]['pre2']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre3"><strong>Pregunta 3:</strong></label>
-            <input class="form-control" type="text" id="pre3" name="pre3" value="<?php if ($datOne) echo $datOne[0]['pre3']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre4"><strong>Pregunta 4:</strong></label>
-            <input class="form-control" type="text" id="pre4" name="pre4" value="<?php if ($datOne) echo $datOne[0]['pre4']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre5"><strong>Pregunta 5:</strong></label>
-            <input class="form-control" type="text" id="pre5" name="pre5" value="<?php if ($datOne) echo $datOne[0]['pre5']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre6"><strong>Pregunta 6:</strong></label>
-            <input class="form-control" type="text" id="pre6" name="pre6" value="<?php if ($datOne) echo $datOne[0]['pre6']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre7"><strong>Pregunta 7:</strong></label>
-            <input class="form-control" type="text" id="pre7" name="pre7" value="<?php if ($datOne) echo $datOne[0]['pre7']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre8"><strong>Pregunta 8:</strong></label>
-            <input class="form-control" type="text" id="pre8" name="pre8" value="<?php if ($datOne) echo $datOne[0]['pre8']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre9"><strong>Pregunta 9:</strong></label>
-            <input class="form-control" type="text" id="pre9" name="pre9" value="<?php if ($datOne) echo $datOne[0]['pre9']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre10"><strong>Pregunta 10:</strong></label>
-            <input class="form-control" type="text" id="pre10" name="pre10" value="<?php if ($datOne) echo $datOne[0]['pre10']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre11"><strong>Pregunta 11:</strong></label>
-            <input class="form-control" type="text" id="pre11" name="pre11" value="<?php if ($datOne) echo $datOne[0]['pre11']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre12"><strong>Pregunta 12:</strong></label>
-            <input class="form-control" type="text" id="pre12" name="pre12" value="<?php if ($datOne) echo $datOne[0]['pre12']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre13"><strong>Pregunta 13:</strong></label>
-            <input class="form-control" type="text" id="pre13" name="pre13" value="<?php if ($datOne) echo $datOne[0]['pre13']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre14"><strong>Pregunta 14:</strong></label>
-            <input class="form-control" type="text" id="pre14" name="pre14" value="<?php if ($datOne) echo $datOne[0]['pre14']; ?>" required>
-        </div>
-        <div class="form-group col-lg-6">
-            <label for="pre15"><strong>Pregunta 15:</strong></label>
-            <input class="form-control" type="text" id="pre15" name="pre15" value="<?php if ($datOne) echo $datOne[0]['pre15']; ?>" required>
-        </div>
+        <?php
+        $c = 0;
+        $p = 1;
+        for($i=1; $i<=25; $i++){
+            $p++;
+            if($i==1){ 
+                $c = 1;
+                $color = "#b4eff7";
+            }elseif($i==6){ 
+                $c = 2;
+                $color = "#c7f196";
+            }elseif($i==11){ 
+                $c = 3;
+                $color = "#ffecb3";
+            }elseif($i==16){ 
+                $c = 4;
+                $color = "#ecb5f4";
+            }elseif($i==21){ 
+                $c = 5;
+                $color = "#f78686";
+            }if($i==1 || $i==6 || $i==11 || $i==16 || $i==21){
+                $p = 1;
+            ?>
+            <div class="form-group col-sm-12 formato" style="background: <?= $color; ?>">
+                <div onclick="ocultarseccion('sec<?= $c; ?>', 'des<?= $c; ?>')">
+                    <i id="des<?= $c; ?>" class="fa-solid fa-caret-down"></i>
+                    <strong><u>Sección <?= $c; ?></u></strong>
+                </div>
+                <div class="row" id="sec<?= $c; ?>" style="visibility: hidden; height: 0px; overflow: hidden; transition: height 0.5s ease, visibility 0s linear 0.5s;">
+                    <div class="form-group col-lg-6">
+                        <label for="nomsec<?= $c; ?>"><strong>Nombre:</strong></label>
+                        <input class="form-control" type="text" id="nomsec<?= $c; ?>" name="nomsec<?= $c; ?>" value="<?php if ($datOne) echo $datOne[0]['nomsec'.$c]; ?>" <?php ($c<=3) ? "required" : "";?>>
+                    </div>
+            <?php } ?>
+                    <div class="form-group col-lg-6">
+                        <label for="pre<?= $i; ?>"><strong>Pregunta <?= $p ?>:</strong></label>
+                        <input class="form-control" type="text" id="pre<?= $i; ?>" name="pre<?= $i; ?>" value="<?php if ($datOne) echo $datOne[0]['pre'.$i]; ?>">
+                    </div>
+            <?php if($i==5 || $i==10 || $i==15 || $i==20 || $i==25){ ?>
+                </div>
+            </div>
+        <?php }} ?>
         <div class="form-group col-sm-12" style="text-align: center; margin-top: 20px">
             <strong><u>Porcentajes</u></strong>
             <small id="porcent"></small>
@@ -90,7 +72,7 @@ include('controllers/cfor.php');
         </div>
         <div class="form-group col-md-6">
             <label for="porsub"><strong>Subalterno:</strong></label>
-            <input class="form-control" type="text" id="porsub" name="porsub" value="<?php if ($datOne) echo $datOne[0]['porsub']; ?>" onchange="sumporcent()" onkeypress="return solonum(event);" required>
+            <input class="form-control" type="text" id="porsub" name="porsub" value="<?php if ($datOne) echo $datOne[0]['porsub']; ?>" onchange="sumporcent()" onkeypress="return solonum(event);">
         </div>
         <div class="form-group col-md-12" id="boxbtn">
             <br><br>
