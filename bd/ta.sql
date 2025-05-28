@@ -200,9 +200,9 @@ CREATE TABLE `pefxmod` (
 
 INSERT INTO `pefxmod` (`idmod`, `idpef`, `idpag`) VALUES
 (1, 1, 101),
-(2, 1, 109),
-(2, 2, 109),
-(2, 3, 112);
+(2, 1, 111),
+(2, 2, 111),
+(2, 3, 111);
 
 CREATE TABLE `perfil` (
   `idpef` bigint(11) NOT NULL,

@@ -9,8 +9,8 @@
     $idmod = isset($_POST['idmod']) ? $_POST['idmod']:NULL;
 
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
+    $pg=104;
 
-    $pg = 104;
     $mpef->setIdpef($idpef);
     if($ope=="savepxp"){ 
         if($idpef) $mpef->delPXP();
@@ -20,7 +20,7 @@
         }}
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
-    
+
     if($ope=="savepxm"){
         if($idpef) $mpef->delPxM();
         if($idpag){ 
@@ -29,7 +29,8 @@
                 $mpef->setIdpag($idp);
                 $mpef->setIdmod($idmod[$i]);
                 $mpef->savePxM();
-                $mpef->savePxP();
+                $exitreg = $mpef->getPxP();
+                if(!$exitreg) $mpef->savePxP();
             }
             $i++;
         }}
@@ -40,7 +41,7 @@
         }else $mpef->delPXP();
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
-
+    
     //guardar 
     if($ope=="save"){
         $mpef->setNompef($nompef);
@@ -50,11 +51,12 @@
     }
 
     $datOne = NULL;
+
     if($ope=="edi" && $idpef) $datOne = $mpef->getOne();
     
 //mostrar todos los datos
     $dat = $mpef->getAll();
     $datpag = $mpef->getPag();
     $datmod = $mpef->getMod();
-   
+
 ?>
