@@ -21,6 +21,6 @@
 
    
 
-    $url = "http://localhost/atp-at/";
+    $url = "http://localhost/TA-ATP/";
 
 ?>
