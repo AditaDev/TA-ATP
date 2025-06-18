@@ -37,11 +37,11 @@ if($_SESSION['idpef']!=3){ ?>
             </select>
         </div>
         <div class="form-group col-md-4">
-            <label for="idfor"><strong>Formato:</strong></label>
-            <select name="idfor" id="idfor" class="form-control form-select" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
+            <label for="idvfor"><strong>Formato:</strong></label>
+            <select name="idvfor" id="idvfor" class="form-control form-select" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
                     <?php foreach ($datFor as $dtf) { ?>
-                        <option value="<?= $dtf['idfor']; ?>" <?php if ($datOne && $dtf['idfor'] == $datOne[0]['idfor']) echo " selected "; ?>>
-                            <?= $dte['nomfor']." / ".$dte['codfor']; ?>
+                        <option value="<?= $dtf['idval']; ?>" <?php if ($datOne && $dtf['idval'] == $datOne[0]['idvfor']) echo " selected "; ?>>
+                            <?= $dte['nomval']; ?>
                         </option>
                     <?php } ?>
             </select>
@@ -126,9 +126,9 @@ if($_SESSION['idpef']!=3){ ?>
                                 <div class="form-group col-md-4">
                                     <strong>Area: </strong> <?= $dta['nomval']; ?>
                                 </div> 
-                            <?php } if ($dta['idfor']) { ?>
+                            <?php } if ($dta['idvfor']) { ?>
                                 <div class="form-group col-md-4">
-                                    <strong>Formato: </strong> <?= $dta['nomfor']; ?>
+                                    <strong>Formato: </strong> <?= $dta['nomval']; ?>
                                 </div> 
                             <?php } ?>
                         </div>

@@ -14,7 +14,7 @@
     $apeper = isset($_POST['apeper']) ? $_POST['apeper']:NULL;
     $ndper = isset($_POST['ndper']) ? $_POST['ndper']:NULL;
     $area = isset($_POST['area']) ? $_POST['area']:NULL;
-    $idfor = isset($_POST['idfor']) ? $_POST['idfor']:NULL;
+    $idvfor = isset($_POST['idvfor']) ? $_POST['idvfor']:NULL;
     $emaper = isset($_POST['emaper']) ? strtolower($_POST['emaper']):NULL;
     $actper = isset($_REQUEST['actper']) ? $_REQUEST['actper']:1;
 
@@ -62,7 +62,7 @@
         $mper->setEmaper($emaper);
         $mper->setNdper($ndper);
         $mper->setArea($area);
-        $mper->setIdfor($idfor);
+        $mper->setIdvfor($idvfor);
         $mper->setActper($actper);
         $mper->setIdjef($idjef);
         $mper->setHash($hash);
@@ -142,7 +142,7 @@
     $datAll = $mper->getAll();
     $datarea = $mper->getAllDom(2);
     $datPer = $mper->getPer();
-    $datFor = $mper->getFor();
+    $datFor = $mper->getAllDom(10);
 
 
         //------------Importar empleados-----------
@@ -161,7 +161,7 @@
             $idjefi = NULL;
             $idjefa = NULL;
             $idjefa = NULL;
-            $idfor = NULL;
+            $idvfor = NULL;
             $ndper = $sheet->getCell("B" . $row)->getValue();
             $nomper = $sheet->getCell("C" . $row)->getValue();
             $apeper = $sheet->getCell("D" . $row)->getValue();
@@ -171,10 +171,10 @@
             $carea = $mper->CompVal();
             $area = $carea[0]['idval'];
 
-            $idfor = $sheet->getCell("G" . $row)->getValue();
-            $mper->setIdfor($idfor);
-            $cidfor = $mper->CompFor();
-            $idfori = $cidfor[0]['idfor'];
+            $idvfor = $sheet->getCell("G" . $row)->getValue();
+            $mper->setIdvfor($idvfor);
+            $cidvfor = $mper->CompVal();
+            $idvfori = $cidvfor[0]['idval'];
             
             $actper = $sheet->getCell("H" . $row)->getValue();
             $idpef = $sheet->getCell("I" . $row)->getValue();
@@ -215,7 +215,7 @@
             $mper->setNdper($ndper);
             $mper->setEmaper($emaper);
             $mper->setArea($area);
-            $mper->setIdfor($idfor);
+            $mper->setIdvfor($idvfor);
             $mper->setActper($actper);
             $mper->setIdpef($idpef);
             $mper->setHash($hash);
@@ -224,7 +224,7 @@
     		 if($existingData){
                 $idper = $existingData[0]['idper'];
                 $mper->setIdper($idper);
-    		} if (count($idpefA)==$pf && (!$idfor OR ($idfori && $idfor)) && (!$ndjefi OR ($ndjefi && $idjefi)) && (!$ndjefa OR ($ndjefa && $idjefa))) {
+    		} if (count($idpefA)==$pf && (!$idvfor OR ($idvfori && $idvfor)) && (!$ndjefi OR ($ndjefi && $idjefi)) && (!$ndjefa OR ($ndjefa && $idjefa))) {
     		    if (!empty($ndper)) {
     		    	if (!$idper) {
     		    		$mper->save();

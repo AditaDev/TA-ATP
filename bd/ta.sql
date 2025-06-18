@@ -23,7 +23,8 @@ INSERT INTO `dominio` (`iddom`, `nomdom`) VALUES
 (6, 'Talla Z'),
 (7, 'Talla G'),
 (8, 'Colores'),
-(9, 'Días');
+(9, 'Días'),
+(10, 'Formato');
 
 CREATE TABLE `dotacion` (
   `ident` bigint(11) NOT NULL,
@@ -130,6 +131,7 @@ CREATE TABLE `evaluacion` (
     `ideva` bigint(11) NOT NULL,
     `idpereval` bigint(11) NOT NULL,                                        
     `idperevald` bigint(11) NOT NULL,
+    `idfor` bigint(11) NOT NULL,
     `feceva` date
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -245,7 +247,7 @@ CREATE TABLE `persona` (
   `ndper` varchar(12) NOT NULL,
   `actper` tinyint(1) DEFAULT 1,
   `area` bigint(11) NOT NULL,
-  `idfor` bigint(11) DEFAULT NULL,
+  `idvfor` bigint(11) DEFAULT NULL,
   `hashl` tinytext DEFAULT NULL,
   `salt` tinytext DEFAULT NULL,
   `token` tinytext DEFAULT NULL,
@@ -253,8 +255,8 @@ CREATE TABLE `persona` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `emaper`, `telper`, `ndper`, `actper`, `area`, `idfor`, `hashl`, `salt`, `token`, `feccam`) VALUES
-(1, 'Nicole Adamarys', 'Rodriguez Estevez', 'rodriada24@gmail.com', NULL, '1071328321', 1, 9, 1, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL),
-(2, 'Juan David', 'Chaparro Dominguez', 'juanda.chapar@gmail.com', NULL, '1072642921', 1, 9, 2, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
+(1, 'Nicole Adamarys', 'Rodriguez Estevez', 'rodriada24@gmail.com', NULL, '1071328321', 1, 9, 58, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL),
+(2, 'Juan David', 'Chaparro Dominguez', 'juanda.chapar@gmail.com', NULL, '1072642921', 1, 9, 59, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
 
 CREATE TABLE `perxpef` (
   `idper` bigint(11) NOT NULL,
@@ -334,6 +336,10 @@ INSERT INTO `valor` (`idval`, `nomval`, `iddom`, `codval`, `actval`) VALUES
 (54, 'Jueves', 9, 904, 1),
 (55, 'Viernes', 9, 905, 1),
 (56, 'Sábado', 9, 906, 1);
+(57, 'Jefe', 10, 1001, 1),
+(58, 'Administrativo', 10, 1002, 1),
+(59, 'Logística', 10, 1003, 1),
+(60, 'Ventas', 10, 1004, 1);
 
 ALTER TABLE `ccxent`
   ADD KEY `ident` (`ident`),
@@ -370,7 +376,8 @@ ALTER TABLE `respuesta`
 ALTER TABLE `evaluacion`
   ADD PRIMARY KEY (`ideva`),
   ADD KEY `idpereval` (`idpereval`),
-  ADD KEY `idperevald` (`idperevald`);
+  ADD KEY `idperevald` (`idperevald`),
+  ADD KEY `idfor` (`idfor`);
 
 ALTER TABLE `modulo`
   ADD PRIMARY KEY (`idmod`);
@@ -400,7 +407,7 @@ ALTER TABLE `permiso`
 ALTER TABLE `persona`
   ADD PRIMARY KEY (`idper`),
   ADD KEY `area` (`area`),
-  ADD KEY `idfor` (`idfor`);
+  ADD KEY `idvfor` (`idvfor`);
 
 ALTER TABLE `perxpef`
   ADD KEY `idper` (`idper`),
@@ -464,7 +471,8 @@ ALTER TABLE `respuesta`
 
 ALTER TABLE `evaluacion`
   ADD CONSTRAINT `evaluacion_ibfk_1` FOREIGN KEY (`idpereval`) REFERENCES `persona` (`idper`),
-  ADD CONSTRAINT `evaluacion_ibfk_2` FOREIGN KEY (`idperevald`) REFERENCES `persona` (`idper`);
+  ADD CONSTRAINT `evaluacion_ibfk_2` FOREIGN KEY (`idperevald`) REFERENCES `persona` (`idper`),
+  ADD CONSTRAINT `evaluacion_ibfk_3` FOREIGN KEY (`idfor`) REFERENCES `formato` (`idfor`);
 
 ALTER TABLE `pagina`
   ADD CONSTRAINT `pagina_ibfk_1` FOREIGN KEY (`idmod`) REFERENCES `modulo` (`idmod`);
@@ -480,9 +488,6 @@ ALTER TABLE `pefxmod`
 ALTER TABLE `permiso`
   ADD CONSTRAINT `permiso_ibfk_1` FOREIGN KEY (`idjef`) REFERENCES `persona` (`idper`),
   ADD CONSTRAINT `permiso_ibfk_2` FOREIGN KEY (`idper`) REFERENCES `persona` (`idper`);
-
-ALTER TABLE `persona`
-  ADD CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`idfor`) REFERENCES `formato` (`idfor`);
 
 ALTER TABLE `perxpef`
   ADD CONSTRAINT `perxpef_ibfk_1` FOREIGN KEY (`idpef`) REFERENCES `perfil` (`idpef`),
