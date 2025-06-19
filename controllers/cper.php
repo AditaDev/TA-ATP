@@ -68,8 +68,8 @@
         $mper->setHash($hash);
         $mper->setSalt($salt);
         $existusu = $mper->selectUsu();
-        if($exitusu){
-           $idper = $exitusu[0]['idper'];
+        if($existusu){
+           $idper = $existusu[0]['idper'];
            $mper->setIdper($idper);
         }if(!$idper) {
             $mper->save();
@@ -108,6 +108,7 @@
     if($ope=="act" && $idper && $actper){
         $mper->setActper($actper);
         $mper->editAct();
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
     if($ope=="edi"&& $idper){
