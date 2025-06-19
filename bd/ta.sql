@@ -256,7 +256,7 @@ CREATE TABLE `persona` (
 
 INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `emaper`, `telper`, `ndper`, `actper`, `area`, `idVfor`, `hashl`, `salt`, `token`, `feccam`) VALUES
 (1, 'Nicole Adamarys', 'Rodriguez Estevez', 'rodriada24@gmail.com', NULL, '1071328321', 1, 9, 58, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL),
-(2, 'Juan David', 'Chaparro Dominguez', 'juanda.chapar@gmail.com', NULL, '1072642921', 1, 9, 59, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
+(2, 'Juan David', 'Chaparro Dominguez', 'juanda.chapar@gmail.com', NULL, '1072642921', 1, 9, 57, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
 
 CREATE TABLE `perxpef` (
   `idper` bigint(11) NOT NULL,
