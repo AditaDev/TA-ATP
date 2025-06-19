@@ -6,8 +6,9 @@
     //------------Formato-----------
 
     $idfor = isset($_REQUEST['idfor']) ? $_REQUEST['idfor']:NULL;
-    $nomfor = isset($_POST['nomfor']) ? $_POST['nomfor']:NULL;
+    $tipfor = isset($_POST['tipfor']) ? $_POST['tipfor']:NULL;
     $codfor = isset($_POST['codfor']) ? $_POST['codfor']:NULL;
+    $actfor = isset($_REQUEST['actfor']) ? $_REQUEST['actfor']:NULL;
     $nomsec1 = isset($_POST['nomsec1']) ? $_POST['nomsec1']:NULL;
     $pre1 = isset($_POST['pre1']) ? $_POST['pre1']:NULL;
     $pre2 = isset($_POST['pre2']) ? $_POST['pre2']:NULL;
@@ -42,17 +43,17 @@
     $porpar = isset($_POST['porpar']) ? $_POST['porpar']:NULL;
     $poraut = isset($_POST['poraut']) ? $_POST['poraut']:NULL;
     $porsub = isset($_POST['porsub']) ? $_POST['porsub']:NULL;
-    $actfor = isset($_REQUEST['actfor']) ? $_REQUEST['actfor']:1;
 
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
 
     $pg = 109;
     $datOne = NULL;
+    $cambforact = NULL;
     
     $mfor->setIdfor($idfor);
 
     if($ope=="save"){
-        $mfor->setNomfor($nomfor);
+        $mfor->setTipfor($tipfor);
         $mfor->setCodfor($codfor);
         $mfor->setFecfor($hoy);
         $mfor->setNomsec1($nomsec1);
@@ -89,19 +90,41 @@
         $mfor->setPorpar($porpar);  
         $mfor->setPoraut($poraut);  
         $mfor->setPorsub($porsub);  
-        $mfor->setActfor($actfor);  
+        $mfor->setActfor($actfor);
         if(!$idfor) $mfor->save();
         else $mfor->edit();
+        if($actfor==1){
+            $cambforact = $mfor->selectFor($tipfor, 1, $codfor);
+            if($cambforact){ foreach($cambforact as $cfa){
+                $mfor->setIdfor($cfa['idfor']);
+                $mfor->setActfor(2);
+                $mfor->editAct();
+            }}
+        }
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
-
+    
     if($ope=='act' && $idfor && $actfor){
         $mfor->setActfor($actfor);
         $mfor->editAct();
+        $datOne = $mfor->getOne();
+        if($actfor==1){
+            $cambforact = $mfor->selectFor($datOne[0]['tipfor'], 1, $datOne[0]['codfor']);
+            if($cambforact){ foreach($cambforact as $cfa){
+                $mfor->setIdfor($cfa['idfor']);
+                $mfor->setActfor(2);
+                $mfor->editAct();
+            }}
+        }
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
-
-    if($ope=='del' && $idfor) $mfor->del();
+    
+    if($ope=='del' && $idfor){
+        $mfor->del();
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+    }
     if($ope=='edi' && $idfor) $datOne = $mfor->getOne();
     
     $datAll = $mfor->getAll();
+    $datFor = $mfor->getAllDom(10);
 ?>

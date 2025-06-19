@@ -5,12 +5,26 @@ include('controllers/cfor.php');
 <form action="home.php?pg=<?= $pg; ?>" method="POST" id="frmins">
     <div class="row">
         <div class="form-group col-md-6">
-            <label for="nomfor"><strong>Nombre:</strong></label>
-            <input class="form-control" type="text" id="nomfor" name="nomfor" value="<?php if ($datOne) echo $datOne[0]['nomfor']; ?>" required>
+            <label for="tipfor"><strong>Tipo:</strong></label>
+            <select name="tipfor" id="tipfor" class="form-control form-select" required>
+                <option value="0" disabled selected>Seleccione...</option>
+                <?php foreach ($datFor as $dtf) { ?>
+                    <option value="<?= $dtf['idval']; ?>" <?php if ($datOne && $dtf['idval'] == $datOne[0]['tipfor']) echo " selected "; ?>>
+                        <?= $dtf['nomval']; ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
         <div class="form-group col-md-6">
             <label for="codfor"><strong>Código:</strong></label>
             <input class="form-control" type="text" id="codfor" name="codfor" value="<?php if ($datOne) echo $datOne[0]['codfor']; ?>" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="actfor" class="titulo"><strong>Activo:</strong></label>
+            <select name="actfor" id="actfor" class="form-control form-select" required>
+                <option value="1" <?php if ($datOne && $datOne[0]['actfor'] == 1) echo " selected "; ?>>Si</option>
+                <option value="2" <?php if ($datOne && $datOne[0]['actfor'] == 2) echo " selected "; ?>>No</option>
+            </select>
         </div>
         <?php
         $c = 0;
@@ -97,7 +111,7 @@ include('controllers/cfor.php');
                     <td>
                         <div class="row">
                             <div class="col-sm-10">
-                                <BIG><strong> <?= $dta['idfor']." - ".$dta['nomfor'];?></strong></BIG>
+                                <BIG><strong> <?= $dta['codfor']." - ".$dta['nomval'];?></strong></BIG>
                             </div>
                             <div class="col-sm-2">
                                 <i class="fa fa-solid fa-eye iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mdlfor<?= $dta['idfor']; ?>" title="Detalles"></i>
@@ -110,11 +124,7 @@ include('controllers/cfor.php');
                         </div>
                         <small>
                             <div class="row">
-                                <?php if ($dta['codfor']) { ?>
-                                    <div class="form-group col-md-6">
-                                        <strong>Código: </strong> <?= $dta['codfor']; ?>
-                                    </div> 
-                                    <?php } if ($dta['fecfor']) { ?>
+                                <?php if ($dta['fecfor']) { ?>
                                         <div class="form-group col-md-6">
                                         <strong>Fecha: </strong> <?= $dta['fecfor']; ?>
                                     </div>
@@ -140,7 +150,7 @@ include('controllers/cfor.php');
                         <?php 
                             $ct = $mfor->getFxP($dta['idfor']);
                             if($ct && $ct[0]['can']==0){ ?> 
-                                <a href="home.php?pg=<?= $pg; ?>&idfor=<?= $dta['idfor']; ?>&ope=del" onclick="return eliminar('<?= $dta['nomfor']; ?>');" title="Eliminar">
+                                <a href="home.php?pg=<?= $pg; ?>&idfor=<?= $dta['idfor']; ?>&ope=del" onclick="return eliminar('<?= $dta['codfor'].' - '.$dta['nomval']; ?>');" title="Eliminar">
                                     <i class="fa fa-solid fa-trash-can fa-2x iconi"></i>
                                 </a>
                         <?php } ?>

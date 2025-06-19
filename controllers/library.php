@@ -565,7 +565,7 @@ function modalInfFor($nm, $id, $det){
 		$txt .= '<div class="modal-dialog">';
 			$txt .= '<div class="modal-content">';
 				$txt .= '<div class="modal-header">';
-					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$det['nomfor'].'</strong></h1>';
+					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$det['codfor'].' - '.$det['nomval'].'</strong></h1>';
 					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
 				$txt .= '</div>';
 				$txt .= '<div class="modal-body">';
