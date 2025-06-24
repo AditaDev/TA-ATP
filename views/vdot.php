@@ -32,7 +32,7 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
             <input class="form-control" type="date" id="fecent" name="fecent" max=<?php echo $hoy; ?> <?php if ($datOne) echo 'value="' . $datOne[0]['fecent'] . '" disabled';
                 else echo 'value="' . $hoy . '" required'; ?>>
         </div>
-        <div class="form-group col-sm-4" style="text-align: center; margin-top: 20px">
+        <div class="form-group col-sm-6" style="text-align: center; margin-top: 20px">
             <strong><u>Horario de Camisa</u></strong>
             <div class="row" style="margin-top: 20px">
                 <?php if ($datDia && $datCol ) {
@@ -53,29 +53,11 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
                 <?php }} ?>
             </div>
         </div>
-        <div class="form-group col-sm-4" style="text-align: center; margin-top: 20px" >
-            <strong><u>Cantidad - Elementos</u></strong>
-            <div class="row" style="margin-top: 20px">
-                <?php if ($datDia && $datCol ) {
-                    foreach ($datDia as $ddo) { ?>
-                        <div class="form-group col-sm-6" style="text-align: left;">
-                            <label for="idvdia"><strong><?= $ddo['nomval']; ?></strong></label>
-                        </div>
-                        <div class="form-group col-sm-6" style="text-align: right;">
-                            <select name="idvcol[]" id="idvcol" class="form-control form-select">
-                                <option value="0"></option>
-                                <?php if ($datCol) { foreach ($datCol as $ddt) { ?>
-                                    <option value="<?= $ddt['idval'] ?>" <?php if ($datCxD){ foreach ($datCxD as $ddot){ if ($ddt['idval'] == $ddot['idvcol'] && $ddot['idvdia'] == $ddo['idval']) echo " selected ";}}?>>
-                                        <?= $ddt['nomval']; ?>
-                                    </option>
-                                <?php }} ?>
-                            </select>
-                        </div>
-            <?php }} ?>
+        <div class="form-group col-sm-6" style="text-align: center; margin-top: 20px">
+            <div class="row">
+                <div class="form-group col-6"><strong><u>Cantidad - Elemento</u></strong></div>
+                <div class="form-group col-6"><strong><u>Tallas</u></strong></div>
             </div>
-        </div>
-        <div class="form-group col-sm-4" style="text-align: center; margin-top: 20px">
-            <strong><u>Tallas</u></strong>
             <div class="row" style="margin-top: 20px">
                 <?php if ($datDot && $datTalS && $datTalP && $datTalZ) {
                     $i = 0;
