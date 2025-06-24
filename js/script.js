@@ -251,6 +251,7 @@ function verpass(idinp, idbtn, id) {
 
 // ---------- Evaluaciones -----------
 function sumporcent(){
+    const tipfor = document.getElementById("tipfor");
     const porjef = document.getElementById("porjef");
     const porpar = document.getElementById("porpar");
     const poraut = document.getElementById("poraut");
@@ -258,19 +259,34 @@ function sumporcent(){
     const error= document.getElementById('porcent');
     const boton = document.getElementById('btns');
 
-    let sum = (parseFloat(porjef.value) || 0) + (parseFloat(porpar.value) || 0) + (parseFloat(poraut.value) || 0) + (parseFloat(porsub.value) || 0);
+    let sum = (parseInt(porjef.value) || 0) + (parseInt(porpar.value) || 0) + (parseInt(poraut.value) || 0) + (parseInt(porsub.value) || 0);
 
-    if (sum !== 100) {
-        error.textContent = "La suma de todos los porcentajes debe ser 100.";
-        error.style.display = "block";
-        error.style.color = "red";
-        error.style.opacity = "1";
-        boton.disabled = true;
-        return;
+    if (tipfor.value === "57" || tipfor.value === "58" || tipfor.value === "59") {
+        document.getElementById("porjef").required = true;
+        document.getElementById("porpar").required = true;
+        document.getElementById("poraut").required = true;
+
+        if (tipfor.value === "57") document.getElementById("porsub").required = true;
+        else document.getElementById("porsub").required = false;
+        
+        if (sum !== 100) {
+            error.textContent = "La suma de todos los porcentajes debe ser 100.";
+            error.style.display = "block";
+            error.style.color = "red";
+            error.style.opacity = "1";
+            boton.disabled = true;
+            return;
+        } else {
+            error.style.borderColor = "";
+            error.style.display = "none";
+            boton.disabled = false;
+        }
+        
     } else {
-        error.style.borderColor = "";
-        error.style.display = "none";
-        boton.disabled = false;
+        document.getElementById("porjef").required = false;
+        document.getElementById("porpar").required = false;
+        document.getElementById("poraut").required = false;
+        document.getElementById("porsub").required = false;
     }
 }
 

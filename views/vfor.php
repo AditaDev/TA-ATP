@@ -6,7 +6,7 @@ include('controllers/cfor.php');
     <div class="row">
         <div class="form-group col-md-6">
             <label for="tipfor"><strong>Tipo:</strong></label>
-            <select name="tipfor" id="tipfor" class="form-control form-select" required>
+            <select name="tipfor" id="tipfor" class="form-control form-select" required onchange="sumporcent()">
                 <option value="0" disabled selected>Seleccione...</option>
                 <?php foreach ($datFor as $dtf) { ?>
                     <option value="<?= $dtf['idval']; ?>" <?php if ($datOne && $dtf['idval'] == $datOne[0]['tipfor']) echo " selected "; ?>>
@@ -74,15 +74,15 @@ include('controllers/cfor.php');
         </div>
         <div class="form-group col-md-6">
             <label for="porjef"><strong>Jefe:</strong></label>
-            <input class="form-control" type="text" id="porjef" name="porjef" value="<?php if ($datOne) echo $datOne[0]['porjef']; ?>" onchange="sumporcent()" onkeypress="return solonum(event);" required>
+            <input class="form-control" type="text" id="porjef" name="porjef" value="<?php if ($datOne) echo $datOne[0]['porjef']; ?>" onchange="sumporcent()" onkeypress="return solonum(event);">
         </div>
         <div class="form-group col-md-6">
             <label for="porpar"><strong>Par:</strong></label>
-            <input class="form-control" type="text" id="porpar" name="porpar" value="<?php if ($datOne) echo $datOne[0]['porpar']; ?>" onchange="sumporcent()" onkeypress="return solonum(event);" required>
+            <input class="form-control" type="text" id="porpar" name="porpar" value="<?php if ($datOne) echo $datOne[0]['porpar']; ?>" onchange="sumporcent()" onkeypress="return solonum(event);">
         </div>
         <div class="form-group col-md-6">
             <label for="poraut"><strong>Autoevaluación:</strong></label>
-            <input class="form-control" type="text" id="poraut" name="poraut" value="<?php if ($datOne) echo $datOne[0]['poraut']; ?>" onchange="sumporcent()" onkeypress="return solonum(event);" required>
+            <input class="form-control" type="text" id="poraut" name="poraut" value="<?php if ($datOne) echo $datOne[0]['poraut']; ?>" onchange="sumporcent()" onkeypress="return solonum(event);">
         </div>
         <div class="form-group col-md-6">
             <label for="porsub"><strong>Subalterno:</strong></label>
