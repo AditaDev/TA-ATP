@@ -337,9 +337,9 @@ INSERT INTO `valor` (`idval`, `nomval`, `iddom`, `codval`, `actval`) VALUES
 (55, 'Viernes', 9, 905, 1),
 (56, 'Sábado', 9, 906, 1),
 (57, 'Jefe', 10, 1001, 1),
-(58, 'Administrativo', 10, 1002, 1),
+(58, 'Administración', 10, 1002, 1),
 (59, 'Logística', 10, 1003, 1),
-(60, 'Ventas', 10, 1004, 1);
+(60, 'Comercial', 10, 1004, 1);
 
 ALTER TABLE `ccxent`
   ADD KEY `ident` (`ident`),
