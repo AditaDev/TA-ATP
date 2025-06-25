@@ -8,6 +8,7 @@
     $ideva = isset($_REQUEST['ideva']) ? $_REQUEST['ideva']:NULL;
     $idpereval = isset($_POST['idpereval']) ? $_POST['idpereval']:$_SESSION['idper'];
     $idperevald = isset($_POST['idperevald']) ? $_POST['idperevald']:NULL;
+    $idfor = isset($_REQUEST['idfor']) ? $_REQUEST['idfor']:NULL;
     
     //------------Evaluacion-----------
     
@@ -47,46 +48,49 @@
     $meva->setIdres($idres);
 
     if($ope=="save"){
+        //------------Evaluacion-----------
         $meva->setIdpereval($idpereval);
         $meva->setIdperevald($idperevald);
         $meva->setFeceva($hoy);
-        $meva->setRes1($res1);
-        $meva->setRes2($res2);
-        $meva->setRes3($res3);
-        $meva->setRes4($res4);
-        $meva->setRes5($res5);
-        $meva->setRes6($res6);
-        $meva->setRes7($res7);
-        $meva->setRes8($res8);
-        $meva->setRes9($res9);
-        $meva->setRes10($res10);
-        $meva->setRes11($res11);
-        $meva->setRes12($res12);
-        $meva->setRes13($res13);
-        $meva->setRes14($res14);
-        $meva->setRes15($res15);
-        $meva->setRes16($res16);
-        $meva->setRes17($res17);
-        $meva->setRes18($res18);
-        $meva->setRes19($res19);
-        $meva->setRes20($res20);
-        $meva->setRes21($res21);
-        $meva->setRes22($res22);
-        $meva->setRes23($res23);
-        $meva->setRes24($res24);
-        $meva->setRes25($res25);
-        // if(!$ideva) $meva->save();
-        // else $meva->edit();
+        $meva->setIdfor($idfor);
+        $evaluacion = $meva->selectEva();
+        if (!$evaluacion){
+            $meva->save();
+            
+            //------------Respuestas-----------
+            $evaluacion = $meva->selectEva();
+            $meva->setIdeva($evaluacion[0]['ideva']);
+            $meva->setRes1($res1);
+            $meva->setRes2($res2);
+            $meva->setRes3($res3);
+            $meva->setRes4($res4);
+            $meva->setRes5($res5);
+            $meva->setRes6($res6);
+            $meva->setRes7($res7);
+            $meva->setRes8($res8);
+            $meva->setRes9($res9);
+            $meva->setRes10($res10);
+            $meva->setRes11($res11);
+            $meva->setRes12($res12);
+            $meva->setRes13($res13);
+            $meva->setRes14($res14);
+            $meva->setRes15($res15);
+            $meva->setRes16($res16);
+            $meva->setRes17($res17);
+            $meva->setRes18($res18);
+            $meva->setRes19($res19);
+            $meva->setRes20($res20);
+            $meva->setRes21($res21);
+            $meva->setRes22($res22);
+            $meva->setRes23($res23);
+            $meva->setRes24($res24);
+            $meva->setRes25($res25);
+            $meva->saveRxE();
+        }
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
-    // if($ope=='act' && $ideva && $actfor){
-    //     $meva->setActfor($actfor);
-    //     $meva->editAct();
-    // }
-
     // if($ope=='del' && $ideva) $meva->del();
-    // if($ope=='edi' && $ideva) $datOne = $meva->getOne();
     
     // $datAll = $meva->getAll();
     // $jef = $meva->getPer("jef", $idpereval);

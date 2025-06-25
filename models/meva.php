@@ -1,4 +1,4 @@
-<?php
+  <?php
     class Meva{
 
        //------------Evaluacion-----------
@@ -7,6 +7,7 @@
         private $idpereval;
         private $idperevald;
         private $feceva;
+        private $idfor;
 
        //------------Respuestas-----------
 
@@ -52,6 +53,9 @@
         public function getFeceva(){
             return $this->feceva;
         }
+        public function getIdfor(){
+            return $this->idfor;
+        }
         
         public function setIdeva($ideva){
             $this->ideva=$ideva;
@@ -65,6 +69,10 @@
         public function setFeceva($feceva){
             $this->feceva=$feceva;
         }
+        public function setIdfor($idfor){
+            $this->idfor=$idfor;
+        }
+        
 
        //------------Respuestas-----------
 
@@ -226,6 +234,8 @@
             $this->res25=$res25;
         }
 
+        //------------Evaluacion-----------
+
         // function getAll(){
         //     $sql = "SELECT idfor, nomfor, codfor, fecfor, nomsec1, pre1, pre2, pre3, pre4, pre5, nomsec2, pre6, pre7, pre8, pre9, pre10, nomsec3, pre11, pre12, pre13, pre14, pre15, nomsec4, pre16, pre17, pre18, pre19, pre20, nomsec5, pre21, pre22, pre23, pre24, pre25, porjef, porpar, poraut, porsub, actfor FROM formato;";
         //     $modelo = new conexion();
@@ -248,9 +258,33 @@
         //     return $res;
         // }
 
+        
+
+        function save(){
+            // try {
+                $sql = "INSERT INTO evaluacion (idpereval, idperevald, feceva, idfor) VALUES (:idpereval, :idperevald, :feceva, :idfor)";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $idpereval = $this->getIdpereval();
+                $result->bindParam(":idpereval", $idpereval);
+                $idperevald = $this->getIdperevald();
+                $result->bindParam(":idperevald", $idperevald);
+                $feceva = $this->getFeceva();
+                $result->bindParam(":feceva", $feceva);
+                $idfor = $this->getIdfor();
+                $result->bindParam(":idfor", $idfor);
+                $result->execute();
+            // } catch (Exception $e) {
+            //     ManejoError($e);
+            // }
+        }
+
+        //------------Respuestas-----------
+
         function saveRxE(){
-            try {
-                $sql = "INSERT INTO respuesta (ideva, res1, res2, res3, res4, res5, res6, res7, res8, res9, res10, res11, res12, res13, res14, res15, res16, res17, res18, res19, res20, res21, res22, res23, res24, res25) VALUES (:ideva, :res1, :res2, :res3, :res4, :res5, :res6, :res7, :res8,res9, :res10, :res11, :res12, :res13, :res14, :res15, :res16, :res17, :res18, :res19, :res20, :res21, :res22, :res23, :res24, :res25)";
+            // try {
+                $sql = "INSERT INTO respuesta (ideva, res1, res2, res3, res4, res5, res6, res7, res8, res9, res10, res11, res12, res13, res14, res15, res16, res17, res18, res19, res20, res21, res22, res23, res24, res25) VALUES (:ideva, :res1, :res2, :res3, :res4, :res5, :res6, :res7, :res8, :res9, :res10, :res11, :res12, :res13, :res14, :res15, :res16, :res17, :res18, :res19, :res20, :res21, :res22, :res23, :res24, :res25)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -307,118 +341,12 @@
                 $res25 = $this->getRes25();
                 $result->bindParam(":res25", $res25);
                 $result->execute();
-            } catch (Exception $e) {
-                ManejoError($e);
-            }
+            // } catch (Exception $e) {
+            //     ManejoError($e);
+            // }
         }
 
-        // function edit(){
-        //     try {
-        //         $sql = "UPDATE formato SET nomfor=:nomfor, codfor=:codfor, fecfor=:fecfor, nomsec1=:nomsec1, pre1=:pre1, pre2=:pre2, pre3=:pre3, pre4=:pre4, pre5=:pre5, nomsec2=:nomsec2, pre6=:pre6, pre7=:pre7, pre8=:pre8, pre9=:pre9, pre10=:pre10, nomsec3=:nomsec3, pre11=:pre11, pre12=:pre12, pre13=:pre13, pre14=:pre14, pre15=:pre15, nomsec4=:nomsec4, pre16=:pre16, pre17=:pre17, pre18=:pre18, pre19=:pre19, pre20=:pre20, nomsec5=:nomsec5, pre21=:pre21, pre22=:pre22, pre23=:pre23, pre24=:pre24, pre25=:pre25, porjef=:porjef, porpar=:porpar, poraut=:poraut, porsub=:porsub, actfor=:actfor WHERE idfor=:idfor";
-        //         $modelo = new conexion();
-        //         $conexion = $modelo->get_conexion();
-        //         $result = $conexion->prepare($sql);
-        //         $idfor = $this->getIdfor();
-        //         $result->bindParam(":idfor", $idfor);
-        //         $nomfor = $this->getNomfor();
-        //         $result->bindParam(":nomfor", $nomfor);
-        //         $codfor = $this->getCodfor();
-        //         $result->bindParam(":codfor", $codfor);
-        //         $fecfor = $this->getFecfor();
-        //         $result->bindParam(":fecfor", $fecfor);
-        //         $nomsec1 = $this->getNomsec1();
-        //         $result->bindParam(":nomsec1", $nomsec1);
-        //         $pre1 = $this->getPre1();
-        //         $result->bindParam(":pre1", $pre1);
-        //         $pre2 = $this->getPre2();
-        //         $result->bindParam(":pre2", $pre2);
-        //         $pre3 = $this->getPre3();
-        //         $result->bindParam(":pre3", $pre3);
-        //         $pre4 = $this->getPre4();
-        //         $result->bindParam(":pre4", $pre4);
-        //         $pre5 = $this->getPre5();
-        //         $result->bindParam(":pre5", $pre5);
-        //         $nomsec2 = $this->getNomsec2();
-        //         $result->bindParam(":nomsec2", $nomsec2);
-        //         $pre6 = $this->getPre6();
-        //         $result->bindParam(":pre6", $pre6);
-        //         $pre7 = $this->getPre7();
-        //         $result->bindParam(":pre7", $pre7);
-        //         $pre8 = $this->getPre8();
-        //         $result->bindParam(":pre8", $pre8);
-        //         $pre9 = $this->getPre9();
-        //         $result->bindParam(":pre9", $pre9);
-        //         $pre10 = $this->getPre10();
-        //         $result->bindParam(":pre10", $pre10);
-        //         $nomsec3 = $this->getNomsec3();
-        //         $result->bindParam(":nomsec3", $nomsec3);
-        //         $pre11 = $this->getPre11();
-        //         $result->bindParam(":pre11", $pre11);
-        //         $pre12 = $this->getPre12();
-        //         $result->bindParam(":pre12", $pre12);
-        //         $pre13 = $this->getPre13();
-        //         $result->bindParam(":pre13", $pre13);
-        //         $pre14 = $this->getPre14();
-        //         $result->bindParam(":pre14", $pre14);
-        //         $pre15 = $this->getPre15();
-        //         $result->bindParam(":pre15", $pre15);
-        //         $nomsec4 = $this->getNomsec4();
-        //         $result->bindParam(":nomsec4", $nomsec4);                
-        //         $pre16 = $this->getPre16();
-        //         $result->bindParam(":pre16", $pre16);
-        //         $pre17 = $this->getPre17();
-        //         $result->bindParam(":pre17", $pre17);
-        //         $pre18 = $this->getPre18();
-        //         $result->bindParam(":pre18", $pre18);
-        //         $pre19 = $this->getPre19();
-        //         $result->bindParam(":pre19", $pre19);
-        //         $pre20 = $this->getPre20();
-        //         $result->bindParam(":pre20", $pre20);
-        //         $nomsec5 = $this->getNomsec5();
-        //         $result->bindParam(":nomsec5", $nomsec5);
-        //         $pre21 = $this->getPre21();
-        //         $result->bindParam(":pre21", $pre21);
-        //         $pre22 = $this->getPre22();
-        //         $result->bindParam(":pre22", $pre22);
-        //         $pre23 = $this->getPre23();
-        //         $result->bindParam(":pre23", $pre23);
-        //         $pre24 = $this->getPre24();
-        //         $result->bindParam(":pre24", $pre24);
-        //         $pre25 = $this->getPre25();
-        //         $result->bindParam(":pre25", $pre25);
-        //         $porjef = $this->getPorjef();
-        //         $result->bindParam(":porjef", $porjef);
-        //         $porpar = $this->getPorpar();
-        //         $result->bindParam(":porpar", $porpar);
-        //         $poraut = $this->getPoraut();
-        //         $result->bindParam(":poraut", $poraut); 
-        //         $porsub = $this->getPorsub();
-        //         $result->bindParam(":porsub", $porsub);  
-        //         $actfor = $this->getActfor();
-        //         $result->bindParam(":actfor", $actfor);   
-        //         $result->execute();
-        //     } catch (Exception $e) {
-        //         ManejoError($e);
-        //     }
-        // }
-
-        // function editAct(){
-        //     try{
-        //         $sql = "UPDATE formato SET actfor=:actfor WHERE idfor=:idfor";
-        //         $modelo = new conexion();
-        //         $conexion = $modelo->get_conexion();
-        //         $result = $conexion->prepare($sql);
-        //         $idfor = $this->getIdfor();
-        //         $result->bindParam(":idfor",$idfor);
-        //         $actfor = $this->getActfor();
-        //         $result->bindParam(":actfor", $actfor);
-        //         $result->execute();
-        //     }catch(Exception $e){
-        //         ManejoError($e);
-        //     }
-        // }
-
-        // function del(){
+        // function delRxE(){
         //     try{
         //         $sql = "DELETE FROM formato WHERE idfor=:idfor";
         //         $modelo = new conexion();
@@ -431,6 +359,26 @@
         //         ManejoError($e);
         //     }
         // }
+
+        //------------Traer valores-----------
+
+        function selectEva(){
+                $sql = "SELECT ideva FROM evaluacion WHERE idpereval=:idpereval AND idperevald=:idperevald AND DATE(feceva)=:feceva AND idfor=:idfor";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $idpereval = $this->getIdpereval();
+                $result->bindParam(":idpereval", $idpereval);
+                $idperevald = $this->getIdperevald();
+                $result->bindParam(":idperevald", $idperevald);
+                $feceva = $this->getFeceva();
+                $result->bindParam(":feceva", $feceva);
+                $idfor = $this->getIdfor();
+                $result->bindParam(":idfor", $idfor);
+                $result->execute();
+                $res = $result-> fetchall(PDO::FETCH_ASSOC);
+                return $res;
+        }
 
         function getPer($sel, $id){
             // $sql ="SELECT p.idper, CONCAT(p.nomper,' ', p.apeper) AS nomper FROM jefxper AS jp INNER JOIN persona AS p ON jp.idper=p.idper INNER JOIN persona AS j ON jp.idjef=j.idper WHERE j.actper=1 AND jp.idper=:id";
