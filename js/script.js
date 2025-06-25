@@ -290,6 +290,37 @@ function sumporcent(){
     }
 }
 
+function valNum(i){
+    const res = parseFloat(document.getElementById('res'+i).value);
+    const error= document.getElementById('msjerror'+i);
+
+    if (res < 0.0 || res > 5.0){
+        error.textContent = "Ingrese un valor entre 0 y 5";
+        error.style.display = "block";
+        return;
+    } else {
+        error.style.display = "none";
+    }
+}
+
+function validarCampos() {
+    let campos = [];
+    
+    for (let i = 1; i <= 25; i++) {
+        const campo = document.getElementById("res" + i);
+        if (campo && campo.value.trim() !== "") {
+            campos.push(campo);
+        }
+    }
+
+    let todosValidos = campos.every(campo => {
+        let valor = parseFloat(campo.value.trim()); 
+        return !isNaN(valor) && valor >= 0 && valor <= 5;
+    });
+
+    const boton = document.getElementById("btns");
+    boton.disabled = !todosValidos; 
+}
 
 window.onload = function() {
     validarPermiso();
@@ -297,4 +328,5 @@ window.onload = function() {
     actMinMax();
     contar();
     comparar();
+    validarCampos();
 };

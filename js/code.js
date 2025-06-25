@@ -79,6 +79,24 @@ function solonum(e) {
 	}
 }
 
+function NumDecimal(e) {
+    var key = e.keyCode || e.which;
+    var tecla = String.fromCharCode(key);
+
+    var teclasEspeciales = ["8", "9", "37", "39", "46"];
+    if (teclasEspeciales.indexOf(key) !== -1) return true;
+
+    var regex = /^[0-9]$/;
+    var valorActual = e.target.value;
+
+    if (tecla === '.' && valorActual.indexOf('.') !== -1) return false;
+    
+    if (!regex.test(tecla) && tecla !== '.') return false;
+    
+	return true;
+}
+
+
 function sololet(f) {
 	key = f.keyCode || f.which;
 	teclado = String.fromCharCode(key);
