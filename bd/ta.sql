@@ -124,7 +124,17 @@ CREATE TABLE `respuesta` (
     `res12` float(1) DEFAULT NULL,                                         
     `res13` float(1) DEFAULT NULL,                                         
     `res14` float(1) DEFAULT NULL,                                         
-    `res15` float(1) DEFAULT NULL
+    `res15` float(1) DEFAULT NULL,
+    `res16` float(1) DEFAULT NULL,
+    `res17` float(1) DEFAULT NULL,
+    `res18` float(1) DEFAULT NULL,
+    `res19` float(1) DEFAULT NULL,
+    `res20` float(1) DEFAULT NULL,
+    `res21` float(1) DEFAULT NULL,
+    `res22` float(1) DEFAULT NULL,
+    `res23` float(1) DEFAULT NULL,
+    `res24` float(1) DEFAULT NULL,
+    `res25` float(1) DEFAULT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `evaluacion` (
@@ -133,6 +143,14 @@ CREATE TABLE `evaluacion` (
     `idperevald` bigint(11) NOT NULL,
     `idfor` bigint(11) NOT NULL,
     `feceva` date
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `calificacion` (
+    `idcal` bigint(11) NOT NULL,
+    `idevajef` bigint(11) NULL,                                        
+    `idevapar` bigint(11) NULL,
+    `idevaaut` bigint(11) NULL,
+    `idevasub` bigint(11) NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `modulo` (
@@ -169,8 +187,8 @@ INSERT INTO `pagina` (`idpag`, `icono`, `nompag`, `arcpag`, `ordpag`, `menpag`, 
 (109, 'fa fa-solid fa-list-ol', 'Formatos', 'views/vfor.php', 9, 'home.php', 1, 2),
 (110, 'fa fa-solid fa-solid fa-lightbulb', 'Dotación', 'views/vdot.php', 10, 'home.php', 1, 2),
 (111, 'fa fa-solid fa-file-circle-check', 'Permisos', 'views/vprm.php', 11, 'home.php', 1, 2),
-(112, 'fa fa-solid fa-square-poll-vertical', 'Evaluación', 'views/veva.php', 12, 'home.php', 1, 2);
--- (112, 'fa fa-solid fa-square-poll-vertical', 'Calificación', 'views/vres.php', 12, 'home.php', 1, 2),
+(112, 'fa fa-solid fa-list-check', 'Evaluar', 'views/veva.php', 12, 'home.php', 1, 2),
+(113, 'fa fa-solid fa-square-poll-vertical', 'Calificaciones', 'views/vcal.php', 12, 'home.php', 1, 2);
 
 CREATE TABLE `pagxpef` (
   `idpag` bigint(11) NOT NULL,
@@ -380,6 +398,13 @@ ALTER TABLE `evaluacion`
   ADD KEY `idperevald` (`idperevald`),
   ADD KEY `idfor` (`idfor`);
 
+ALTER TABLE `calificacion`
+  ADD PRIMARY KEY (`idcal`),
+  ADD KEY `idevajef` (`idevajef`),                                        
+  ADD KEY `idevapar` (`idevapar`),
+  ADD KEY `idevaaut` (`idevaaut`),
+  ADD KEY `idevasub` (`idevasub`);
+
 ALTER TABLE `modulo`
   ADD PRIMARY KEY (`idmod`);
 
@@ -451,6 +476,9 @@ ALTER TABLE `respuesta`
 ALTER TABLE `evaluacion`
   MODIFY `ideva` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
+ALTER TABLE `calificacion`
+  MODIFY `idcal` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
 ALTER TABLE `ccxent`
   ADD CONSTRAINT `ccxent__ibfk_1` FOREIGN KEY (`ident`) REFERENCES `dotacion` (`ident`);
 
@@ -474,6 +502,12 @@ ALTER TABLE `evaluacion`
   ADD CONSTRAINT `evaluacion_ibfk_1` FOREIGN KEY (`idpereval`) REFERENCES `persona` (`idper`),
   ADD CONSTRAINT `evaluacion_ibfk_2` FOREIGN KEY (`idperevald`) REFERENCES `persona` (`idper`),
   ADD CONSTRAINT `evaluacion_ibfk_3` FOREIGN KEY (`idfor`) REFERENCES `formato` (`idfor`);
+
+ALTER TABLE `calificacion`
+  ADD CONSTRAINT `calificacion_ibfk_1` FOREIGN KEY (`idevajef`) REFERENCES `evaluacion` (`ideva`),                                        
+  ADD CONSTRAINT `calificacion_ibfk_2` FOREIGN KEY (`idevapar`) REFERENCES `evaluacion` (`ideva`),
+  ADD CONSTRAINT `calificacion_ibfk_3` FOREIGN KEY (`idevaaut`) REFERENCES `evaluacion` (`ideva`),
+  ADD CONSTRAINT `calificacion_ibfk_4` FOREIGN KEY (`idevasub`) REFERENCES `evaluacion` (`ideva`);
 
 ALTER TABLE `pagina`
   ADD CONSTRAINT `pagina_ibfk_1` FOREIGN KEY (`idmod`) REFERENCES `modulo` (`idmod`);
