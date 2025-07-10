@@ -132,6 +132,21 @@ function ocultarseccion(sec, des){
     }
 }
 
+$(document).ready(function () {
+	// Escucha el evento cuando se selecciona una opción del autocompletado
+	$(document).on("autocompleteselect", ".custom-combobox1-input", function (event, ui) {
+		let value = ui.item.option.value; // El valor real del <option>
+		console.log("Valor seleccionado:", value);
+		recNivel(value); // Aquí llamas tu función con el valor correcto
+	});
+
+	// También puedes enganchar el cambio manual (por si alguien escribe a mano)
+	$(document).on("autocompletechange", ".custom-combobox1-input", function (event, ui) {
+		let selectedOption = $(this).closest(".custom-combobox1").prev("select").val(); // lee el <select> oculto
+		console.log("Valor escrito o cambiado:", selectedOption);
+		recNivel(selectedOption);
+	});
+});
 
 function recFormato(value) {
 	if (value === "") {
@@ -142,7 +157,7 @@ function recFormato(value) {
 	$.ajax({
 		type: 'post',
 		url: 'views/vajax.php',
-		data: { valor: value },
+		data: { valor: value, pag: 'for' },
 		success: function (response) {
 			$("#recFormato").html(response);
 		},
@@ -151,6 +166,36 @@ function recFormato(value) {
     	}
 	});
 }
+
+function recNivel(value) {
+	if (value === "") {
+		$("#nivel").val("");
+		$("#nivel").removeAttr("min");
+		return;
+	}
+
+	$.ajax({
+		type: 'POST',
+		url: 'views/vajax.php',
+		data: { valor: value, pag: 'per' },
+		success: function (response) {
+			let nivelMinimo = parseInt(response);
+
+			if (!isNaN(nivelMinimo)) {
+				$("#nivel").val(nivelMinimo);        // Establece el valor actual
+				$("#nivel").attr("min", nivelMinimo); // Establece el mínimo permitido
+			} else {
+				$("#nivel").val("");
+				$("#nivel").removeAttr("min");
+			}
+		},
+		error: function () {
+			$("#nivel").val("");
+			$("#nivel").removeAttr("min");
+		}
+	});
+}
+
 
 function eliminar(nom) {
 	let v = confirm("¿Está seguro de eliminar este registro?\n\n- " + nom);

@@ -12,5 +12,16 @@ class Majax{
 		$res = $result-> fetchall(PDO::FETCH_ASSOC);
 		return $res;
 	}
+
+	function getNivel($idper){
+        $sql = "SELECT idper, nivel FROM persona WHERE idper=:idper";
+		$modelo = new conexion();
+		$conexion = $modelo->get_conexion();
+		$result = $conexion->prepare($sql);
+		$result -> bindParam(":idper", $idper);
+		$result->execute();
+		$res = $result-> fetchall(PDO::FETCH_ASSOC);
+		return $res;
+	}
 }
 ?>

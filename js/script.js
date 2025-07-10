@@ -293,13 +293,15 @@ function sumporcent(){
 function valNum(i){
     const res = parseFloat(document.getElementById('res'+i).value);
     const error= document.getElementById('msjerror'+i);
+    const boton = document.getElementById('btns');
 
     if (res < 0.0 || res > 5.0){
-        error.textContent = "Ingrese un valor entre 0 y 5";
-        error.style.display = "block";
-        return;
+        mostrarError(input, error, "Ingrese un valor entre 0 y 5");
+        return; 
     } else {
+        input.style.borderColor = ""
         error.style.display = "none";
+        boton.disabled = false;
     }
 }
 
@@ -320,6 +322,30 @@ function validarCampos() {
 
     const boton = document.getElementById("btns");
     boton.disabled = !todosValidos; 
+}
+
+function TipoEvaluacion(select) {
+    const tipo = select.options[select.selectedIndex].getAttribute('data-tipo');
+    document.getElementById('tipeva').value = tipo;
+}
+
+// ---------- Persona -----------
+
+function valNivel() {
+    const input = document.getElementById('nivel');
+    const valor = parseFloat(input.value);
+    const min = parseFloat(input.getAttribute('min'));
+    const error = document.getElementById('msjerror');
+    const boton = document.getElementById('btns');
+
+    if (isNaN(valor) || valor < min) {
+        mostrarError(input, error, "Ingrese un número mayor o igual a " + min);
+        return; 
+    } else {
+        input.style.borderColor = ""
+        error.style.display = "none";
+        boton.disabled = false;
+    }
 }
 
 window.onload = function() {
