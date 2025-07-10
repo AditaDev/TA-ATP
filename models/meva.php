@@ -8,6 +8,7 @@
         private $idperevald;
         private $feceva;
         private $idfor;
+        private $tipeva;
 
        //------------Respuestas-----------
 
@@ -56,6 +57,9 @@
         public function getIdfor(){
             return $this->idfor;
         }
+        public function getTipeva(){
+            return $this->tipeva;
+        }
         
         public function setIdeva($ideva){
             $this->ideva=$ideva;
@@ -71,6 +75,9 @@
         }
         public function setIdfor($idfor){
             $this->idfor=$idfor;
+        }
+        public function setTipeva($tipeva){
+            $this->tipeva=$tipeva;
         }
         
 
@@ -262,7 +269,7 @@
 
         function save(){
             // try {
-                $sql = "INSERT INTO evaluacion (idpereval, idperevald, feceva, idfor) VALUES (:idpereval, :idperevald, :feceva, :idfor)";
+                $sql = "INSERT INTO evaluacion (idpereval, idperevald, feceva, idfor, tipeva) VALUES (:idpereval, :idperevald, :feceva, :idfor, :tipeva)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -274,6 +281,8 @@
                 $result->bindParam(":feceva", $feceva);
                 $idfor = $this->getIdfor();
                 $result->bindParam(":idfor", $idfor);
+                $tipeva = $this->getTipeva();
+                $result->bindParam(":tipeva", $tipeva);
                 $result->execute();
             // } catch (Exception $e) {
             //     ManejoError($e);
@@ -363,7 +372,7 @@
         //------------Traer valores-----------
 
         function selectEva(){
-                $sql = "SELECT ideva FROM evaluacion WHERE idpereval=:idpereval AND idperevald=:idperevald AND DATE(feceva)=:feceva AND idfor=:idfor";
+                $sql = "SELECT ideva FROM evaluacion WHERE idpereval=:idpereval AND idperevald=:idperevald AND DATE(feceva)=:feceva AND idfor=:idfor AND tipeva=:tipeva";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -375,18 +384,32 @@
                 $result->bindParam(":feceva", $feceva);
                 $idfor = $this->getIdfor();
                 $result->bindParam(":idfor", $idfor);
+                $tipeva = $this->getTipeva();
+                $result->bindParam(":tipeva", $tipeva);
                 $result->execute();
                 $res = $result-> fetchall(PDO::FETCH_ASSOC);
                 return $res;
         }
 
-        function getPer($sel, $id){
-            // $sql ="SELECT p.idper, CONCAT(p.nomper,' ', p.apeper) AS nomper FROM jefxper AS jp INNER JOIN persona AS p ON jp.idper=p.idper INNER JOIN persona AS j ON jp.idjef=j.idper WHERE j.actper=1 AND jp.idper=:id";
-            $sql ="SELECT p.idper, CONCAT(p.nomper,' ', p.apeper) AS nomper FROM persona AS p WHERE p.actper=1";
+        function getPer($id){
+            $sql ="SELECT p.idper, CONCAT(p.nomper, ' ', p.apeper) AS nomper,
+                CASE
+                    WHEN p.idper=:id THEN 1
+                    WHEN EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=p.idper AND j.idper=:id AND j.tipjef=1) THEN 2
+                    WHEN EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=:id AND j.idper=p.idper AND j.tipjef=1) THEN 3
+                    WHEN (SELECT nivel FROM persona WHERE idper=p.idper) = (SELECT nivel FROM persona WHERE idper=:id) THEN 4
+                    ELSE 0
+                END AS tipeva FROM persona AS p WHERE p.actper=1 AND (
+                    p.idper = :id
+                    OR EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=p.idper AND j.idper=:id AND j.tipjef=1)
+                    OR EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=:id AND j.idper=p.idper AND j.tipjef=1)
+                    OR ((SELECT nivel FROM persona WHERE idper=p.idper) = (SELECT nivel FROM persona WHERE idper=:id))
+                ) AND NOT EXISTS (
+                    SELECT 1 FROM evaluacion AS e WHERE e.idpereval=:id AND e.idperevald=p.idper AND e.feceva>=DATE_SUB(CURDATE(), INTERVAL 3 MONTH))";
             $modelo =new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
-            // $result->bindParam(":id",$id);
+            $result->bindParam(":id",$id);
             $result->execute();
             $res = $result-> fetchall(PDO::FETCH_ASSOC);
             return $res;

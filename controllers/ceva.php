@@ -9,6 +9,7 @@
     $idpereval = isset($_POST['idpereval']) ? $_POST['idpereval']:$_SESSION['idper'];
     $idperevald = isset($_POST['idperevald']) ? $_POST['idperevald']:NULL;
     $idfor = isset($_REQUEST['idfor']) ? $_REQUEST['idfor']:NULL;
+    $tipeva = isset($_REQUEST['tipeva']) ? $_REQUEST['tipeva']:NULL;
     
     //------------Evaluacion-----------
     
@@ -53,6 +54,7 @@
         $meva->setIdperevald($idperevald);
         $meva->setFeceva($hoy);
         $meva->setIdfor($idfor);
+        $meva->setTipeva($tipeva);
         $evaluacion = $meva->selectEva();
         if (!$evaluacion){
             $meva->save();
@@ -93,11 +95,6 @@
     // if($ope=='del' && $ideva) $meva->del();
     
     // $datAll = $meva->getAll();
-    // $jef = $meva->getPer("jef", $idpereval);
-    // $par = $meva->getPer("par", $idpereval);
-    // $aut = $meva->getPer("aut", $idpereval);
-    // $sub = $meva->getPer("sub", $idpereval);
 
-    // $datPer = [$jef, $par, $aut, $sub] 
-    $datPer = $meva->getPer("", ""); 
+    $datPer = $meva->getPer($_SESSION['idper']); 
 ?>

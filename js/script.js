@@ -293,15 +293,13 @@ function sumporcent(){
 function valNum(i){
     const res = parseFloat(document.getElementById('res'+i).value);
     const error= document.getElementById('msjerror'+i);
-    const boton = document.getElementById('btns');
 
     if (res < 0.0 || res > 5.0){
-        mostrarError(input, error, "Ingrese un valor entre 0 y 5");
-        return; 
+        error.textContent = "Ingrese un valor entre 0 y 5";
+        error.style.display = "block";
+        return;
     } else {
-        input.style.borderColor = ""
         error.style.display = "none";
-        boton.disabled = false;
     }
 }
 
