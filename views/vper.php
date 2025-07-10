@@ -50,7 +50,7 @@ if($_SESSION['idpef']!=3){ ?>
         <?php if($_SESSION['idpef']!=3){ for($i=0; $i<=1; $i++){ ?>
             <div class="form-group col-md-4 ui-widget">
                 <label for="idjef"><strong>Jefe <?php if($i==0) echo "Inmediato"; else echo "Area";?></strong></label>
-                <select id="combobox<?php echo ($i+1)?>" name="idjef[]" class="form-control form-select" <?php if($i==0) echo "required";?>>
+                <select id="combobox<?php echo ($i+1);?>" name="idjef[]" class="form-control form-select" <?php if($i==0) echo 'required ';?>>
                     <option value="0"></option>
                     <?php if ($datPer) { foreach ($datPer as $dpr) { ?>
                             <option value="<?= $dpr['idper']; ?>" <?php if ($datJxP){ foreach ($datJxP AS $dtj) { if($dpr['idper'] == $dtj['idjef'] && $dtj['tipjef'] == ($i+1)) echo " selected "; }}?>>
@@ -60,6 +60,11 @@ if($_SESSION['idpef']!=3){ ?>
                 </select>
             </div>
         <?php }} ?>
+        <div class="form-group col-md-4">
+            <label for="nivel"><strong>N° Jerarquía:</strong></label>
+            <input class="form-control" type="text" id="nivel" name="nivel" value="<?php if ($datOne) echo $datOne[0]['nivel']; ?>" onkeypress="return solonum(event);" oninput="valNivel()" required>
+            <div id="msjerror" style="display:none; color:red;"></div>
+        </div>
         <?php if ($_SESSION['idpef'] != 3) { ?>
             <div class="form-group col-md-4">
                 <label for="actper" class="titulo"><strong>Activo:</strong></label>
@@ -68,8 +73,6 @@ if($_SESSION['idpef']!=3){ ?>
                     <option value="2" <?php if ($datOne && $datOne[0]['actper'] == 2) echo " selected "; ?>>No</option>
                 </select>
             </div>
-
-
         <?php } if ($datOne && $_SESSION['idpef'] == 3) { ?>
             <div class="form-group col-md-4">
                 <label for="pasper"><strong>Contraseña:</strong></label>
@@ -81,7 +84,7 @@ if($_SESSION['idpef']!=3){ ?>
         <div class="form-group col-md-12" id="boxbtn">
             <br><br>
             <?php if($_SESSION['idpef'] != 3){ ?>
-            <input class="btn btn-primary" type="submit" value="Registrar">
+            <input class="btn btn-primary" type="submit" value="Registrar" id="btns">
             <input type="hidden" name="ope" value="save">
             <?php } ?>
             <input type="hidden" name="idper" value="<?php if ($datOne) echo $datOne[0]['idper']; ?>">
@@ -125,11 +128,11 @@ if($_SESSION['idpef']!=3){ ?>
                                 </div>
                             <?php } if ($dta['area']) { ?>
                                 <div class="form-group col-md-4">
-                                    <strong>Area: </strong> <?= $dta['nomval']; ?>
+                                    <strong>Area: </strong> <?= $dta['area']; ?>
                                 </div> 
                             <?php } if ($dta['idvfor']) { ?>
                                 <div class="form-group col-md-4">
-                                    <strong>Formato: </strong> <?= $dta['nomval']; ?>
+                                    <strong>Formato: </strong> <?= $dta['form']; ?>
                                 </div> 
                             <?php } ?>
                         </div>

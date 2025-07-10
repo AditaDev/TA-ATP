@@ -11,6 +11,7 @@ class Mper
     private $emaper;
     private $actper;
     private $idval;
+    private $nivel;
     private $hash;
     private $salt;
     private $token;
@@ -50,6 +51,9 @@ class Mper
     }
     public function getIdval(){
         return $this->idval;
+    }
+    public function getNivel(){
+        return $this->nivel;
     }
     public function getHash(){
         return $this->hash;
@@ -102,6 +106,9 @@ class Mper
     public function setIdval($idval){
         $this->idval = $idval;
     }
+    public function setNivel($nivel){
+        $this->nivel = $nivel;
+    }
     public function setHash($hash){
         $this->hash = $hash;
     }
@@ -128,7 +135,7 @@ class Mper
     //------------Persona-----------
     function getAll()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.idvfor, p.actper, va.idval, va.nomval, vf.idval, vf.nomval FROM persona AS p INNER JOIN valor AS va ON p.area=va.idval LEFT JOIN valor AS vf ON p.idvfor=vf.idval";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.idvfor, p.actper, p.nivel, va.idval, va.nomval AS area, vf.idval, vf.nomval AS form FROM persona AS p INNER JOIN valor AS va ON p.area=va.idval LEFT JOIN valor AS vf ON p.idvfor=vf.idval";
         if($_SESSION['idpef']==3) $sql .= " WHERE p.idper=:idper ";
         $sql .= " GROUP BY p.idper";
         $modelo = new conexion();
@@ -145,7 +152,7 @@ class Mper
 
     function getOne()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.idvfor, p.actper, va.idval, va.nomval, vf.idval, vf.nomval FROM persona AS p INNER JOIN valor AS va ON p.area=va.idval LEFT JOIN valor AS vf ON p.idvfor=vf.idval WHERE p.idper=:idper";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.idvfor, p.actper, p.nivel, va.idval, va.nomval AS area, vf.idval, vf.nomval AS form FROM persona AS p INNER JOIN valor AS va ON p.area=va.idval LEFT JOIN valor AS vf ON p.idvfor=vf.idval WHERE p.idper=:idper";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
@@ -161,10 +168,10 @@ class Mper
         try {
             $hash = $this->getHash();
             $salt = $this->getSalt();
-            $sql = "INSERT INTO persona(nomper, apeper, ndper, area, idvfor, emaper, actper";
+            $sql = "INSERT INTO persona(nomper, apeper, ndper, area, idvfor, emaper, actper, nivel";
             if ($hash) $sql .= ", hashl";
             if ($salt) $sql .= ", salt";
-            $sql .= ") VALUES (:nomper, :apeper, :ndper, :area, :idvfor, :emaper, :actper";
+            $sql .= ") VALUES (:nomper, :apeper, :ndper, :area, :idvfor, :emaper, :actper, :nivel";
             if ($hash) $sql .= ", :hashl";
             if ($salt) $sql .= ", :salt";
             $sql .= ")";
@@ -185,6 +192,8 @@ class Mper
             $result->bindParam(":emaper", $emaper);
             $actper = $this->getActper();
             $result->bindParam(":actper", $actper);
+            $nivel = $this->getNivel();
+            $result->bindParam(":nivel", $nivel);
             if ($hash) $result->bindParam(":hashl", $hash);
             if ($salt) $result->bindParam(":salt", $salt);
             $result->execute();
@@ -208,7 +217,7 @@ class Mper
 
     function edit(){
         try{
-            $sql = "UPDATE persona SET nomper=:nomper, apeper=:apeper, ndper=:ndper, area=:area, idvfor=:idvfor, emaper=:emaper, actper=:actper WHERE idper=:idper";
+            $sql = "UPDATE persona SET nomper=:nomper, apeper=:apeper, ndper=:ndper, area=:area, idvfor=:idvfor, emaper=:emaper, actper=:actper, nivel=:nivel WHERE idper=:idper";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -228,6 +237,8 @@ class Mper
             $result->bindParam(":emaper", $emaper);
             $actper = $this->getActper();
             $result->bindParam(":actper", $actper);
+            $nivel = $this->getNivel();
+            $result->bindParam(":nivel", $nivel);
             $result->execute();
         }catch (Exception $e) {
             ManejoError($e);
@@ -301,7 +312,7 @@ class Mper
 
     function saveJxP($tip)
     {
-        //try{
+        try{
             $sql = "INSERT INTO jefxper (idper, idjef, tipjef) VALUES (:idper, :idjef, :tipjef)";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
@@ -312,9 +323,9 @@ class Mper
             $result->bindParam(":idjef", $idjef);
             $result->bindParam(":tipjef", $tip);
             $result->execute();
-        // } catch (Exception $e) {
-        //     ManejoError($e);
-        // }
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
     }
 
     function delJxP()
@@ -420,12 +431,14 @@ class Mper
         return $res;
     }
 
-    function getPer()
+    function getPer($idper)
     {
-        $sql = "SELECT idper, nomper, apeper, ndper FROM persona WHERE actper=1";
+        $sql = "SELECT idper, nomper, apeper, ndper, nivel FROM persona WHERE actper=1";
+        if($idper!="") $sql .= " AND idper!=:idper";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
+        if($idper!="") $result->bindParam(":idper", $idper);
         $result->execute();
         $res = $result->fetchall(PDO::FETCH_ASSOC);
         return $res;

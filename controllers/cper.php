@@ -17,6 +17,7 @@
     $idvfor = isset($_POST['idvfor']) ? $_POST['idvfor']:NULL;
     $emaper = isset($_POST['emaper']) ? strtolower($_POST['emaper']):NULL;
     $actper = isset($_REQUEST['actper']) ? $_REQUEST['actper']:1;
+    $nivel = isset($_REQUEST['nivel']) ? $_REQUEST['nivel']:NULL;
 
      //------------Contraseña-----------
     $pass = "A".$ndper."P";
@@ -54,6 +55,12 @@
     Agradecemos su confianza y esperamos que disfrute de la nueva experiencia.<br><br>";
     $fir_mail = '<strong>'.$nom.'</strong><br>Cra 34a 3 63, Puente Aranda <br>Bogotá D.C.<br>www.artepan.com.co';
 
+    //------------Traer valores-----------
+    $datAll = $mper->getAll();
+    $datarea = $mper->getAllDom(2);
+    $datPer = $mper->getPer("");
+    $datFor = $mper->getAllDom(10);
+
     $mper->setIdper($idper);
     //------------Persona-----------
     if($ope=="save"){
@@ -64,6 +71,7 @@
         $mper->setArea($area);
         $mper->setIdvfor($idvfor);
         $mper->setActper($actper);
+        $mper->setNivel($nivel);
         $mper->setIdjef($idjef);
         $mper->setHash($hash);
         $mper->setSalt($salt);
@@ -112,6 +120,7 @@
     }
 
     if($ope=="edi"&& $idper){
+        $datPer=$mper->getPer($idper);
         $datOne=$mper->getOne();
         $datJxP=$mper->getOneJxP();
     }
@@ -139,13 +148,7 @@
         }}
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
-     //------------Traer valores-----------
-    $datAll = $mper->getAll();
-    $datarea = $mper->getAllDom(2);
-    $datPer = $mper->getPer();
-    $datFor = $mper->getAllDom(10);
-
-
+    
         //------------Importar empleados-----------
     if ($ope=="carper" && $arc) {
         $dat = opti($_FILES["arc"], $arc, "arc/xls", $nomarc);
@@ -171,14 +174,15 @@
             $mper->setIdval($area);
             $carea = $mper->CompVal();
             $area = $carea[0]['idval'];
-
+            
             $idvfor = $sheet->getCell("G" . $row)->getValue();
             $mper->setIdvfor($idvfor);
             $cidvfor = $mper->CompVal();
             $idvfori = $cidvfor[0]['idval'];
             
             $actper = $sheet->getCell("H" . $row)->getValue();
-            $idpef = $sheet->getCell("I" . $row)->getValue();
+            $nivel = $sheet->getCell("I" . $row)->getValue();
+            $idpef = $sheet->getCell("J" . $row)->getValue();
             $idpef = str_replace(' ', '', $idpef);
             $idpefA = explode("*", $idpef);
             foreach($idpefA AS $pa){
@@ -187,13 +191,13 @@
                 $pef = $pef[0]['idpef'];
                 if($pef) $pf++;
             }
-            $ndjefi = $sheet->getCell("J" . $row)->getValue();
+            $ndjefi = $sheet->getCell("K" . $row)->getValue();
             $mper->setNdper($ndjefi); 
             $idjefia = $mper->selectUsu(); 
             if($idjefia) $idjefi = $idjefia[0]['idper'];
 
 
-            $ndjefa = $sheet->getCell("K" . $row)->getValue();
+            $ndjefa = $sheet->getCell("L" . $row)->getValue();
             $mper->setNdper($ndjefa); 
             $idjefaa = $mper->selectUsu(); 
             if($idjefaa) $idjefa = $idjefaa[0]['idper'];
@@ -218,6 +222,7 @@
             $mper->setArea($area);
             $mper->setIdvfor($idvfor);
             $mper->setActper($actper);
+            $mper->setNivel($nivel);
             $mper->setIdpef($idpef);
             $mper->setHash($hash);
             $mper->setSalt($salt);
@@ -235,7 +240,6 @@
                             $exito = sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
                             while ($exito==2) $exito = sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
                         }
-
     		    	}else {
     		    		$mper->edit();
                         $mper->delPxF();
@@ -269,6 +273,4 @@
         $nomfor = ucfirst(strtolower($partesp[count($partesp) > 2 ? 2 : 1]));
         return $nomfor." ".$apefor;
     }
-
-
 ?>
