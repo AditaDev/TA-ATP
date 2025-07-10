@@ -142,11 +142,13 @@ CREATE TABLE `evaluacion` (
     `idpereval` bigint(11) NOT NULL,                                        
     `idperevald` bigint(11) NOT NULL,
     `idfor` bigint(11) NOT NULL,
+    `tipeva` tinyint(1) NOT NULL,
     `feceva` date
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `calificacion` (
     `idcal` bigint(11) NOT NULL,
+    `idper` bigint(11) NOT NULL,
     `idevajef` bigint(11) NULL,                                        
     `idevapar` bigint(11) NULL,
     `idevaaut` bigint(11) NULL,
@@ -214,7 +216,9 @@ INSERT INTO `pagxpef` (`idpag`, `idpef`) VALUES
 (111, 3),
 (112, 1),
 (112, 2),
-(112, 3);
+(112, 3),
+(113, 1),
+(113, 2);
 
 CREATE TABLE `pefxmod` (
   `idmod` int(5) NOT NULL,
@@ -266,15 +270,16 @@ CREATE TABLE `persona` (
   `actper` tinyint(1) DEFAULT 1,
   `area` bigint(11) NOT NULL,
   `idvfor` bigint(11) DEFAULT NULL,
+  `nivel` tinyint(2) DEFAULT NULL,
   `hashl` tinytext DEFAULT NULL,
   `salt` tinytext DEFAULT NULL,
   `token` tinytext DEFAULT NULL,
   `feccam` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `emaper`, `telper`, `ndper`, `actper`, `area`, `idVfor`, `hashl`, `salt`, `token`, `feccam`) VALUES
-(1, 'Nicole Adamarys', 'Rodriguez Estevez', 'rodriada24@gmail.com', NULL, '1071328321', 1, 9, 58, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL),
-(2, 'Juan David', 'Chaparro Dominguez', 'juanda.chapar@gmail.com', NULL, '1072642921', 1, 9, 57, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
+INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `emaper`, `telper`, `ndper`, `actper`, `area`, `idvfor`, `nivel`, `hashl`, `salt`, `token`, `feccam`) VALUES
+(1, 'Nicole Adamarys', 'Rodriguez Estevez', 'rodriada24@gmail.com', NULL, '1071328321', 1, 9, 58, 2, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL),
+(2, 'Juan David', 'Chaparro Dominguez', 'juanda.chapar@gmail.com', NULL, '1072642921', 1, 9, 57, 3, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
 
 CREATE TABLE `perxpef` (
   `idper` bigint(11) NOT NULL,
@@ -400,6 +405,7 @@ ALTER TABLE `evaluacion`
 
 ALTER TABLE `calificacion`
   ADD PRIMARY KEY (`idcal`),
+  ADD KEY `idper` (`idper`),                                        
   ADD KEY `idevajef` (`idevajef`),                                        
   ADD KEY `idevapar` (`idevapar`),
   ADD KEY `idevaaut` (`idevaaut`),
