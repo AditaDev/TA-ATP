@@ -88,6 +88,47 @@
             $meva->setRes24($res24);
             $meva->setRes25($res25);
             $meva->saveRxE();
+
+            //------------Calificaciones-----------
+            
+            //Valida las evaluaciones que se han realizado a esa personas y las elige
+            $evaluaciones = $meva->EvalxTipo($idperevald);
+
+            $agrupadas = [];
+            $tiposEvaluados = [];
+            if($evaluaciones){ foreach ($evaluaciones as $eva) {
+                $tipo = $eva['tipeva'];
+                $eval = $eva['ideva'];
+            
+                if ($tipo == 2) $agrupadas[2][] = $ideva;
+                else $tiposEvaluados[$tipo] = $ideva;
+            }}
+
+            if (!empty($agrupadas[2])) $tiposEvaluados[2] = $agrupadas[2][array_rand($agrupadas[2])]; //aleatorio
+
+            //Valida cuales evaluaciones requiere la persona evaluada
+            $req = $meva->TipoRequeridos($idperevald);
+            $idvalfor = $req[0]['idvfor'];
+
+            $tiposRequeridos = [
+                57 => [1, 2, 3, 4], // auto, jefe, sub, par
+                58 => [1, 2, 4],    // auto, jefe, par
+                59 => [1, 2, 4],    // auto, jefe, par
+                60 => [1, 2, 4],    // auto, jefe, par
+            ];
+            
+            $requeridos = $tiposRequeridos[$idvalfor] ?? [];
+
+            // Verifica que todos los tipos requeridos estén presentes
+            $todosCompletos = true;
+            if($requeridos){ foreach ($requeridos as $tipo) {
+                if (!isset($tiposEvaluados[$tipo])) {
+                    $todosCompletos = false;
+                    break;
+            }}}
+
+            //Inserta solo cuando esten las requeridas
+            if ($todosCompletos && !$meva->selectCal($idperevald)) $meva->saveCal($idperevald, $tiposEvaluados);
         }
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }

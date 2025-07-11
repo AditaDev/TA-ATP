@@ -292,7 +292,7 @@
         //------------Respuestas-----------
 
         function saveRxE(){
-            // try {
+            try {
                 $sql = "INSERT INTO respuesta (ideva, res1, res2, res3, res4, res5, res6, res7, res8, res9, res10, res11, res12, res13, res14, res15, res16, res17, res18, res19, res20, res21, res22, res23, res24, res25) VALUES (:ideva, :res1, :res2, :res3, :res4, :res5, :res6, :res7, :res8, :res9, :res10, :res11, :res12, :res13, :res14, :res15, :res16, :res17, :res18, :res19, :res20, :res21, :res22, :res23, :res24, :res25)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
@@ -350,9 +350,9 @@
                 $res25 = $this->getRes25();
                 $result->bindParam(":res25", $res25);
                 $result->execute();
-            // } catch (Exception $e) {
-            //     ManejoError($e);
-            // }
+            } catch (Exception $e) {
+                ManejoError($e);
+            }
         }
 
         // function delRxE(){
@@ -368,6 +368,61 @@
         //         ManejoError($e);
         //     }
         // }
+        
+        //------------Evaluacion-----------
+
+        function EvalxTipo($idperevald) {
+            $sql = "SELECT ideva, tipeva FROM evaluacion WHERE idperevald=:id AND feceva>=DATE_SUB(CURDATE(), INTERVAL 3 MONTH)";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->bindParam(":id", $idperevald);
+            $res = $result-> fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function TipoRequeridos($idperevald) {           
+            $sql = "SELECT idvfor FROM persona WHERE idper=:id";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->bindParam(":id", $idperevald);
+            $result->execute();
+            $res = $result-> fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function selectCal($idperevald) {
+            $sqlCheck = "SELECT 1 FROM calificacion WHERE idperevald=:id AND feccal>=DATE_SUB(CURDATE(), INTERVAL 3 MONTH)";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sqlCheck);
+            $result->bindParam(":id", $idperevald);
+            $result->execute();
+            return $result->fetch() ? true : false;
+        }
+
+        function saveCal($idperevald, $tiposEvaluados) {
+            try{
+                $auto = $tiposEvaluados[1] ?? null;
+                $jefe = $tiposEvaluados[2] ?? null;
+                $sub  = $tiposEvaluados[3] ?? null;
+                $par  = $tiposEvaluados[4] ?? null;
+
+                $sql = "INSERT INTO calificacion (idper, feccal, idevajef, idevapar, idevaaut, idevasub) VALUES (:idper, NOW(), :idevajef, :idevapar, :idevaaut, :idevasub)";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $result->bindParam(":idper", $idperevald);
+                $result->bindParam(":idevajef", $jefe);
+                $result->bindParam(":idevapar", $par);
+                $result->bindParam(":idevaaut", $auto);
+                $result->bindParam(":idevasub", $sub);
+                $result->execute();
+            }catch(Exception $e){
+                ManejoError($e);
+            }
+        }
 
         //------------Traer valores-----------
 
@@ -394,10 +449,10 @@
         function getPer($id){
             $sql ="SELECT p.idper, CONCAT(p.nomper, ' ', p.apeper) AS nomper,
                 CASE
-                    WHEN p.idper=:id THEN 1
-                    WHEN EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=p.idper AND j.idper=:id AND j.tipjef=1) THEN 2
-                    WHEN EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=:id AND j.idper=p.idper AND j.tipjef=1) THEN 3
-                    WHEN (SELECT nivel FROM persona WHERE idper=p.idper) = (SELECT nivel FROM persona WHERE idper=:id) THEN 4
+                    WHEN p.idper=:id THEN 1 -- auto
+                    WHEN EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=p.idper AND j.idper=:id AND j.tipjef=1) THEN 2 -- jefe
+                    WHEN EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=:id AND j.idper=p.idper AND j.tipjef=1) THEN 3 -- sub
+                    WHEN (SELECT nivel FROM persona WHERE idper=p.idper) = (SELECT nivel FROM persona WHERE idper=:id) THEN 4 -- par
                     ELSE 0
                 END AS tipeva FROM persona AS p WHERE p.actper=1 AND (
                     p.idper = :id
