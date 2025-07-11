@@ -149,6 +149,7 @@ CREATE TABLE `evaluacion` (
 CREATE TABLE `calificacion` (
     `idcal` bigint(11) NOT NULL,
     `idper` bigint(11) NOT NULL,
+    `feccal` date,
     `idevajef` bigint(11) NULL,                                        
     `idevapar` bigint(11) NULL,
     `idevaaut` bigint(11) NULL,
