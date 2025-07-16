@@ -3,6 +3,19 @@
    
     $meva = new meva();
 
+    /*Los tipos de evaluacion se guardan según la relación del evaluador con el evaluado
+    Si yo como evaluador me evaluo a mi mismo      --> autoevaluacion = 1
+    Si yo como evaluador evaluo a mi subalterno    --> jefe = 2
+    Si yo como evaluador evaluo a mi jefe          --> subalterno = 3
+    Si yo como evaluador evaluo a par              --> par = 4
+
+    Por lo que como evaluado yo debo buscar los siguiente
+    Si a mi como evaluado me evalue a mi mismo     --> autoevaluacion = 1
+    Si a mi como evaluado me evaluo mi subalterno  --> lo hizo desde la posicion de subalterno = 3
+    Si a mi como evaluado me evaluo mi jefe        --> lo hizo desde la posicion jefe = 2
+    Si a mi como evaluado me evaluo mi par         --> par = 4
+    */
+
     //------------Evaluacion-----------
     
     $ideva = isset($_REQUEST['ideva']) ? $_REQUEST['ideva']:NULL;
@@ -44,6 +57,23 @@
 
     $pg = 112;
     $datOne = NULL;
+    $tiposRequeridos = [
+        57 => [1, 2, 3, 4], // Calificado por auto, jefe, sub, par
+        58 => [1, 2, 4],    // Calificado por auto, jefe, par
+        59 => [1, 2, 4],    // Calificado por auto, jefe, par
+        60 => [1, 2, 4],    // Calificado por auto, jefe, par
+    ];
+    $tiposNombre = [
+        1 => "Autoevaluación",
+        2 => "Jefe",
+        3 => "Subalternos",
+        4 => "Pares"
+    ];
+    $agrupadas = [];
+    $tiposEvaluados = [];
+    $pendientes = [];
+    $cantsub = NULL;
+    $cantmin = NULL;
     
     $meva->setIdeva($ideva);
     $meva->setIdres($idres);
@@ -94,8 +124,6 @@
             //Valida las evaluaciones que se han realizado a esa personas y las elige
             $evaluaciones = $meva->EvalxTipo($idperevald);
 
-            $agrupadas = [];
-            $tiposEvaluados = [];
             if($evaluaciones){ foreach ($evaluaciones as $eva) {
                 $tipo = $eva['tipeva'];
                 $eval = $eva['ideva'];
@@ -104,18 +132,21 @@
                 else $tiposEvaluados[$tipo] = $ideva;
             }}
 
-            if (!empty($agrupadas[2])) $tiposEvaluados[2] = $agrupadas[2][array_rand($agrupadas[2])]; //aleatorio
+            //Valida que la cantidad de subalternos que lo evaluaron sea proporcional a los que tiene
+            $cantsub = $meva->getJxP($idperevald);
+            $cantmin = $cantsub[0]['can'];
+            if($cantmin>=15) $cantmin -= 5;  
+            else if($cantmin>=12) $cantmin -= 4;
+            else if($cantmin>=9) $cantmin -= 3;
+            else if($cantmin>=6) $cantmin -= 2;
+            $cantmin = max(1, $cantmin); // Asegura que al menos requiera 1
+
+
+            if (!empty($agrupadas[2]) && count($agrupadas[2])>=$cantmin) $tiposEvaluados[2] = $agrupadas[2][array_rand($agrupadas[2])]; //aleatorio
 
             //Valida cuales evaluaciones requiere la persona evaluada
             $req = $meva->TipoRequeridos($idperevald);
             $idvalfor = $req[0]['idvfor'];
-
-            $tiposRequeridos = [
-                57 => [1, 2, 3, 4], // auto, jefe, sub, par
-                58 => [1, 2, 4],    // auto, jefe, par
-                59 => [1, 2, 4],    // auto, jefe, par
-                60 => [1, 2, 4],    // auto, jefe, par
-            ];
             
             $requeridos = $tiposRequeridos[$idvalfor] ?? [];
 
@@ -128,11 +159,41 @@
             }}}
 
             //Inserta solo cuando esten las requeridas
-            if ($todosCompletos && !$meva->selectCal($idperevald)) $meva->saveCal($idperevald, $tiposEvaluados);
+            if ($todosCompletos && !$meva->selectCal($idperevald)) $meva->saveCal($idperevald, $tiposEvaluados, $nota);
         }
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
+    //------------Evaluaciones-----------
+
+    $person = $meva->getAllPer();
+
+    //Valida las evaluaciones que le hacen falta a cada persona
+    if($person){ foreach ($person as $prs) {     
+        $requeridos = $tiposRequeridos[$prs['idvfor']] ?? []; //Requeridos para la persona
+        $evaluados = $meva->EvalxTipo($prs['idper']); //Existentes para la persona
+
+        $tiposEval = array_column($evaluados, 'tipeva');
+        $faltantes = array_diff($requeridos, $tiposEval); //Diferencia entre los que hay y se necesitan para dejar solo los faltantes
+
+        if (!empty($faltantes)) {
+            $faltantesDetalle = [];
+            foreach ($faltantes as $tipo) {
+                $evaluadores = $meva->getEvaluador($prs['idper'], $tipo);
+                $faltantesDetalle[] = [
+                    'tipo' => $tipo,
+                    'nomtip' => $tiposNombre[$tipo],
+                    'evaluador' => $evaluadores
+                ];
+            }
+
+            $pendientes[] = [
+                'id' => $prs['idper'],
+                'nombre' => $prs['nom'],
+                'faltantes' => $faltantesDetalle
+            ];
+        }
+    }}
     // if($ope=='del' && $ideva) $meva->del();
     
     // $datAll = $meva->getAll();
