@@ -57,8 +57,7 @@ CREATE TABLE `jefxper` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `jefxper` (`idjef`, `idper`, `tipjef`) VALUES
-(1, 2, 1),
-(2, 1, 1);
+(1, 2, 1);
 
 CREATE TABLE `formato` (
     `idfor` bigint(11) NOT NULL, 
@@ -103,7 +102,7 @@ CREATE TABLE `formato` (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `formato` (`idfor`, `tipfor`, `codfor`, `fecfor`, `nomsec1`, `pre1`, `pre2`, `pre3`, `pre4`, `pre5`, `nomsec2`, `pre6`, `pre7`, `pre8`, `pre9`, `pre10`, `nomsec3`, `pre11`, `pre12`, `pre13`, `pre14`, `pre15`, `nomsec4`, `pre16`, `pre17`, `pre18`, `pre19`, `pre20`, `nomsec5`, `pre21`, `pre22`, `pre23`, `pre24`, `pre25`, `porjef`, `porpar`, `poraut`, `porsub`, `actfor`) VALUES
-(1, 57, 'F111', '2025-05-28', 'S1', 'P1', '', '', '', '', 'S2', 'P1', '', '', '', '', 'S3', 'P1', '', '', '', '', 'S4', 'P1', '', '', '', '', '', '', '', '', '', '', 70, 15, 15, 0, 1),
+(1, 57, 'F111', '2025-05-28', 'S1', 'P1', '', '', '', '', 'S2', 'P1', '', '', '', '', 'S3', 'P1', '', '', '', '', 'S4', 'P1', '', '', '', '', '', '', '', '', '', '', 60, 20, 10, 10, 1),
 (2, 58, 'F222', '2025-05-28', 'S1', 'P1', '', '', '', '', 'S2', 'P1', 'P2', '', '', '', 'S3', 'P1', 'P2', 'P3', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 50, 35, 15, 0, 1);
 
 
@@ -143,13 +142,14 @@ CREATE TABLE `evaluacion` (
     `idperevald` bigint(11) NOT NULL,
     `idfor` bigint(11) NOT NULL,
     `tipeva` tinyint(1) NOT NULL,
-    `feceva` date
+    `feceva` date DEFAULT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `calificacion` (
     `idcal` bigint(11) NOT NULL,
     `idper` bigint(11) NOT NULL,
-    `feccal` date,
+    `feccal` date DEFAULT NULL,
+    `nota` float(3) DEFAULT NULL,
     `idevajef` bigint(11) NULL,                                        
     `idevapar` bigint(11) NULL,
     `idevaaut` bigint(11) NULL,
@@ -279,8 +279,8 @@ CREATE TABLE `persona` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `emaper`, `telper`, `ndper`, `actper`, `area`, `idvfor`, `nivel`, `hashl`, `salt`, `token`, `feccam`) VALUES
-(1, 'Nicole Adamarys', 'Rodriguez Estevez', 'rodriada24@gmail.com', NULL, '1071328321', 1, 9, 58, 2, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL),
-(2, 'Juan David', 'Chaparro Dominguez', 'juanda.chapar@gmail.com', NULL, '1072642921', 1, 9, 57, 3, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
+(1, 'Nicole Adamarys', 'Rodriguez Estevez', 'rodriada24@gmail.com', NULL, '1071328321', 1, 9, 57, 2, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL),
+(2, 'Juan David', 'Chaparro Dominguez', 'juanda.chapar@gmail.com', NULL, '1072642921', 1, 9, 58, 3, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
 
 CREATE TABLE `perxpef` (
   `idper` bigint(11) NOT NULL,
