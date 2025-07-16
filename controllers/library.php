@@ -5,6 +5,7 @@
 function titulo($ico, $tit, $mos, $pg)
 {
 	if($_SESSION['idpef']==3 && $pg==106) $tit = "Datos Personales";
+	if($_SESSION['idpef']==2 && $pg==112) $tit = "Pendientes";
 	$txt = '';
 	$txt .= '<div class="titu">';
 		$txt .= '<div class="titaju">';
@@ -673,6 +674,7 @@ function arremp($dt)
 	}
 	return $txt;
 }
+
 
 //------------Encriptar-----------
 function encripta($password) {
