@@ -370,17 +370,18 @@
         // }
         
         //------------Evaluacion-----------
-
+        
         function EvalxTipo($idperevald) {
-            $sql = "SELECT ideva, tipeva FROM evaluacion WHERE idperevald=:id AND feceva>=DATE_SUB(CURDATE(), INTERVAL 3 MONTH)";
+            $sql = "SELECT ideva, idperevald, tipeva FROM evaluacion WHERE idperevald=:id AND feceva>=DATE_SUB(CURDATE(), INTERVAL 3 MONTH)";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
             $result->bindParam(":id", $idperevald);
+            $result->execute();
             $res = $result-> fetchall(PDO::FETCH_ASSOC);
             return $res;
         }
-
+        
         function TipoRequeridos($idperevald) {           
             $sql = "SELECT idvfor FROM persona WHERE idper=:id";
             $modelo = new conexion();
@@ -392,6 +393,34 @@
             return $res;
         }
 
+        function getEvaluador($idper, $tipo) {
+            switch ($tipo) {
+                case 1: // Auto
+                    $sql = "SELECT idper, CONCAT(nomper, ' ', apeper) AS nom FROM persona WHERE idper=:id";
+                    break;
+                case 2: // Jefe
+                    $sql = "SELECT p.idper, CONCAT(p.nomper, ' ', p.apeper) AS nom FROM jefxper AS j INNER JOIN persona p ON p.idper=j.idjef WHERE j.idper=:id AND j.tipjef=1";
+                    break;
+                case 3: // Subalterno
+                    $sql = "SELECT p.idper, CONCAT(p.nomper, ' ', p.apeper) AS nom FROM jefxper AS j INNER JOIN persona p ON p.idper=j.idper WHERE j.idjef=:id AND j.tipjef=1";
+                    break;
+                case 4: // Par
+                    $sql = "SELECT idper, CONCAT(nomper, ' ', apeper) AS nom FROM persona WHERE nivel=(SELECT nivel FROM persona WHERE idper=:id) AND idper!=:id AND actper=1";
+                    break;
+                default:
+                    return [];
+            }
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->bindParam(":id", $idper);
+            $result->execute();
+            $res = $result-> fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+        
+        //------------Calificacion-----------
+
         function selectCal($idperevald) {
             $sqlCheck = "SELECT 1 FROM calificacion WHERE idperevald=:id AND feccal>=DATE_SUB(CURDATE(), INTERVAL 3 MONTH)";
             $modelo = new conexion();
@@ -402,14 +431,14 @@
             return $result->fetch() ? true : false;
         }
 
-        function saveCal($idperevald, $tiposEvaluados) {
+        function saveCal($idperevald, $tiposEvaluados, $nota) {
             try{
                 $auto = $tiposEvaluados[1] ?? null;
                 $jefe = $tiposEvaluados[2] ?? null;
                 $sub  = $tiposEvaluados[3] ?? null;
                 $par  = $tiposEvaluados[4] ?? null;
 
-                $sql = "INSERT INTO calificacion (idper, feccal, idevajef, idevapar, idevaaut, idevasub) VALUES (:idper, NOW(), :idevajef, :idevapar, :idevaaut, :idevasub)";
+                $sql = "INSERT INTO calificacion (idper, feccal, idevajef, idevapar, idevaaut, idevasub, nota) VALUES (:idper, NOW(), :idevajef, :idevapar, :idevaaut, :idevasub, :nota)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -418,7 +447,24 @@
                 $result->bindParam(":idevapar", $par);
                 $result->bindParam(":idevaaut", $auto);
                 $result->bindParam(":idevasub", $sub);
+                $result->bindParam(":nota", $nota);
                 $result->execute();
+            }catch(Exception $e){
+                ManejoError($e);
+            }
+        }
+
+        function saveNota($idper, $nota) {
+            try{
+                $sql = "UPDATE calificacion SET nota=:nota WHERE idper=:id";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $result->bindParam(":id", $nota);
+                $result->bindParam(":id", $idper);
+                $result->execute();
+                $res = $result-> fetchall(PDO::FETCH_ASSOC);
+                return $res;
             }catch(Exception $e){
                 ManejoError($e);
             }
@@ -427,44 +473,64 @@
         //------------Traer valores-----------
 
         function selectEva(){
-                $sql = "SELECT ideva FROM evaluacion WHERE idpereval=:idpereval AND idperevald=:idperevald AND DATE(feceva)=:feceva AND idfor=:idfor AND tipeva=:tipeva";
-                $modelo = new conexion();
-                $conexion = $modelo->get_conexion();
-                $result = $conexion->prepare($sql);
-                $idpereval = $this->getIdpereval();
-                $result->bindParam(":idpereval", $idpereval);
-                $idperevald = $this->getIdperevald();
-                $result->bindParam(":idperevald", $idperevald);
-                $feceva = $this->getFeceva();
-                $result->bindParam(":feceva", $feceva);
-                $idfor = $this->getIdfor();
-                $result->bindParam(":idfor", $idfor);
-                $tipeva = $this->getTipeva();
-                $result->bindParam(":tipeva", $tipeva);
-                $result->execute();
-                $res = $result-> fetchall(PDO::FETCH_ASSOC);
-                return $res;
+            $sql = "SELECT ideva FROM evaluacion WHERE idpereval=:idpereval AND idperevald=:idperevald AND DATE(feceva)=:feceva AND idfor=:idfor AND tipeva=:tipeva";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idpereval = $this->getIdpereval();
+            $result->bindParam(":idpereval", $idpereval);
+            $idperevald = $this->getIdperevald();
+            $result->bindParam(":idperevald", $idperevald);
+            $feceva = $this->getFeceva();
+            $result->bindParam(":feceva", $feceva);
+            $idfor = $this->getIdfor();
+            $result->bindParam(":idfor", $idfor);
+            $tipeva = $this->getTipeva();
+            $result->bindParam(":tipeva", $tipeva);
+            $result->execute();
+            $res = $result-> fetchall(PDO::FETCH_ASSOC);
+            return $res;
         }
 
         function getPer($id){
             $sql ="SELECT p.idper, CONCAT(p.nomper, ' ', p.apeper) AS nomper,
                 CASE
                     WHEN p.idper=:id THEN 1 -- auto
-                    WHEN EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=p.idper AND j.idper=:id AND j.tipjef=1) THEN 2 -- jefe
-                    WHEN EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=:id AND j.idper=p.idper AND j.tipjef=1) THEN 3 -- sub
+                    WHEN EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=:id AND j.idper=p.idper AND j.tipjef=1) THEN 2 -- jefe
+                    WHEN EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=p.idper AND j.idper=:id AND j.tipjef=1) THEN 3 -- sub
                     WHEN (SELECT nivel FROM persona WHERE idper=p.idper) = (SELECT nivel FROM persona WHERE idper=:id) THEN 4 -- par
                     ELSE 0
                 END AS tipeva FROM persona AS p WHERE p.actper=1 AND (
-                    p.idper = :id
+                    p.idper=:id
                     OR EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=p.idper AND j.idper=:id AND j.tipjef=1)
                     OR EXISTS (SELECT 1 FROM jefxper AS j WHERE j.idjef=:id AND j.idper=p.idper AND j.tipjef=1)
                     OR ((SELECT nivel FROM persona WHERE idper=p.idper) = (SELECT nivel FROM persona WHERE idper=:id))
                 ) AND NOT EXISTS (
-                    SELECT 1 FROM evaluacion AS e WHERE e.idpereval=:id AND e.idperevald=p.idper AND e.feceva>=DATE_SUB(CURDATE(), INTERVAL 3 MONTH))";
+                    SELECT 1 FROM evaluacion AS e WHERE e.idpereval=:id AND e.idperevald=p.idper AND e.feceva>=DATE_SUB(CURDATE(), INTERVAL 3 MONTH)) ORDER BY nomper";
             $modelo =new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
             $result->bindParam(":id",$id);
+            $result->execute();
+            $res = $result-> fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function getAllPer(){
+            $sql = "SELECT idper, CONCAT(nomper, ' ', apeper) AS nom, ndper, idvfor FROM persona WHERE actper=1 ORDER BY apeper";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+        function getJxP($idjef){
+            $sql ="SELECT COUNT(idper) AS can FROM jefxper WHERE idjef=:idjef";
+            $modelo =new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->bindParam(":idjef",$idjef);
             $result->execute();
             $res = $result-> fetchall(PDO::FETCH_ASSOC);
             return $res;
