@@ -1,7 +1,52 @@
 <?php
 include('controllers/ceva.php');
-
-if($datPer){?>
+if($_SESSION['idpef']==2){ if($pendientes){ ?>
+    <table id="mytable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Relación</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($pendientes as $pdt) { ?>
+                <tr>
+                    <td>
+                        <BIG><strong><?= $pdt['nombre']; ?></strong></BIG>
+                        <small>
+                            <div class="row">
+                                <?php foreach ($pdt['faltantes'] as $flt) { ?>
+                                    <div class="form-group col-md-12">
+                                        <strong><?= $flt['nomtip'].(($flt['tipo']==1)?"":":"); ?></strong>
+                                        <?php if ($flt['evaluador'] && ($flt['tipo']!=1)) { ?>
+                                            <?= implode(', ', array_column($flt['evaluador'], 'nom')); ?>
+                                        <?php } ?>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </small>
+                    </td>
+                </tr>
+            <?php } ?>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Relación</th>
+            </tr>
+        </tfoot>
+    </table>
+<?php } else { ?>
+    <div class="fin">
+	    <div class="row">
+            <div class="imgfin form-group col-md-4">
+                <img class="imgerr" src="img/fin.png" alt="">
+                </div>
+            <div class="text form-group col-md-8">
+                <h1><strong></strong>Al día!</strong></h1>
+                <h3>No hay evaluaciones pendientes.</h3>
+            </div>
+        </div>
+    </div>
+<?php }} else{ if($datPer){?>
     <form action="home.php?pg=<?= $pg; ?>" method="POST" id="frmins">
         <div class="row">
             <div class="form-group col-md-6">
@@ -10,8 +55,7 @@ if($datPer){?>
                     <option value="0" disabled selected>Seleccione...</option>
                     <?php foreach ($datPer AS $dtp) { ?>
                         <option value="<?= $dtp['idper']; ?>" data-tipo="<?= $dtp['tipeva'] ?? 0 ?>" <?php if (isset($datOne[0]['idperevald']) && $dtp['idper'] == $datOne[0]['idperevald']) echo "selected"; ?>>
-                            <?php if($dtp['idper'] == $_SESSION['idper']) echo "Autoevaluación";
-                            else echo $dtp['nomper']; ?>
+                            <?= $dtp['nomper'].(($dtp['idper']==$_SESSION['idper'])?" / (Autoevaluación)":""); ?>
                         </option>
                     <?php } ?>
                 </select>
@@ -38,7 +82,8 @@ if($datPer){?>
             </div>
         </div>
     </div>
-<?php } ?>
+<?php }} ?>
+
 
 <style>
 	.fin {
