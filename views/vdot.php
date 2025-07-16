@@ -3,14 +3,14 @@
 require_once('controllers/cdot.php');
 $hoy = date("Y-m-d");
 $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
+if($_SESSION['idpef']==2){
 ?>
-
     <div style="text-align: right;">
         <a href="excel/xdot.php" title="Exportar Dotaciones">
             <i class="fa fa-solid fa-file-export fa-2x exp"></i>
         </a>
     </div>
-
+<?php } ?>
 <form action="home.php?pg=<?= $pg; ?>" method="POST" id="frmins">
     <div class="row">
         <div class="form-group col-sm-8 ui-widget">
@@ -119,8 +119,7 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
         <tr>
             <th>Datos persona</th>
             <th>Estado</th>
-            <th>Acciones</th>
-
+            <?php if($_SESSION['idpef']==2){ ?><th>Acciones</th><?php } ?>
         </tr>
     </thead>
     <tbody>
@@ -130,11 +129,17 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
                     <td tyle="text-align: left;">
                         <div class="row">
                             <div class="form-group col-sm-10">
-                                <strong> <?= ($dta['fecent']) .  " - "  . $dta['nomprec']; ?></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <small><strong>Área: </strong> <?= $dta['aprec']; ?></small><br>
-                                <small>
-                                    <strong>Observación: </strong><?= $dta['observ']; ?><br>
-                                </small>
+                                <strong> <?= ($dta['fecent']) .  " - "  . $dta['nomprec']; ?></strong>
+                                <div class="row">
+                                <?php if($dta['aprec']){?>
+                                    <div class="form-group col-sm-6">
+                                        <small><strong>Área: </strong> <?= $dta['aprec']; ?></small>
+                                    </div>
+                                <?php } if ($dta['observ']) { ?>
+                                    <div class="form-group col-sm-6">
+                                        <small><strong>Observación: </strong><?= $dta['observ']; ?></small>
+                                    </div>
+                                <?php } ?>
                             </div>
                             <div class="form-group col-sm-2">
                                 <i class="fa fa-solid fa-eye iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbdet<?= $dta['ident']; ?>" title="Detalles"></i>
@@ -161,7 +166,6 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
                                 
                             </div>
                         </div>
-
                     </td>
                     <td style="text-align: left;">
                         <?php if ($dta['estent'] == 1) { ?>
@@ -172,6 +176,7 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
                             <i class="fa fa-solid fa-circle-xmark fa-2x desact" title="Devuelto"></i>
                         <?php } ?>
                     </td>
+                    <?php if($_SESSION['idpef']==2){ ?>
                     <td tyle="text-align: half;">
                         <span style="font-size: 1px;opacity: 0;"><?= $dta['fecdev']; ?></span>
                         <?php if ($dta['estent'] != 2) { ?>
@@ -187,26 +192,18 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
                             </a>                            
                         <?php } ?>
                     </td>
-
+                    <?php } ?>
                 </tr>
-        <?php
-            }
-        } ?>
+        <?php }} ?>
     </tbody>
     <tfoot>
         <tr>
             <th>Datos persona</th>
             <th>Estado</th>
-            <th>Acciones</th>
-
-
-
+            <?php if($_SESSION['idpef']==2){ ?><th>Acciones</th><?php } ?>
         </tr>
     </tfoot>
 </table>
-
-
-
 <style>
     .custom-combobox1,
     .custom-combobox2-input {

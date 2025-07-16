@@ -179,12 +179,14 @@
 
         function getAllD(){
             $sql = "SELECT d.ident, d.fecent, d.fecdev, d.observ, d.observd, d.firpent, d.firprec, d.difent, d.estent, d.rutpdf, d.idperent AS pent, CONCAT(pe.nomper,' ',pe.apeper) AS nompent, pe.ndper AS dpent, pe.emaper AS epent, ve.nomval AS apent, d.idperrec AS prec, CONCAT(pr.nomper,' ',pr.apeper) AS nomprec, pr.ndper AS dprec, pr.emaper AS eprec, vr.nomval AS aprec, d.idperentd AS pentd, CONCAT(ped.nomper,' ',ped.apeper) AS nompentd, ped.ndper AS dpentd, ped.emaper AS epentd, ved.nomval AS apentd, d.idperrecd AS precd, CONCAT(prd.nomper,' ',prd.apeper) AS nomprecd, prd.ndper AS dprecd, prd.emaper AS eprecd, vrd.nomval AS aprecd FROM dotacion AS d LEFT JOIN persona AS pe ON d.idperent=pe.idper LEFT JOIN persona AS pr ON d.idperrec=pr.idper LEFT JOIN persona AS ped ON d.idperentd=ped.idper LEFT JOIN persona AS prd ON d.idperrecd=prd.idper LEFT JOIN valor AS ve ON pe.area=ve.idval LEFT JOIN valor AS vr ON pr.area=vr.idval LEFT JOIN valor AS ved ON ped.area=ved.idval LEFT JOIN valor AS vrd ON prd.area=vrd.idval";
-                    $modelo = new conexion();
-                    $conexion = $modelo->get_conexion();
-                    $result = $conexion->prepare($sql);
-                    $result->execute();
-                    $res = $result->fetchall(PDO::FETCH_ASSOC);
-                    return $res;
+            if($_SESSION['idpef']!=2) $sql .= " WHERE d.idperrec=:id";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            if($_SESSION['idpef']!=2) $result->bindParam(":id", $_SESSION['idpef']);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
         }
 
         function getOne(){

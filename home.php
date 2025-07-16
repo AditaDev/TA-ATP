@@ -80,6 +80,7 @@ include("models/seguridad.php");
 		$rut = validarpg($pg);
 		if ($rut) {
 			if ($_SESSION['idpef']==3 && $pg==106) $mos = 2;
+			else if ($_SESSION['idpef']!=2 && $pg==110) $mos = 0;
 			else if ($_SESSION['idpef']==2 && $pg==111) $mos = 0;
 			else if ($pg==112) $mos = 2;
 			else $mos = $rut[0]['mospag'];
