@@ -82,7 +82,7 @@ include("models/seguridad.php");
 			if ($_SESSION['idpef']==3 && $pg==106) $mos = 2;
 			else if ($_SESSION['idpef']!=2 && $pg==110) $mos = 0;
 			else if ($_SESSION['idpef']==2 && $pg==111) $mos = 0;
-			else if ($pg==112) $mos = 2;
+			else if ($pg==112 || $pg==113) $mos = 2;
 			else $mos = $rut[0]['mospag'];
 			if ($ope == "edi") $est = 1;
 			// if (!$_SESSION['new']){
