@@ -47,7 +47,7 @@ if($_SESSION['idpef']==2){ if($pendientes){ ?>
         </div>
     </div>
 <?php }} else{ if($datPer){?>
-    <form action="home.php?pg=<?= $pg; ?>" method="POST" id="frmins">
+    <form action="home.php?pg=112" method="POST" id="frmins">
         <div class="row">
             <div class="form-group col-md-6">
                 <label for="idperevald"><strong>Evaluado:</strong></label>

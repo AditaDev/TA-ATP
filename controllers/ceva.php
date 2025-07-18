@@ -15,6 +15,12 @@
     Si a mi como evaluado me evaluo mi jefe        --> lo hizo desde la posicion jefe = 2
     Si a mi como evaluado me evaluo mi par         --> par = 4
     */
+    
+    //------------Evaluacion-----------
+    
+    $fecini = isset($_POST['fecini']) ? $_POST['fecini']:NULL;
+    $fecfin = isset($_POST['fecfin']) ? $_POST['fecfin']:NULL;
+    $nota = isset($_POST['nota']) ? $_POST['nota']:NULL;
 
     //------------Evaluacion-----------
     
@@ -24,7 +30,7 @@
     $idfor = isset($_REQUEST['idfor']) ? $_REQUEST['idfor']:NULL;
     $tipeva = isset($_REQUEST['tipeva']) ? $_REQUEST['tipeva']:NULL;
     
-    //------------Evaluacion-----------
+    //------------Respuesta-----------
     
     $idres = isset($_REQUEST['idres']) ? $_REQUEST['idres']:NULL;
     $res1 = isset($_POST['res1']) ? $_POST['res1']:NULL;
@@ -55,7 +61,6 @@
     
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
 
-    $pg = 112;
     $datOne = NULL;
     $tiposRequeridos = [
         57 => [1, 2, 3, 4], // Calificado por auto, jefe, sub, par
@@ -128,8 +133,8 @@
                 $tipo = $eva['tipeva'];
                 $eval = $eva['ideva'];
             
-                if ($tipo == 2) $agrupadas[2][] = $ideva;
-                else $tiposEvaluados[$tipo] = $ideva;
+                if ($tipo == 2) $agrupadas[2][] = $eval;
+                else $tiposEvaluados[$tipo] = $eval;
             }}
 
             //Valida que la cantidad de subalternos que lo evaluaron sea proporcional a los que tiene
@@ -159,9 +164,9 @@
             }}}
 
             //Inserta solo cuando esten las requeridas
-            if ($todosCompletos && !$meva->selectCal($idperevald)) $meva->saveCal($idperevald, $tiposEvaluados, $nota);
+            if ($todosCompletos && !$meva->selectCal($idperevald)) $meva->saveCal($idperevald, $tiposEvaluados);
         }
-        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+        echo "<script>window.location='home.php?pg=112';</script>";
     }
 
     //------------Evaluaciones-----------
@@ -194,9 +199,18 @@
             ];
         }
     }}
-    // if($ope=='del' && $ideva) $meva->del();
     
-    // $datAll = $meva->getAll();
+
+    //------------Calificacion-----------
+
+    if($ope=='busc'){
+        $meva->setFecini($fecini);
+        $meva->setFecfin($fecfin);
+        $meva->setNota($nota);
+        $datAll = $meva->getAll("bus");
+    } else $datAll = $meva->getAll("all");
+
+    if($ope=='limp') echo "<script>window.location='home.php?pg=113';</script>";
 
     $datPer = $meva->getPer($_SESSION['idper']); 
 ?>

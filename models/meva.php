@@ -1,7 +1,13 @@
   <?php
     class Meva{
 
-       //------------Evaluacion-----------
+       //------------Calificacion-----------
+       
+        private $fecini;
+        private $fecfin;
+        private $nota;
+       
+        //------------Evaluacion-----------
        
         private $ideva;
         private $idpereval;
@@ -40,6 +46,29 @@
         private $res25;
       
        
+        //------------Calificacion-----------
+       
+        public function getFecini(){
+            return $this->fecini;
+        }
+        public function getFecfin(){
+            return $this->fecfin;
+        }
+        public function getNota(){
+            return $this->nota;
+        }
+
+        public function setFecini($fecini){
+            $this->fecini=$fecini;
+        }
+        public function setFecfin($fecfin){
+            $this->fecfin=$fecfin;
+        }
+        public function setNota($nota){
+            $this->nota=$nota;
+        }
+        
+
         //------------Evaluacion-----------
        
         public function getIdeva(){
@@ -268,7 +297,7 @@
         
 
         function save(){
-            // try {
+            try {
                 $sql = "INSERT INTO evaluacion (idpereval, idperevald, feceva, idfor, tipeva) VALUES (:idpereval, :idperevald, :feceva, :idfor, :tipeva)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
@@ -284,9 +313,9 @@
                 $tipeva = $this->getTipeva();
                 $result->bindParam(":tipeva", $tipeva);
                 $result->execute();
-            // } catch (Exception $e) {
-            //     ManejoError($e);
-            // }
+            } catch (Exception $e) {
+                ManejoError($e);
+            }
         }
 
         //------------Respuestas-----------
@@ -421,8 +450,33 @@
         
         //------------Calificacion-----------
 
+        function getAll($ope) {
+            $fecini = $this->getFecini();
+            $fecfin = $this->getFecfin();
+            $nota = $this->getNota();
+            $sql = "SELECT c.idcal, DATE_FORMAT(c.feccal, '%e de %M de %Y') AS fcal, c.feccal, c.nota, v.nomval AS tfor, CONCAT(pe.nomper, ' ', pe.apeper) AS eva, CONCAT(pj.nomper, ' ', pj.apeper) AS jef, CONCAT(pp.nomper, ' ', pp.apeper) AS par, CONCAT(ps.nomper, ' ', ps.apeper) AS sub FROM calificacion AS c INNER JOIN persona AS pe ON c.idper=pe.idper INNER JOIN valor AS v ON pe.idvfor=v.idval INNER JOIN evaluacion AS ej ON c.idevajef=ej.ideva INNER JOIN persona AS pj ON ej.idpereval=pj.idper LEFT JOIN evaluacion AS ep ON c.idevapar=ep.ideva LEFT JOIN persona AS pp ON ep.idpereval=pp.idper INNER JOIN evaluacion AS ea ON c.idevaaut=ea.ideva LEFT JOIN evaluacion AS es ON c.idevasub=es.ideva LEFT JOIN persona AS ps ON es.idpereval=ps.idper";
+            if($ope=="bus"){
+                $sql .= " WHERE c.feccal!=''";
+                if($fecini) $sql .= " AND DATE(c.feccal)>=:fecini";
+		        if($fecfin) $sql .= " AND DATE(c.feccal)<=:fecfin";
+		        if($nota) $sql .= " AND c.nota >=:nota";
+            }
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $conexion->query("SET lc_time_names = 'es_ES';");
+            $result = $conexion->prepare($sql);
+            if($ope=="bus"){
+                if($fecini) $result->bindParam(":fecini", $fecini);
+		        if($fecfin) $result->bindParam(":fecfin", $fecfin);
+		        if($nota) $result->bindParam(":nota", $nota);
+            }
+            $result->execute();
+            $res = $result-> fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
         function selectCal($idperevald) {
-            $sqlCheck = "SELECT 1 FROM calificacion WHERE idperevald=:id AND feccal>=DATE_SUB(CURDATE(), INTERVAL 3 MONTH)";
+            $sqlCheck = "SELECT 1 FROM calificacion WHERE idper=:id AND feccal>=DATE_SUB(CURDATE(), INTERVAL 3 MONTH)";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sqlCheck);
@@ -431,14 +485,14 @@
             return $result->fetch() ? true : false;
         }
 
-        function saveCal($idperevald, $tiposEvaluados, $nota) {
-            try{
+        function saveCal($idperevald, $tiposEvaluados) {
+            // try{
                 $auto = $tiposEvaluados[1] ?? null;
                 $jefe = $tiposEvaluados[2] ?? null;
                 $sub  = $tiposEvaluados[3] ?? null;
                 $par  = $tiposEvaluados[4] ?? null;
 
-                $sql = "INSERT INTO calificacion (idper, feccal, idevajef, idevapar, idevaaut, idevasub, nota) VALUES (:idper, NOW(), :idevajef, :idevapar, :idevaaut, :idevasub, :nota)";
+                $sql = "INSERT INTO calificacion (idper, feccal, idevajef, idevapar, idevaaut, idevasub) VALUES (:idper, NOW(), :idevajef, :idevapar, :idevaaut, :idevasub)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -447,11 +501,10 @@
                 $result->bindParam(":idevapar", $par);
                 $result->bindParam(":idevaaut", $auto);
                 $result->bindParam(":idevasub", $sub);
-                $result->bindParam(":nota", $nota);
                 $result->execute();
-            }catch(Exception $e){
-                ManejoError($e);
-            }
+            // }catch(Exception $e){
+            //     ManejoError($e);
+            // }
         }
 
         function saveNota($idper, $nota) {
