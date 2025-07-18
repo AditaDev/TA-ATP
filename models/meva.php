@@ -486,7 +486,7 @@
         }
 
         function saveCal($idperevald, $tiposEvaluados) {
-            // try{
+            try{
                 $auto = $tiposEvaluados[1] ?? null;
                 $jefe = $tiposEvaluados[2] ?? null;
                 $sub  = $tiposEvaluados[3] ?? null;
@@ -502,9 +502,9 @@
                 $result->bindParam(":idevaaut", $auto);
                 $result->bindParam(":idevasub", $sub);
                 $result->execute();
-            // }catch(Exception $e){
-            //     ManejoError($e);
-            // }
+            }catch(Exception $e){
+                ManejoError($e);
+            }
         }
 
         function saveNota($idper, $nota) {
