@@ -171,11 +171,11 @@ function actMinMax() {
     }
 }
 
-function enter(event) {
+function enter(event, id) {
     // Verificar si la tecla presionada es "Enter"
     if (event.key === 'Enter') {
         // Enviar el formulario
-        document.getElementById('ndper').form.submit();
+        document.getElementById(id).form.submit();
         return false; // Evitar que se agregue un salto de línea al presionar "Enter"
     }
     return true;
@@ -290,8 +290,8 @@ function sumporcent(){
     }
 }
 
-function valNum(i){
-    const res = parseFloat(document.getElementById('res'+i).value);
+function valNum(id, i){
+    const res = parseFloat(document.getElementById(id+i).value);
     const error= document.getElementById('msjerror'+i);
 
     if (res < 0.0 || res > 5.0){
@@ -326,6 +326,7 @@ function TipoEvaluacion(select) {
     const tipo = select.options[select.selectedIndex].getAttribute('data-tipo');
     document.getElementById('tipeva').value = tipo;
 }
+
 
 // ---------- Persona -----------
 
