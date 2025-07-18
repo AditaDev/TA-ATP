@@ -50,7 +50,7 @@
 				}}if($det['pre'.$i]){
 						$html .= '<div class="form-group">';
     		                $html .= '<label for="res'.$i.'"><strong>'.$det['pre'.$i].':</strong></label>';
-    		                $html .= '<input class="form-control" type="text" id="res'.$i.'" name="res'.$i.'" placeholder="res'.$i.'" onkeypress="return NumDecimal(event);" oninput="valNum('.$i.'); validarCampos();" required>';
+    		                $html .= '<input class="form-control" type="text" id="res'.$i.'" name="res'.$i.'" placeholder="res'.$i.'" onkeypress="return NumDecimal(event);" oninput="valNum(\'res\','.$i.'); validarCampos();" required>';
 							$html .= '<small id="msjerror'.$i.'" style="color: red; display: none; margin-top: 5px"></small>';
     		            $html .= '</div>';
     		    }if($i==5 || $i==10 || $i==15 || $i==20 || $i==25){

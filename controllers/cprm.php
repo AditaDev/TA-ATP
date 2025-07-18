@@ -83,7 +83,8 @@
         $datAll = $mprm->getAll("bus");
     } else if($_SESSION['idpef']==3) $datAll = $mprm->getAll("prop");
     else if($_SESSION['idpef']==2) $datAll = $mprm->getAll("rrhhf");
-    
+    else $datAll = NULL;
+
     if($ope=='limp') echo "<script>window.location='home.php?pg=".$pg."';</script>";
     
     $datTprm = $mprm->getAllDom(1);

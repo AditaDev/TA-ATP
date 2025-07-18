@@ -17,7 +17,7 @@ if($_SESSION['idpef']==2){?>
             </div>
             <div class="form-group col-md-2 col-sm-4">
                 <label for="ndper"><strong>Documento:</strong></label>
-                <input type="text" name="ndper" id="ndper" value="<?= $ndper; ?>" onkeydown="return enter(event);" onchange="this.form.submit();" onkeypress="return solonum(event);" class="form-control">
+                <input type="text" name="ndper" id="ndper" value="<?= $ndper; ?>" onkeydown="return enter(event, 'ndper');" onchange="this.form.submit();" onkeypress="return solonum(event);" class="form-control">
             </div>
             <div class="form-group col-md-2 col-sm-4">
                 <label for="idvtprm"><strong>T. Permiso:</strong></label>
