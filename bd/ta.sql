@@ -153,7 +153,8 @@ CREATE TABLE `calificacion` (
     `idevajef` bigint(11) NULL,                                        
     `idevapar` bigint(11) NULL,
     `idevaaut` bigint(11) NULL,
-    `idevasub` bigint(11) NULL
+    `idevasub` bigint(11) NULL,
+    `rutpdf` varchar(255) DEFAULT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `modulo` (
