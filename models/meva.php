@@ -454,7 +454,19 @@
             $fecini = $this->getFecini();
             $fecfin = $this->getFecfin();
             $nota = $this->getNota();
-            $sql = "SELECT c.idcal, DATE_FORMAT(c.feccal, '%e de %M de %Y') AS fcal, c.feccal, c.nota, v.nomval AS tfor, CONCAT(pe.nomper, ' ', pe.apeper) AS eva, CONCAT(pj.nomper, ' ', pj.apeper) AS jef, CONCAT(pp.nomper, ' ', pp.apeper) AS par, CONCAT(ps.nomper, ' ', ps.apeper) AS sub FROM calificacion AS c INNER JOIN persona AS pe ON c.idper=pe.idper INNER JOIN valor AS v ON pe.idvfor=v.idval INNER JOIN evaluacion AS ej ON c.idevajef=ej.ideva INNER JOIN persona AS pj ON ej.idpereval=pj.idper LEFT JOIN evaluacion AS ep ON c.idevapar=ep.ideva LEFT JOIN persona AS pp ON ep.idpereval=pp.idper INNER JOIN evaluacion AS ea ON c.idevaaut=ea.ideva LEFT JOIN evaluacion AS es ON c.idevasub=es.ideva LEFT JOIN persona AS ps ON es.idpereval=ps.idper";
+            
+            $tipos = ['jef', 'par', 'sub', 'aut'];
+            $campos = [];
+
+            foreach ($tipos as $tipo) {
+                for ($i = 1; $i <= 25; $i++) $campos[] = "r$tipo.
+                
+                res$i AS r{$tipo}$i";
+            }
+
+            $respuestas = implode(", ", $campos);
+
+            $sql = "SELECT c.idcal, DATE_FORMAT(c.feccal, '%e de %M de %Y') AS fcal, c.feccal, c.nota, v.nomval AS tfor, CONCAT(pe.nomper, ' ', pe.apeper) AS eva, CONCAT(pj.nomper, ' ', pj.apeper) AS jef, CONCAT(pp.nomper, ' ', pp.apeper) AS par, CONCAT(ps.nomper, ' ', ps.apeper) AS sub, $respuestas FROM calificacion AS c INNER JOIN persona AS pe ON c.idper=pe.idper INNER JOIN valor AS v ON pe.idvfor=v.idval INNER JOIN evaluacion AS ej ON c.idevajef=ej.ideva INNER JOIN persona AS pj ON ej.idpereval=pj.idper LEFT JOIN evaluacion AS ep ON c.idevapar=ep.ideva LEFT JOIN persona AS pp ON ep.idpereval=pp.idper INNER JOIN evaluacion AS ea ON c.idevaaut=ea.ideva LEFT JOIN evaluacion AS es ON c.idevasub=es.ideva LEFT JOIN persona AS ps ON es.idpereval=ps.idper LEFT JOIN respuesta AS rjef ON rjef.ideva = ej.ideva LEFT JOIN respuesta AS rpar ON rpar.ideva=ep.ideva LEFT JOIN respuesta AS rsub ON rsub.ideva=es.ideva LEFT JOIN respuesta AS raut ON raut.ideva=ea.ideva";
             if($ope=="bus"){
                 $sql .= " WHERE c.feccal!=''";
                 if($fecini) $sql .= " AND DATE(c.feccal)>=:fecini";
