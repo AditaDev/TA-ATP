@@ -63,6 +63,7 @@ CREATE TABLE `formato` (
     `idfor` bigint(11) NOT NULL, 
     `tipfor` bigint(11) NOT NULL,
     `codfor` varchar(25) DEFAULT NULL,
+    `verfor` tinyint(2) DEFAULT NULL,
     `fecfor` date NOT NULL,
     `nomsec1` varchar(100) DEFAULT NULL,                                         
     `pre1` varchar(255) DEFAULT NULL,                                         
@@ -101,9 +102,9 @@ CREATE TABLE `formato` (
     `actfor` tinyint(1) NOT NULL DEFAULT 1
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `formato` (`idfor`, `tipfor`, `codfor`, `fecfor`, `nomsec1`, `pre1`, `pre2`, `pre3`, `pre4`, `pre5`, `nomsec2`, `pre6`, `pre7`, `pre8`, `pre9`, `pre10`, `nomsec3`, `pre11`, `pre12`, `pre13`, `pre14`, `pre15`, `nomsec4`, `pre16`, `pre17`, `pre18`, `pre19`, `pre20`, `nomsec5`, `pre21`, `pre22`, `pre23`, `pre24`, `pre25`, `porjef`, `porpar`, `poraut`, `porsub`, `actfor`) VALUES
-(1, 57, 'F111', '2025-05-28', 'S1', 'P1', '', '', '', '', 'S2', 'P1', '', '', '', '', 'S3', 'P1', '', '', '', '', 'S4', 'P1', '', '', '', '', '', '', '', '', '', '', 60, 20, 10, 10, 1),
-(2, 58, 'F222', '2025-05-28', 'S1', 'P1', '', '', '', '', 'S2', 'P1', 'P2', '', '', '', 'S3', 'P1', 'P2', 'P3', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 50, 35, 15, 0, 1);
+INSERT INTO `formato` (`idfor`, `tipfor`, `codfor`, `verfor`, `fecfor`, `nomsec1`, `pre1`, `pre2`, `pre3`, `pre4`, `pre5`, `nomsec2`, `pre6`, `pre7`, `pre8`, `pre9`, `pre10`, `nomsec3`, `pre11`, `pre12`, `pre13`, `pre14`, `pre15`, `nomsec4`, `pre16`, `pre17`, `pre18`, `pre19`, `pre20`, `nomsec5`, `pre21`, `pre22`, `pre23`, `pre24`, `pre25`, `porjef`, `porpar`, `poraut`, `porsub`, `actfor`) VALUES
+(1, 57, 'F111', '1', '2025-05-28', 'S1', 'P1', '', '', '', '', 'S2', 'P1', '', '', '', '', 'S3', 'P1', '', '', '', '', 'S4', 'P1', '', '', '', '', '', '', '', '', '', '', 60, 20, 10, 10, 1),
+(2, 58, 'F222', '2', '2025-05-28', 'S1', 'P1', '', '', '', '', 'S2', 'P1', 'P2', '', '', '', 'S3', 'P1', 'P2', 'P3', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 50, 35, 15, 0, 1);
 
 
 CREATE TABLE `respuesta` (

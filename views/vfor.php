@@ -124,7 +124,11 @@ include('controllers/cfor.php');
                         </div>
                         <small>
                             <div class="row">
-                                <?php if ($dta['fecfor']) { ?>
+                                <?php if ($dta['verfor']) { ?>
+                                        <div class="form-group col-md-6">
+                                        <strong>Versión: </strong> <?= $dta['verfor']; ?>
+                                    </div>
+                                <?php } if ($dta['fecfor']) { ?>
                                         <div class="form-group col-md-6">
                                         <strong>Fecha: </strong> <?= $dta['fecfor']; ?>
                                     </div>

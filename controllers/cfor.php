@@ -8,6 +8,7 @@
     $idfor = isset($_REQUEST['idfor']) ? $_REQUEST['idfor']:NULL;
     $tipfor = isset($_POST['tipfor']) ? $_POST['tipfor']:NULL;
     $codfor = isset($_POST['codfor']) ? $_POST['codfor']:NULL;
+    $verfor = isset($_POST['verfor']) ? $_POST['verfor']:NULL;
     $actfor = isset($_REQUEST['actfor']) ? $_REQUEST['actfor']:NULL;
     $nomsec1 = isset($_POST['nomsec1']) ? $_POST['nomsec1']:NULL;
     $pre1 = isset($_POST['pre1']) ? $_POST['pre1']:NULL;
@@ -55,6 +56,7 @@
     if($ope=="save"){
         $mfor->setTipfor($tipfor);
         $mfor->setCodfor($codfor);
+        $mfor->setVerfor($verfor);
         $mfor->setFecfor($hoy);
         $mfor->setNomsec1($nomsec1);
         $mfor->setPre1($pre1);

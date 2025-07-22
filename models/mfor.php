@@ -4,6 +4,7 @@
         private $idfor;
         private $tipfor;
         private $codfor;
+        private $verfor;
         private $fecfor;
         private $nomsec1;
         private $pre1;
@@ -49,6 +50,9 @@
         }
         public function getCodfor(){
             return $this->codfor;
+        }
+        public function getVerfor(){
+            return $this->verfor;
         }
         public function getFecfor(){
             return $this->fecfor;
@@ -168,6 +172,9 @@
         public function setCodfor($codfor){
             $this->codfor = $codfor;
         }
+        public function setVerfor($verfor){
+            $this->verfor = $verfor;
+        }
         public function setFecfor($fecfor){
             $this->fecfor = $fecfor;
         }
@@ -278,7 +285,7 @@
         }
 
         function getAll(){
-            $sql = "SELECT f.idfor, f.tipfor, f.codfor, f.fecfor, f.nomsec1, f.pre1, f.pre2, f.pre3, f.pre4, f.pre5, f.nomsec2, f.pre6, f.pre7, f.pre8, f.pre9, f.pre10, f.nomsec3, f.pre11, f.pre12, f.pre13, f.pre14, f.pre15, f.nomsec4, f.pre16, f.pre17, f.pre18, f.pre19, f.pre20, f.nomsec5, f.pre21, f.pre22, f.pre23, f.pre24, f.pre25, f.porjef, f.porpar, f.poraut, f.porsub, f.actfor, v.nomval FROM formato AS f INNER JOIN valor AS v ON f.tipfor=v.idval";
+            $sql = "SELECT f.idfor, f.tipfor, f.codfor, f.verfor, f.fecfor, f.nomsec1, f.pre1, f.pre2, f.pre3, f.pre4, f.pre5, f.nomsec2, f.pre6, f.pre7, f.pre8, f.pre9, f.pre10, f.nomsec3, f.pre11, f.pre12, f.pre13, f.pre14, f.pre15, f.nomsec4, f.pre16, f.pre17, f.pre18, f.pre19, f.pre20, f.nomsec5, f.pre21, f.pre22, f.pre23, f.pre24, f.pre25, f.porjef, f.porpar, f.poraut, f.porsub, f.actfor, v.nomval FROM formato AS f INNER JOIN valor AS v ON f.tipfor=v.idval";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -288,7 +295,7 @@
         }
 
         function getOne(){
-            $sql = "SELECT f.idfor, f.tipfor, f.codfor, f.fecfor, f.nomsec1, f.pre1, f.pre2, f.pre3, f.pre4, f.pre5, f.nomsec2, f.pre6, f.pre7, f.pre8, f.pre9, f.pre10, f.nomsec3, f.pre11, f.pre12, f.pre13, f.pre14, f.pre15, f.nomsec4, f.pre16, f.pre17, f.pre18, f.pre19, f.pre20, f.nomsec5, f.pre21, f.pre22, f.pre23, f.pre24, f.pre25, f.porjef, f.porpar, f.poraut, f.porsub, f.actfor, v.nomval FROM formato AS f INNER JOIN valor AS v ON f.tipfor=v.idval WHERE idfor=:idfor";
+            $sql = "SELECT f.idfor, f.tipfor, f.codfor, f.verfor, f.fecfor, f.nomsec1, f.pre1, f.pre2, f.pre3, f.pre4, f.pre5, f.nomsec2, f.pre6, f.pre7, f.pre8, f.pre9, f.pre10, f.nomsec3, f.pre11, f.pre12, f.pre13, f.pre14, f.pre15, f.nomsec4, f.pre16, f.pre17, f.pre18, f.pre19, f.pre20, f.nomsec5, f.pre21, f.pre22, f.pre23, f.pre24, f.pre25, f.porjef, f.porpar, f.poraut, f.porsub, f.actfor, v.nomval FROM formato AS f INNER JOIN valor AS v ON f.tipfor=v.idval WHERE idfor=:idfor";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -301,7 +308,7 @@
 
         function save(){
             try {
-                $sql = "INSERT INTO formato (tipfor, codfor, fecfor, nomsec1, pre1, pre2, pre3, pre4, pre5, nomsec2, pre6, pre7, pre8, pre9, pre10, nomsec3, pre11, pre12, pre13, pre14, pre15, nomsec4, pre16, pre17, pre18, pre19, pre20, nomsec5, pre21, pre22, pre23, pre24, pre25, porjef, porpar, poraut, porsub, actfor) VALUES (:tipfor, :codfor, :fecfor, :nomsec1, :pre1, :pre2, :pre3, :pre4, :pre5, :nomsec2, :pre6, :pre7, :pre8, :pre9, :pre10, :nomsec3, :pre11, :pre12, :pre13, :pre14, :pre15, :nomsec4, :pre16, :pre17, :pre18, :pre19, :pre20, :nomsec5, :pre21, :pre22, :pre23, :pre24, :pre25, :porjef, :porpar, :poraut, :porsub, :actfor)";
+                $sql = "INSERT INTO formato (tipfor, codfor, verfor, fecfor, nomsec1, pre1, pre2, pre3, pre4, pre5, nomsec2, pre6, pre7, pre8, pre9, pre10, nomsec3, pre11, pre12, pre13, pre14, pre15, nomsec4, pre16, pre17, pre18, pre19, pre20, nomsec5, pre21, pre22, pre23, pre24, pre25, porjef, porpar, poraut, porsub, actfor) VALUES (:tipfor, :codfor, :fecfor, :nomsec1, :pre1, :pre2, :pre3, :pre4, :pre5, :nomsec2, :pre6, :pre7, :pre8, :pre9, :pre10, :nomsec3, :pre11, :pre12, :pre13, :pre14, :pre15, :nomsec4, :pre16, :pre17, :pre18, :pre19, :pre20, :nomsec5, :pre21, :pre22, :pre23, :pre24, :pre25, :porjef, :porpar, :poraut, :porsub, :actfor)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -309,6 +316,8 @@
                 $result->bindParam(":tipfor", $tipfor);
                 $codfor = $this->getCodfor();
                 $result->bindParam(":codfor", $codfor);
+                $verfor = $this->getVerfor();
+                $result->bindParam(":verfor", $verfor);
                 $fecfor = $this->getFecfor();
                 $result->bindParam(":fecfor", $fecfor);
                 $nomsec1 = $this->getNomsec1();
@@ -389,7 +398,7 @@
 
         function edit(){
             try {
-                $sql = "UPDATE formato SET tipfor=:tipfor, codfor=:codfor, fecfor=:fecfor, nomsec1=:nomsec1, pre1=:pre1, pre2=:pre2, pre3=:pre3, pre4=:pre4, pre5=:pre5, nomsec2=:nomsec2, pre6=:pre6, pre7=:pre7, pre8=:pre8, pre9=:pre9, pre10=:pre10, nomsec3=:nomsec3, pre11=:pre11, pre12=:pre12, pre13=:pre13, pre14=:pre14, pre15=:pre15, nomsec4=:nomsec4, pre16=:pre16, pre17=:pre17, pre18=:pre18, pre19=:pre19, pre20=:pre20, nomsec5=:nomsec5, pre21=:pre21, pre22=:pre22, pre23=:pre23, pre24=:pre24, pre25=:pre25, porjef=:porjef, porpar=:porpar, poraut=:poraut, porsub=:porsub, actfor=:actfor WHERE idfor=:idfor";
+                $sql = "UPDATE formato SET tipfor=:tipfor, codfor=:codfor, verfor=:verfor, fecfor=:fecfor, nomsec1=:nomsec1, pre1=:pre1, pre2=:pre2, pre3=:pre3, pre4=:pre4, pre5=:pre5, nomsec2=:nomsec2, pre6=:pre6, pre7=:pre7, pre8=:pre8, pre9=:pre9, pre10=:pre10, nomsec3=:nomsec3, pre11=:pre11, pre12=:pre12, pre13=:pre13, pre14=:pre14, pre15=:pre15, nomsec4=:nomsec4, pre16=:pre16, pre17=:pre17, pre18=:pre18, pre19=:pre19, pre20=:pre20, nomsec5=:nomsec5, pre21=:pre21, pre22=:pre22, pre23=:pre23, pre24=:pre24, pre25=:pre25, porjef=:porjef, porpar=:porpar, poraut=:poraut, porsub=:porsub, actfor=:actfor WHERE idfor=:idfor";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -399,6 +408,8 @@
                 $result->bindParam(":tipfor", $tipfor);
                 $codfor = $this->getCodfor();
                 $result->bindParam(":codfor", $codfor);
+                $verfor = $this->getVerfor();
+                $result->bindParam(":verfor", $verfor);
                 $fecfor = $this->getFecfor();
                 $result->bindParam(":fecfor", $fecfor);
                 $nomsec1 = $this->getNomsec1();
