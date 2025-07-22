@@ -2,9 +2,9 @@
 
 if($_SESSION['idpef']==2){?>
     <form action="home.php?pg=113" method="post">
-        <div class="row">
+        <div class="row" style="align-items: end">
             <div class="form-group col-md-10">
-                <div class="row">
+                <div class="row" style="align-items: end">
                     <div class="form-group col-sm-3">
                         <label for="fecinib"><strong>Fecha inicial:</strong></label>
                         <input type="date" name="fecini" id="fecinib" value="<?= $fecini; ?>" onchange="this.form.submit();" class="form-control">
@@ -15,8 +15,7 @@ if($_SESSION['idpef']==2){?>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="nota"><strong>Nota mínima:</strong></label>
-                        <input type="text" name="nota" id="nota" value="<?= $nota; ?>" onkeydown="return enter(event, 'nota');" onchange="this.form.submit();" oninput="valNum('nota', '');" onkeypress="return solonum(event);" class="form-control">
-                        <small id="msjerror" style="color: red; display: none; margin-top: 5px"></small>
+                        <input type="text" name="nota" id="nota" value="<?= $nota; ?>" onkeydown="return enter(event, 'nota');" onchange="this.form.submit();" oninput="valNum('nota', '');" onkeypress="return NumDecimal(event);" class="form-control">
                     </div>
                     <input type="hidden" name="ope" value="busc">
                     <div class="form-group col-sm-1" id="btnprm">
@@ -26,12 +25,16 @@ if($_SESSION['idpef']==2){?>
                     </div>
                 </div>
             </div>
-            <div>
-                <a href="excel/xprm.php?exl=prm" title="Calcular Nota">
-                    <i class="fa fa-solid fa-file-export fa-2x exp"></i>
-                </a>
-            </div>
+            <?php if($datAll){?>
+                <div class="form-group col-md-2" style="text-align: right;">
+                    <button type="submit" title="Calcular nota" value="calcular" name="ope" style="border:none; background-color: #f7f2ef;">
+                        <strong>Calcular</strong>
+                        <i class="fa fa-solid fa-calculator fa-2x iconi"></i>
+                    </button>
+                </div>
+            <?php } ?>
         </div>
+        <small id="msjerror" style="color: red; display: none; margin-top: 5px"></small>
     </form>
 <?php } ?>
 <table id="mytable" class="table table-striped">
@@ -64,25 +67,32 @@ if($_SESSION['idpef']==2){?>
                                             <strong>Subalterno: </strong> <?= $dta['sub']; ?>
                                         </div>
                                     <?php } if ($dta['tfor']) { ?>
-                                        <div class="form-group col-md-12">
+                                        <div class="form-group col-md-6">
                                             <strong>Formato: </strong> <?= $dta['tfor']; ?>
+                                        </div>
+                                    <?php } if ($dta['verfor']) { ?>
+                                        <div class="form-group col-md-6">
+                                            <strong>Versión: </strong> <?= $dta['verfor']; ?>
                                         </div>
                                     <?php } ?>
                                 </div>
                             </small>
                         </div>
                         <div class="form-group col-md-2">
-                            <?php
-                            if($_SESSION['idpef']==3 && $dta['sptrut'] && file_exists($dta['sptrut'])) { ?>
-                                <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['idprm'] ?>', 'spt', '<?= basename($dta['sptrut']) ?>')"></i>
+                            <?php if($dta['rutpdf'] && file_exists($dta['rutpdf'])) { ?>
+                                <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['idprm'] ?>', 'spt', '<?= basename($dta['sptrut']) ?>', '113')" title="Ver PDF"></i>
+                            <?php } else { ?>
+                                <a href="views/pdfcal.php?idcal=<?=$dta['idcal'];?>" title="Generar PDF" target="_blank">
+                                    <i class="fa fa-solid fa-envelopes-bulk iconi"></i>
+                                </a>
                             <?php } ?>
                         </div>
                     </div>
                 </td>
-                <td style="text-align: center;">
-                    <BIG><strong><?php if($dta['nota']) echo $dta['feccal']; else echo "--"; ?></strong></BIG>
+                <td style="text-align: right;">
+                    <BIG><strong><?php if($dta['nota']) echo $dta['nota']; else echo "--"; ?></strong></BIG>
                 </td>
-                <td style="text-align: center;">
+                <td style="text-align: right;">
                     <BIG><strong><?php if($dta['fcal']) echo $dta['fcal']; ?></strong></BIG>
                 </td>
             </tr>
