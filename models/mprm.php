@@ -154,7 +154,6 @@
             }
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
-            $conexion->query("SET lc_time_names = 'es_ES';");
             $result = $conexion->prepare($sql);
             if($id=="prop") $result->bindParam(":id", $_SESSION['idper']);
             if($id==$_SESSION['idper']) $result->bindParam(":id", $id);
