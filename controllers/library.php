@@ -16,7 +16,7 @@ function titulo($ico, $tit, $mos, $pg)
 		
 		if ($mos == 1) {
 			$txt .= '<div class="titaju" style="float: right; font-size: 20px">';
-			$txt .= '<style"text-align: right;">Registrar </class=style>';
+				$txt .= '<style"text-align: right;">Registrar </style>';
 				$txt .= '<i class="fa-solid fa-circle-plus" id="mas" onclick="ocul(' . $mos . ',1);"></i>';
 				$txt .= '<i class="fa-solid fa-circle-minus" id="menos" onclick="ocul(' . $mos . ',0);"></i>';
 			$txt .= '</div>';
@@ -692,4 +692,55 @@ function encripta($password) {
     ];
     return $pass; // Devuelve el usuario (en un caso real, guarda en la base de datos)
 }
+
+//------------Calificacion-----------
+function calcularNota($fila) {
+    $tipos = ['jef', 'aut', 'par', 'sub'];
+    $bloque = [];
+    $notas = [];
+
+    // Convertir los pesos enteros en decimales dividiendo entre 100
+    $pesos = [
+        'jef' => ($fila['porjef'])?floatval($fila['porjef'])/100:0,
+        'aut' => ($fila['poraut'])?floatval($fila['poraut'])/100:0,
+        'par' => ($fila['porpar'])?floatval($fila['porpar'])/100:0,
+        'sub' => ($fila['porsub'])?floatval($fila['porsub'])/100:0,
+    ];
+
+    for ($i=1; $i<=25; $i++) {
+        $resParcial = 0;
+        $respondidas = 0;
+
+        foreach ($tipos as $tipo) {
+            $campo = "r{$tipo}{$i}";
+
+            if ($fila[$campo] && $fila[$campo]!=='') {
+                $resParcial += floatval($fila[$campo]) * $pesos[$tipo];
+                $respondidas++;
+            }
+        }
+
+        $bloque[] = $respondidas > 0 ? $resParcial : null;
+
+        if ($i % 5 == 0) {
+            $suma = 0;
+            $cuenta = 0;
+			
+            foreach ($bloque as $nota) {
+                if (!is_null($nota)) {
+                    $suma += $nota;
+                    $cuenta++;
+                }
+            }
+
+			if ($cuenta > 0) $notas[] = $suma / $cuenta;
+            $bloque = [];
+        }
+    }
+
+    $Final = count($notas) > 0 ? array_sum($notas) / count($notas) : 0;
+    return round($Final, 2);
+}
+
+
 
