@@ -1,7 +1,7 @@
 <?php
     require_once("models/meva.php");
    
-    $meva = new meva();
+    $meva = new Meva();
 
     /*Los tipos de evaluacion se guardan según la relación del evaluador con el evaluado
     Si yo como evaluador me evaluo a mi mismo      --> autoevaluacion = 1
@@ -202,15 +202,31 @@
     
 
     //------------Calificacion-----------
-
+    
     if($ope=='busc'){
         $meva->setFecini($fecini);
         $meva->setFecfin($fecfin);
         $meva->setNota($nota);
         $datAll = $meva->getAll("bus");
     } else $datAll = $meva->getAll("all");
-
+    
     if($ope=='limp') echo "<script>window.location='home.php?pg=113';</script>";
-
+    
     $datPer = $meva->getPer($_SESSION['idper']); 
+    
+    //------------Calcular nota-----------
+
+    if($ope=='calcular'){
+        foreach($datAll AS $reg){
+            if(!$reg['nota']){
+                $final = calcularNota($reg);
+                $meva->setIdperevald($reg['idper']);
+                $meva->setNota($final);
+                $meva->saveNota();
+            }
+        }
+        echo "<script>window.location='home.php?pg=113';</script>";
+    }
+
+
 ?>
