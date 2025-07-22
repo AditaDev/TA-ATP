@@ -334,7 +334,7 @@ if($ident){
     if($det['fecent'] && !$det['fecdev']) $mail_asun .= "Entrega";
     elseif($det['fecent'] && $det['fecdev']) $mail_asun .= "Devolución"; 
     $mail_asun .= " de Dotación";
-    $fir_mail = '<strong>'.$nomperm.'</strong><br>'.$a.' | '.$mail.'<br>Cra 34a 3 63, Puente Aranda <br>Bogotá D.C.<br>www.artepan.com.co';
+    $fir_mail = '<strong>'.$nomperm.'</strong><br>'.$a.' | '.$mail.'<br>'.$direccion.'<br>'.$ubicacion.'<br>'.$web;
 
     //-------Llama la función que crea y envía el correo--------
     $exito = sendemail($ema, $psem, $nom, $maild, $nomperd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");

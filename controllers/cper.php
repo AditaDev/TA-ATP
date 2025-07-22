@@ -53,7 +53,7 @@
     Para acceder a la aplicación, ingrese en el siguiente enlace: <a href='".$url."'>👉 Acceder a TUMMY</a><br><br>
     Si tiene alguna pregunta o requiere asistencia, no dude en ponerse en contacto con nosotros.<br><br>
     Agradecemos su confianza y esperamos que disfrute de la nueva experiencia.<br><br>";
-    $fir_mail = '<strong>'.$nom.'</strong><br>Cra 34a 3 63, Puente Aranda <br>Bogotá D.C.<br>www.artepan.com.co';
+    $fir_mail = '<strong>'.$nom.'</strong><br>'.$direccion.'<br>'.$ubicacion.'<br>'.$web;
 
     //------------Traer valores-----------
     $datAll = $mper->getAll();

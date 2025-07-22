@@ -255,7 +255,7 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
     $pfec = explode(' ', $det['fini']);
     $fec = $pfec[0].' de '.$pfec[2];
 
-    $fir_mail = '<strong>'.$nom.'</strong><br>Cra 34a 3 63, Puente Aranda <br>Bogotá D.C.<br>www.artepan.com.co';
+    $fir_mail = '<strong>'.$nom.'</strong><br>'.$direccion.'<br>'.$ubicacion.'<br>'.$web;
 
     if($estprm==2){
         $template="../views/mailprm.html";

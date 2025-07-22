@@ -19,7 +19,9 @@
     $nomadm = "Adamarys Rodriguez1";
     $diradm = "rodriada24@gmail.com";
 
-   
+    $direccion = "Cl 18A 69 F-56";
+    $ubicacion = "Bogotá D.C.";
+    $web = "www.artepan.com.co";
 
     $url = "http://localhost/TA-ATP/";
 
