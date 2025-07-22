@@ -161,7 +161,7 @@ if($_SESSION['idpef']==2){
                                     <i class="fa fa-solid fa-envelopes-bulk iconi"></i>
                                 </a>
                                 <?php } if($dta['rutpdf'] && file_exists($dta['rutpdf'])) { ?>
-                                    <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['ident'] ?>', 'rut', '<?= basename($dta['rutpdf']) ?>', '<?= '111' ?>')"></i>
+                                    <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['ident'] ?>', 'rut', '<?= basename($dta['rutpdf']) ?>', '<?= $pg ?>')"></i>
                                 <?php } ?>
                                 
                             </div>
