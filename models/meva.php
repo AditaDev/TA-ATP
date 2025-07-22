@@ -3,10 +3,12 @@
 
        //------------Calificacion-----------
        
+        private $idcal;
         private $fecini;
         private $fecfin;
         private $nota;
-       
+        private $rutpdf;
+
         //------------Evaluacion-----------
        
         private $ideva;
@@ -48,6 +50,9 @@
        
         //------------Calificacion-----------
        
+        public function getIdcal(){
+            return $this->idcal;
+        }
         public function getFecini(){
             return $this->fecini;
         }
@@ -57,7 +62,13 @@
         public function getNota(){
             return $this->nota;
         }
+        public function getRutpdf(){
+            return $this->rutpdf;
+        }
 
+        public function setIdcal($idcal){
+            $this->idcal=$idcal;
+        }
         public function setFecini($fecini){
             $this->fecini=$fecini;
         }
@@ -66,6 +77,9 @@
         }
         public function setNota($nota){
             $this->nota=$nota;
+        }
+        public function setRutpdf($rutpdf){
+            $this->rutpdf=$rutpdf;
         }
         
 
@@ -270,31 +284,7 @@
             $this->res25=$res25;
         }
 
-        //------------Evaluacion-----------
-
-        // function getAll(){
-        //     $sql = "SELECT idfor, nomfor, codfor, fecfor, nomsec1, pre1, pre2, pre3, pre4, pre5, nomsec2, pre6, pre7, pre8, pre9, pre10, nomsec3, pre11, pre12, pre13, pre14, pre15, nomsec4, pre16, pre17, pre18, pre19, pre20, nomsec5, pre21, pre22, pre23, pre24, pre25, porjef, porpar, poraut, porsub, actfor FROM formato;";
-        //     $modelo = new conexion();
-        //     $conexion = $modelo->get_conexion();
-        //     $result = $conexion->prepare($sql);
-        //     $result->execute();
-        //     $res = $result->fetchall(PDO::FETCH_ASSOC);
-        //     return $res;
-        // }
-
-        // function getOne(){
-        //     $sql = "SELECT idfor, nomfor, codfor, fecfor, nomsec1, pre1, pre2, pre3, pre4, pre5, nomsec2, pre6, pre7, pre8, pre9, pre10, nomsec3, pre11, pre12, pre13, pre14, pre15, nomsec4, pre16, pre17, pre18, pre19, pre20, nomsec5, pre21, pre22, pre23, pre24, pre25, porjef, porpar, poraut, porsub, actfor FROM formato WHERE idfor=:idfor";
-        //     $modelo = new conexion();
-        //     $conexion = $modelo->get_conexion();
-        //     $result = $conexion->prepare($sql);
-        //     $idfor = $this->getIdfor();
-        //     $result->bindParam(":idfor", $idfor);
-        //     $result->execute();
-        //     $res = $result->fetchall(PDO::FETCH_ASSOC);
-        //     return $res;
-        // }
-
-        
+        //------------Evaluacion-----------       
 
         function save(){
             try {
@@ -383,20 +373,6 @@
                 ManejoError($e);
             }
         }
-
-        // function delRxE(){
-        //     try{
-        //         $sql = "DELETE FROM formato WHERE idfor=:idfor";
-        //         $modelo = new conexion();
-        //         $conexion = $modelo->get_conexion();
-        //         $result = $conexion->prepare($sql);
-        //         $idfor = $this->getIdfor();
-        //         $result->bindParam(":idfor",$idfor);
-        //         $result->execute();
-        //     }catch(Exception $e){
-        //         ManejoError($e);
-        //     }
-        // }
         
         //------------Evaluacion-----------
         
@@ -451,22 +427,25 @@
         //------------Calificacion-----------
 
         function getAll($ope) {
+            $idcal = $this->getIdcal();
             $fecini = $this->getFecini();
             $fecfin = $this->getFecfin();
             $nota = $this->getNota();
             
             $tipos = ['jef', 'par', 'sub', 'aut'];
             $campos = [];
+            $preg = [];
 
             foreach ($tipos as $tipo) {
-                for ($i = 1; $i <= 25; $i++) $campos[] = "r$tipo.
-                
-                res$i AS r{$tipo}$i";
+                for ($i = 1; $i <= 25; $i++) $campos[] = "r$tipo.res$i AS r{$tipo}$i";
             }
-
             $respuestas = implode(", ", $campos);
+            
+            for ($i = 1; $i <= 25; $i++) $preg[] = "f.pre$i";
+            $preguntas = implode(", ", $preg);
 
-            $sql = "SELECT c.idcal, DATE_FORMAT(c.feccal, '%e de %M de %Y') AS fcal, c.feccal, c.nota, v.nomval AS tfor, CONCAT(pe.nomper, ' ', pe.apeper) AS eva, CONCAT(pj.nomper, ' ', pj.apeper) AS jef, CONCAT(pp.nomper, ' ', pp.apeper) AS par, CONCAT(ps.nomper, ' ', ps.apeper) AS sub, $respuestas FROM calificacion AS c INNER JOIN persona AS pe ON c.idper=pe.idper INNER JOIN valor AS v ON pe.idvfor=v.idval INNER JOIN evaluacion AS ej ON c.idevajef=ej.ideva INNER JOIN persona AS pj ON ej.idpereval=pj.idper LEFT JOIN evaluacion AS ep ON c.idevapar=ep.ideva LEFT JOIN persona AS pp ON ep.idpereval=pp.idper INNER JOIN evaluacion AS ea ON c.idevaaut=ea.ideva LEFT JOIN evaluacion AS es ON c.idevasub=es.ideva LEFT JOIN persona AS ps ON es.idpereval=ps.idper LEFT JOIN respuesta AS rjef ON rjef.ideva = ej.ideva LEFT JOIN respuesta AS rpar ON rpar.ideva=ep.ideva LEFT JOIN respuesta AS rsub ON rsub.ideva=es.ideva LEFT JOIN respuesta AS raut ON raut.ideva=ea.ideva";
+            $sql = "SELECT c.idcal, c.idper, DATE_FORMAT(c.feccal, '%e de %M de %Y') AS fcal, c.feccal, c.nota, c.rutpdf, c.idevasub, v.nomval AS tfor, CONCAT(pe.nomper, ' ', pe.apeper) AS eva, ea.feceva AS feva, CONCAT(pj.nomper, ' ', pj.apeper) AS jef, ej.feceva AS fjeva, CONCAT(pp.nomper, ' ', pp.apeper) AS par, ep.feceva AS fpeva, CONCAT(ps.nomper, ' ', ps.apeper) AS sub, es.feceva AS fseva, f.codfor, f.verfor, f.fecfor, f.nomsec1, f.nomsec2, f.nomsec3, f.nomsec4, f.nomsec5, f.porjef, f.porpar, f.poraut, f.porsub, $preguntas, $respuestas FROM calificacion AS c INNER JOIN persona AS pe ON c.idper=pe.idper INNER JOIN valor AS v ON pe.idvfor=v.idval INNER JOIN evaluacion AS ej ON c.idevajef=ej.ideva INNER JOIN persona AS pj ON ej.idpereval=pj.idper LEFT JOIN evaluacion AS ep ON c.idevapar=ep.ideva LEFT JOIN persona AS pp ON ep.idpereval=pp.idper INNER JOIN evaluacion AS ea ON c.idevaaut=ea.ideva LEFT JOIN evaluacion AS es ON c.idevasub=es.ideva LEFT JOIN persona AS ps ON es.idpereval=ps.idper INNER JOIN respuesta AS rjef ON ej.ideva=rjef.ideva INNER JOIN respuesta AS rpar ON ep.ideva=rpar.ideva LEFT JOIN respuesta AS rsub ON es.ideva=rsub.ideva INNER JOIN respuesta AS raut ON ea.ideva=raut.ideva INNER JOIN formato AS f ON ea.idfor=f.idfor";
+            if($ope=="one") $sql .= " WHERE c.idcal=:idcal";
             if($ope=="bus"){
                 $sql .= " WHERE c.feccal!=''";
                 if($fecini) $sql .= " AND DATE(c.feccal)>=:fecini";
@@ -475,8 +454,8 @@
             }
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
-            $conexion->query("SET lc_time_names = 'es_ES';");
             $result = $conexion->prepare($sql);
+            if($ope=="one") $result->bindParam(":idcal", $idcal);
             if($ope=="bus"){
                 if($fecini) $result->bindParam(":fecini", $fecini);
 		        if($fecfin) $result->bindParam(":fecfin", $fecfin);
@@ -519,14 +498,34 @@
             }
         }
 
-        function saveNota($idper, $nota) {
+        function saveNota() {
             try{
                 $sql = "UPDATE calificacion SET nota=:nota WHERE idper=:id";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
-                $result->bindParam(":id", $nota);
-                $result->bindParam(":id", $idper);
+                $nota = $this->getNota();
+                $result->bindParam(":nota", $nota);
+                $idperevald = $this->getIdperevald();
+                $result->bindParam(":id", $idperevald);
+                $result->execute();
+                $res = $result-> fetchall(PDO::FETCH_ASSOC);
+                return $res;
+            }catch(Exception $e){
+                ManejoError($e);
+            }
+        }
+
+        function savePdf() {
+            try{
+                $sql = "UPDATE calificacion SET rutpdf=:rutpdf WHERE idper=:id";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $rutpdf = $this->getRutpdf();
+                $result->bindParam(":rutpdf", $rutpdf);
+                $idperevald = $this->getIdperevald();
+                $result->bindParam(":id", $idperevald);
                 $result->execute();
                 $res = $result-> fetchall(PDO::FETCH_ASSOC);
                 return $res;
