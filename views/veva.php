@@ -52,7 +52,7 @@ if($_SESSION['idpef']==2){ if($pendientes){ ?>
             <div class="form-group col-md-6">
                 <label for="idperevald"><strong>Evaluado:</strong></label>
                 <select name="idperevald" id="idperevald" class="form-control form-select" onChange="recFormato(this.value); TipoEvaluacion(this)" required>
-                    <option value="0" disabled selected>Seleccione...</option>
+                    <option value="" disabled selected>Seleccione...</option>
                     <?php foreach ($datPer AS $dtp) { ?>
                         <option value="<?= $dtp['idper']; ?>" data-tipo="<?= $dtp['tipeva'] ?? 0 ?>" <?php if (isset($datOne[0]['idperevald']) && $dtp['idper'] == $datOne[0]['idperevald']) echo "selected"; ?>>
                             <?= $dtp['nomper'].(($dtp['idper']==$_SESSION['idper'])?" / (Autoevaluación)":""); ?>

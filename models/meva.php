@@ -466,14 +466,22 @@
             return $res;
         }
 
-        function selectCal($idperevald) {
-            $sqlCheck = "SELECT 1 FROM calificacion WHERE idper=:id AND feccal>=DATE_SUB(CURDATE(), INTERVAL 3 MONTH)";
+        function selectCal($idperevald, $tiposEvaluados) {
+            $auto = $tiposEvaluados[1] ?? null;
+            $jefe = $tiposEvaluados[2] ?? null;
+            $par  = $tiposEvaluados[4] ?? null;
+            
+            $sqlCheck = "SELECT 1 FROM calificacion WHERE idper=:id AND idevajef=:idevajef AND idevapar=:idevapar AND idevaaut=:idevaaut AND feccal>=DATE_SUB(CURDATE(), INTERVAL 3 MONTH)";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sqlCheck);
             $result->bindParam(":id", $idperevald);
+            $result->bindParam(":idevajef", $jefe);
+            $result->bindParam(":idevapar", $par);
+            $result->bindParam(":idevaaut", $auto);
             $result->execute();
-            return $result->fetch() ? true : false;
+            $res = $result-> fetchall(PDO::FETCH_ASSOC);
+            return $res;
         }
 
         function saveCal($idperevald, $tiposEvaluados) {

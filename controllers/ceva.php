@@ -164,7 +164,7 @@
             }}}
 
             //Inserta solo cuando esten las requeridas
-            if ($todosCompletos && !$meva->selectCal($idperevald)) $meva->saveCal($idperevald, $tiposEvaluados);
+            if ($todosCompletos && !$meva->selectCal($idperevald, $tiposEvaluados)) $meva->saveCal($idperevald, $tiposEvaluados);
         }
         echo "<script>window.location='home.php?pg=112';</script>";
     }
