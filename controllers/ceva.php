@@ -164,7 +164,15 @@
             }}}
 
             //Inserta solo cuando esten las requeridas
-            if ($todosCompletos && !$meva->selectCal($idperevald, $tiposEvaluados)) $meva->saveCal($idperevald, $tiposEvaluados);
+            if ($todosCompletos && !$meva->selectCal($idperevald, $tiposEvaluados)){
+                $meva->saveCal($idperevald, $tiposEvaluados);
+                $datos = $meva->selectCal($idperevald, $tiposEvaluados);
+                $meva->setIdcal($datos[0]['idcal']);
+                $reg = $meva->getAll("one");
+                $final = calcularNota($reg[0]);
+                $meva->setNota($final);
+                $meva->saveNota();
+            }
         }
         echo "<script>window.location='home.php?pg=112';</script>";
     }
@@ -220,7 +228,7 @@
         foreach($datAll AS $reg){
             if(!$reg['nota']){
                 $final = calcularNota($reg);
-                $meva->setIdperevald($reg['idper']);
+                $meva->setIdcal($reg['idcal']);
                 $meva->setNota($final);
                 $meva->saveNota();
             }
