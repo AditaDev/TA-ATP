@@ -93,7 +93,7 @@ if($_SESSION['idpef']==2){?>
                     <BIG><strong><?php if($dta['nota']) echo $dta['nota']; else echo "--"; ?></strong></BIG>
                 </td>
                 <td style="text-align: right;">
-                    <BIG><strong><?php if($dta['fcal']) echo $dta['fcal']; ?></strong></BIG>
+                    <BIG><strong><?php if($dta['feccal']) echo date("d/m/Y", strtotime($dta['feccal'])); ?></strong></BIG>
                 </td>
             </tr>
         <?php }} ?>
