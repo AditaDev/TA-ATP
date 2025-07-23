@@ -7,7 +7,7 @@ include('controllers/cfor.php');
         <div class="form-group col-md-6">
             <label for="tipfor"><strong>Tipo:</strong></label>
             <select name="tipfor" id="tipfor" class="form-control form-select" required onchange="sumporcent()">
-                <option value="0" disabled selected>Seleccione...</option>
+                <option value="" disabled selected>Seleccione...</option>
                 <?php foreach ($datFor as $dtf) { ?>
                     <option value="<?= $dtf['idval']; ?>" <?php if ($datOne && $dtf['idval'] == $datOne[0]['tipfor']) echo " selected "; ?>>
                         <?= $dtf['nomval']; ?>
@@ -18,6 +18,14 @@ include('controllers/cfor.php');
         <div class="form-group col-md-6">
             <label for="codfor"><strong>Código:</strong></label>
             <input class="form-control" type="text" id="codfor" name="codfor" value="<?php if ($datOne) echo $datOne[0]['codfor']; ?>" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="verfor"><strong>Versión:</strong></label>
+            <input class="form-control" type="text" id="verfor" name="verfor" value="<?php if ($datOne) echo $datOne[0]['verfor']; ?>" onkeypress="return solonum(event);" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="fecfor"><strong>Fecha:</strong></label>
+            <input class="form-control" type="date" id="fecfor" name="fecfor" value="<?php if ($datOne) echo $datOne[0]['fecfor']; ?>" required>
         </div>
         <div class="form-group col-md-6">
             <label for="actfor" class="titulo"><strong>Activo:</strong></label>
@@ -130,7 +138,7 @@ include('controllers/cfor.php');
                                     </div>
                                 <?php } if ($dta['fecfor']) { ?>
                                         <div class="form-group col-md-6">
-                                        <strong>Fecha: </strong> <?= $dta['fecfor']; ?>
+                                        <strong>Fecha: </strong> <?= date("d/m/Y", strtotime($dta['fecfor'])); ?>
                                     </div>
                                 <?php } ?>
                             </div>
