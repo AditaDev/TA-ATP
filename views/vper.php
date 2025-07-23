@@ -38,8 +38,8 @@ if($_SESSION['idpef']!=3){ ?>
         </div>
         <div class="form-group col-md-4">
             <label for="idvfor"><strong>Formato:</strong></label>
-            <select name="idvfor" id="idvfor" class="form-control form-select" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
-                    <option value="0" disabled selected>Seleccione...</option>
+            <select name="idvfor" id="idvfor" class="form-control form-select" <?php if($_SESSION['idpef']==3) echo " disabled "?> required>
+                    <option value="" disabled selected>Seleccione...</option>
                     <?php foreach ($datFor as $dtf) { ?>
                         <option value="<?= $dtf['idval']; ?>" <?php if ($datOne && $dtf['idval'] == $datOne[0]['idvfor']) echo " selected "; ?>>
                             <?= $dtf['nomval']; ?>
