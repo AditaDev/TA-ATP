@@ -244,7 +244,7 @@ if($_SESSION['idpef']==2){?>
                     <td>
                         <div class="row">
                             <div class="form-group col-md-10">
-                                <span style="font-size: 0px;opacity: 0;"><?=$slp['fecsol'];?></span>
+                                <span style="font-size: 0px;opacity: 0;"><?=date("d/m/Y", strtotime($dta['fecsol']));?></span>
                                 <BIG><strong><?= $slp['dper']." - ".$slp['aper']." ".$slp['nper']?></strong></BIG>
                                 <small>
                                     <div class="row">

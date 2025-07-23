@@ -129,7 +129,7 @@ if($_SESSION['idpef']==2){
                     <td tyle="text-align: left;">
                         <div class="row">
                             <div class="form-group col-sm-10">
-                                <strong> <?= ($dta['fecent']) .  " - "  . $dta['nomprec']; ?></strong>
+                                <strong> <?= (date("d/m/Y", strtotime($dta['fecent']))).  " - "  . $dta['nomprec']; ?></strong>
                                 <div class="row">
                                 <?php if($dta['aprec']){?>
                                     <div class="form-group col-sm-6">
@@ -178,7 +178,7 @@ if($_SESSION['idpef']==2){
                     </td>
                     <?php if($_SESSION['idpef']==2){ ?>
                     <td tyle="text-align: half;">
-                        <span style="font-size: 1px;opacity: 0;"><?= $dta['fecdev']; ?></span>
+                        <span style="font-size: 1px;opacity: 0;"><?= date("d/m/Y", strtotime($dta['fecdev'])); ?></span>
                         <?php if ($dta['estent'] != 2) { ?>
                             <i class="fa fa-solid fa-arrows-turn-to-dots fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbdev<?= $dta['ident']; ?>" title="Devolver"></i>
                             <?php
