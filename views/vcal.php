@@ -1,7 +1,7 @@
 <?php include('controllers/ceva.php');
 
 if($_SESSION['idpef']==2){?>
-    <form action="home.php?pg=113" method="post">
+    <form action="home.php?pg=113" method="post" id="frmins">
         <div class="row" style="align-items: end">
             <div class="form-group col-md-10">
                 <div class="row" style="align-items: end">
@@ -83,7 +83,7 @@ if($_SESSION['idpef']==2){?>
                                 <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['idprm'] ?>', 'spt', '<?= basename($dta['sptrut']) ?>', '113')" title="Ver PDF"></i>
                             <?php } else { ?>
                                 <a href="views/pdfcal.php?idcal=<?=$dta['idcal'];?>" title="Generar PDF" target="_blank">
-                                    <i class="fa fa-solid fa-envelopes-bulk iconi"></i>
+                                    <i class="fa fa-solid fa-file-pdf iconi"></i>
                                 </a>
                             <?php } ?>
                         </div>
