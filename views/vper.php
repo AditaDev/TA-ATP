@@ -37,15 +37,8 @@ if($_SESSION['idpef']!=3){ ?>
             </select>
         </div>
         <div class="form-group col-md-4">
-            <label for="idvfor"><strong>Formato:</strong></label>
-            <select name="idvfor" id="idvfor" class="form-control form-select" <?php if($_SESSION['idpef']==3) echo " disabled "?> required>
-                    <option value="" disabled selected>Seleccione...</option>
-                    <?php foreach ($datFor as $dtf) { ?>
-                        <option value="<?= $dtf['idval']; ?>" <?php if ($datOne && $dtf['idval'] == $datOne[0]['idvfor']) echo " selected "; ?>>
-                            <?= $dtf['nomval']; ?>
-                        </option>
-                    <?php } ?>
-            </select>
+            <label for="cargo"><strong>Cargo:</strong></label>
+            <input class="form-control" type="text" id="cargo" name="cargo" value="<?php if ($datOne) echo $datOne[0]['cargo']; ?>" required>
         </div>
         <?php if($_SESSION['idpef']!=3){ for($i=0; $i<=1; $i++){ ?>
             <div class="form-group col-md-4 ui-widget">
@@ -64,6 +57,17 @@ if($_SESSION['idpef']!=3){ ?>
             <label for="nivel"><strong>N° Jerarquía:</strong></label>
             <input class="form-control" type="text" id="nivel" name="nivel" value="<?php if ($datOne) echo $datOne[0]['nivel']; ?>" onkeypress="return solonum(event);" oninput="valNivel()" required>
             <div id="msjerror" style="display:none; color:red;"></div>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="idvfor"><strong>Formato:</strong></label>
+            <select name="idvfor" id="idvfor" class="form-control form-select" <?php if($_SESSION['idpef']==3) echo " disabled "?> required>
+                    <option value="" disabled selected>Seleccione...</option>
+                    <?php foreach ($datFor as $dtf) { ?>
+                        <option value="<?= $dtf['idval']; ?>" <?php if ($datOne && $dtf['idval'] == $datOne[0]['idvfor']) echo " selected "; ?>>
+                            <?= $dtf['nomval']; ?>
+                        </option>
+                    <?php } ?>
+            </select>
         </div>
         <?php if ($_SESSION['idpef'] != 3) { ?>
             <div class="form-group col-md-4">
@@ -119,21 +123,25 @@ if($_SESSION['idpef']!=3){ ?>
                                 $mper->setIdper($jef[0]['idjef']);
                                 $dtj = $mper->getOne();
                             }if ($dta['emaper']) { ?>
-                                <div class="form-group col-md-8">
-                                    <strong>Email: </strong> <?= $dta['emaper']; ?>
-                                </div> 
-                            <?php } if ($dtj) { ?>
-                                <div class="form-group col-md-12">
-                                    <strong>Jefe: </strong> <?= explode(' ', $dtj[0]['nomper'])[0] . " " . explode(' ', $dtj[0]['apeper'])[0]; ?>
-                                </div>
-                            <?php } if ($dta['area']) { ?>
                                 <div class="form-group col-md-4">
-                                    <strong>Area: </strong> <?= $dta['area']; ?>
+                                    <strong>Email: </strong> <?= $dta['emaper']; ?>
                                 </div> 
                             <?php } if ($dta['idvfor']) { ?>
                                 <div class="form-group col-md-4">
                                     <strong>Formato: </strong> <?= $dta['form']; ?>
                                 </div> 
+                            <?php } if ($dta['area']) { ?>
+                                <div class="form-group col-md-4">
+                                    <strong>Area: </strong> <?= $dta['area']; ?>
+                                </div> 
+                            <?php } if ($dta['cargo']) { ?>
+                                <div class="form-group col-md-4">
+                                    <strong>Cargo: </strong> <?= $dta['cargo']; ?>
+                                </div>
+                            <?php } if ($dtj) { ?>
+                                <div class="form-group col-md-4">
+                                    <strong>Jefe: </strong> <?= explode(' ', $dtj[0]['nomper'])[0] . " " . explode(' ', $dtj[0]['apeper'])[0]; ?>
+                                </div>
                             <?php } ?>
                         </div>
                     </small>

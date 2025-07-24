@@ -7,6 +7,7 @@ class Mper
     private $apeper;
     private $ndper;
     private $area;
+    private $cargo;
     private $idvfor;
     private $emaper;
     private $actper;
@@ -39,6 +40,9 @@ class Mper
     }
     public function getArea(){
         return $this->area;
+    }
+    public function getCargo(){
+        return $this->cargo;
     }
     public function getIdvfor(){
         return $this->idvfor;
@@ -94,6 +98,9 @@ class Mper
     public function setArea($area){
         $this->area = $area;
     }
+    public function setCargo($cargo){
+        $this->cargo = $cargo;
+    }
     public function setIdvfor($idvfor){
         $this->idvfor = $idvfor;
     }
@@ -135,7 +142,7 @@ class Mper
     //------------Persona-----------
     function getAll()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.idvfor, p.actper, p.nivel, va.idval, va.nomval AS area, vf.idval, vf.nomval AS form FROM persona AS p INNER JOIN valor AS va ON p.area=va.idval LEFT JOIN valor AS vf ON p.idvfor=vf.idval";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.idvfor, p.cargo, p.actper, p.nivel, va.idval, va.nomval AS area, vf.idval, vf.nomval AS form FROM persona AS p INNER JOIN valor AS va ON p.area=va.idval LEFT JOIN valor AS vf ON p.idvfor=vf.idval";
         if($_SESSION['idpef']==3) $sql .= " WHERE p.idper=:idper ";
         $sql .= " GROUP BY p.idper";
         $modelo = new conexion();
@@ -152,7 +159,7 @@ class Mper
 
     function getOne()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.idvfor, p.actper, p.nivel, va.idval, va.nomval AS area, vf.idval, vf.nomval AS form FROM persona AS p INNER JOIN valor AS va ON p.area=va.idval LEFT JOIN valor AS vf ON p.idvfor=vf.idval WHERE p.idper=:idper";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.ndper, p.emaper, p.area, p.idvfor, p.cargo, p.actper, p.nivel, va.idval, va.nomval AS area, vf.idval, vf.nomval AS form FROM persona AS p INNER JOIN valor AS va ON p.area=va.idval LEFT JOIN valor AS vf ON p.idvfor=vf.idval WHERE p.idper=:idper";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
@@ -168,10 +175,10 @@ class Mper
         try {
             $hash = $this->getHash();
             $salt = $this->getSalt();
-            $sql = "INSERT INTO persona(nomper, apeper, ndper, area, idvfor, emaper, actper, nivel";
+            $sql = "INSERT INTO persona(nomper, apeper, ndper, area, idvfor, cargo, emaper, actper, nivel";
             if ($hash) $sql .= ", hashl";
             if ($salt) $sql .= ", salt";
-            $sql .= ") VALUES (:nomper, :apeper, :ndper, :area, :idvfor, :emaper, :actper, :nivel";
+            $sql .= ") VALUES (:nomper, :apeper, :ndper, :area, :idvfor, :cargo, :emaper, :actper, :nivel";
             if ($hash) $sql .= ", :hashl";
             if ($salt) $sql .= ", :salt";
             $sql .= ")";
@@ -188,6 +195,8 @@ class Mper
             $result->bindParam(":area", $area);
             $idvfor = $this->getIdvfor();
             $result->bindParam(":idvfor", $idvfor);
+            $cargo = $this->getCargo();
+            $result->bindParam(":cargo", $cargo);
             $emaper = $this->getEmaper();
             $result->bindParam(":emaper", $emaper);
             $actper = $this->getActper();
@@ -217,7 +226,7 @@ class Mper
 
     function edit(){
         try{
-            $sql = "UPDATE persona SET nomper=:nomper, apeper=:apeper, ndper=:ndper, area=:area, idvfor=:idvfor, emaper=:emaper, actper=:actper, nivel=:nivel WHERE idper=:idper";
+            $sql = "UPDATE persona SET nomper=:nomper, apeper=:apeper, ndper=:ndper, area=:area, idvfor=:idvfor, cargo=:cargo, emaper=:emaper, actper=:actper, nivel=:nivel WHERE idper=:idper";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -233,6 +242,8 @@ class Mper
             $result->bindParam(":area", $area);
             $idvfor = $this->getIdvfor();
             $result->bindParam(":idvfor", $idvfor);
+            $cargo = $this->getCargo();
+            $result->bindParam(":cargo", $cargo);
             $emaper = $this->getEmaper();
             $result->bindParam(":emaper", $emaper);
             $actper = $this->getActper();

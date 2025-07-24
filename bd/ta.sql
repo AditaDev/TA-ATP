@@ -270,6 +270,7 @@ CREATE TABLE `persona` (
   `emaper` varchar(255) NOT NULL,
   `telper` varchar(10) DEFAULT NULL,
   `ndper` varchar(12) NOT NULL,
+  `cargo` varchar(100) NOT NULL,
   `actper` tinyint(1) DEFAULT 1,
   `area` bigint(11) NOT NULL,
   `idvfor` bigint(11) DEFAULT NULL,
@@ -280,9 +281,9 @@ CREATE TABLE `persona` (
   `feccam` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `emaper`, `telper`, `ndper`, `actper`, `area`, `idvfor`, `nivel`, `hashl`, `salt`, `token`, `feccam`) VALUES
-(1, 'Nicole Adamarys', 'Rodriguez Estevez', 'rodriada24@gmail.com', NULL, '1071328321', 1, 9, 57, 2, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL),
-(2, 'Juan David', 'Chaparro Dominguez', 'juanda.chapar@gmail.com', NULL, '1072642921', 1, 9, 58, 3, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
+INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `emaper`, `telper`, `ndper`, `cargo`, `actper`, `area`, `idvfor`, `nivel`, `hashl`, `salt`, `token`, `feccam`) VALUES
+(1, 'Nicole Adamarys', 'Rodriguez Estevez', 'rodriada24@gmail.com', NULL, '1071328321', 'Gerente', 1, 9, 57, 2, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL),
+(2, 'Juan David', 'Chaparro Dominguez', 'juanda.chapar@gmail.com', NULL, '1072642921', 'Sistemas', 1, 9, 58, 3, '7bb5f4680f2b1ef09d1ff9f4a2502ec2', 'b139771e98bf5e9bb807302f0fb0bd68', NULL, NULL);
 
 CREATE TABLE `perxpef` (
   `idper` bigint(11) NOT NULL,

@@ -14,6 +14,7 @@
     $apeper = isset($_POST['apeper']) ? $_POST['apeper']:NULL;
     $ndper = isset($_POST['ndper']) ? $_POST['ndper']:NULL;
     $area = isset($_POST['area']) ? $_POST['area']:NULL;
+    $cargo = isset($_POST['cargo']) ? $_POST['cargo']:NULL;
     $idvfor = isset($_POST['idvfor']) ? $_POST['idvfor']:NULL;
     $emaper = isset($_POST['emaper']) ? strtolower($_POST['emaper']):NULL;
     $actper = isset($_REQUEST['actper']) ? $_REQUEST['actper']:1;
@@ -69,6 +70,7 @@
         $mper->setEmaper($emaper);
         $mper->setNdper($ndper);
         $mper->setArea($area);
+        $mper->setCargo($cargo);
         $mper->setIdvfor($idvfor);
         $mper->setActper($actper);
         $mper->setNivel($nivel);
@@ -170,19 +172,20 @@
             $nomper = $sheet->getCell("C" . $row)->getValue();
             $apeper = $sheet->getCell("D" . $row)->getValue();
             $emaper = $sheet->getCell("E" . $row)->getValue();
-            $area = $sheet->getCell("F" . $row)->getValue();
+            $cargo = $sheet->getCell("F" . $row)->getValue();
+            $area = $sheet->getCell("G" . $row)->getValue();
             $mper->setIdval($area);
             $carea = $mper->CompVal();
             $area = $carea[0]['idval'];
             
-            $idvfor = $sheet->getCell("G" . $row)->getValue();
+            $idvfor = $sheet->getCell("H" . $row)->getValue();
             $mper->setIdvfor($idvfor);
             $cidvfor = $mper->CompVal();
             $idvfori = $cidvfor[0]['idval'];
             
-            $actper = $sheet->getCell("H" . $row)->getValue();
-            $nivel = $sheet->getCell("I" . $row)->getValue();
-            $idpef = $sheet->getCell("J" . $row)->getValue();
+            $actper = $sheet->getCell("I" . $row)->getValue();
+            $nivel = $sheet->getCell("J" . $row)->getValue();
+            $idpef = $sheet->getCell("K" . $row)->getValue();
             $idpef = str_replace(' ', '', $idpef);
             $idpefA = explode("*", $idpef);
             foreach($idpefA AS $pa){
@@ -191,13 +194,13 @@
                 $pef = $pef[0]['idpef'];
                 if($pef) $pf++;
             }
-            $ndjefi = $sheet->getCell("K" . $row)->getValue();
+            $ndjefi = $sheet->getCell("L" . $row)->getValue();
             $mper->setNdper($ndjefi); 
             $idjefia = $mper->selectUsu(); 
             if($idjefia) $idjefi = $idjefia[0]['idper'];
 
 
-            $ndjefa = $sheet->getCell("L" . $row)->getValue();
+            $ndjefa = $sheet->getCell("M" . $row)->getValue();
             $mper->setNdper($ndjefa); 
             $idjefaa = $mper->selectUsu(); 
             if($idjefaa) $idjefa = $idjefaa[0]['idper'];
@@ -220,6 +223,7 @@
             $mper->setNdper($ndper);
             $mper->setEmaper($emaper);
             $mper->setArea($area);
+            $mper->setCargo($cargo);
             $mper->setIdvfor($idvfor);
             $mper->setActper($actper);
             $mper->setNivel($nivel);
