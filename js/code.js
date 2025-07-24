@@ -210,6 +210,10 @@ function confirmar(nom, url) {
 	}
 }
 
+function confirmarEnvio() {
+    return confirm('¿Está seguro de enviar esta evaluación?\n\nUna vez enviada, no podrá ser modificada');
+}
+
 // function pdf(idpdf, arc, nom) {
 //   var w = window.innerWidth * 0.8;
 //   var h = window.innerHeight * 0.8;

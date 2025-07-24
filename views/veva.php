@@ -64,7 +64,7 @@ if($_SESSION['idpef']==2){ if($pendientes){ ?>
             <div class="form-group col-md-12" id="recFormato"></div>
             <div class="form-group col-md-12" id="boxbtn">
                 <br>
-                <input class="btn btn-primary" type="submit" value="Registrar" id="btns">
+                <input class="btn btn-primary" type="submit" value="Registrar" id="btns" onclick="return confirmarEnvio()">
                 <input type="hidden" name="ope" value="save">
                 <input type="hidden" name="ideva" value="<?php if ($datOne) echo $datOne[0]['ideva']; ?>">
             </div>
