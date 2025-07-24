@@ -444,7 +444,7 @@
             for ($i = 1; $i <= 25; $i++) $preg[] = "f.pre$i";
             $preguntas = implode(", ", $preg);
 
-            $sql = "SELECT c.idcal, c.idper, c.feccal, c.nota, c.rutpdf, c.idevasub, v.nomval AS tfor, CONCAT(pe.nomper, ' ', pe.apeper) AS eva, pe.cargo AS ceva, ea.feceva AS feva, CONCAT(pj.nomper, ' ', pj.apeper) AS jef, pj.cargo AS cjef, ej.feceva AS fjeva, CONCAT(pp.nomper, ' ', pp.apeper) AS par, pp.cargo AS cpar, ep.feceva AS fpeva, CONCAT(ps.nomper, ' ', ps.apeper) AS sub, ps.cargo AS csub, es.feceva AS fseva, f.codfor, f.verfor, f.fecfor, f.nomsec1, f.nomsec2, f.nomsec3, f.nomsec4, f.nomsec5, f.porjef, f.porpar, f.poraut, f.porsub, $preguntas, $respuestas FROM calificacion AS c INNER JOIN persona AS pe ON c.idper=pe.idper INNER JOIN valor AS v ON pe.idvfor=v.idval INNER JOIN evaluacion AS ej ON c.idevajef=ej.ideva INNER JOIN persona AS pj ON ej.idpereval=pj.idper INNER JOIN evaluacion AS ep ON c.idevapar=ep.ideva INNER JOIN persona AS pp ON ep.idpereval=pp.idper INNER JOIN evaluacion AS ea ON c.idevaaut=ea.ideva LEFT JOIN evaluacion AS es ON c.idevasub=es.ideva LEFT JOIN persona AS ps ON es.idpereval=ps.idper INNER JOIN respuesta AS rjef ON ej.ideva=rjef.ideva INNER JOIN respuesta AS rpar ON ep.ideva=rpar.ideva LEFT JOIN respuesta AS rsub ON es.ideva=rsub.ideva INNER JOIN respuesta AS raut ON ea.ideva=raut.ideva INNER JOIN formato AS f ON ea.idfor=f.idfor";
+            $sql = "SELECT c.idcal, c.idper, c.feccal, c.nota, c.rutpdf, c.idevasub, v.nomval AS tfor, pe.nomper, pe.apeper, pe.ndper, CONCAT(pe.nomper, ' ', pe.apeper) AS eva, pe.cargo AS ceva, ea.feceva AS feva, CONCAT(pj.nomper, ' ', pj.apeper) AS jef, pj.cargo AS cjef, ej.feceva AS fjeva, CONCAT(pp.nomper, ' ', pp.apeper) AS par, pp.cargo AS cpar, ep.feceva AS fpeva, CONCAT(ps.nomper, ' ', ps.apeper) AS sub, ps.cargo AS csub, es.feceva AS fseva, f.codfor, f.verfor, f.fecfor, f.nomsec1, f.nomsec2, f.nomsec3, f.nomsec4, f.nomsec5, f.porjef, f.porpar, f.poraut, f.porsub, $preguntas, $respuestas FROM calificacion AS c INNER JOIN persona AS pe ON c.idper=pe.idper INNER JOIN valor AS v ON pe.idvfor=v.idval INNER JOIN evaluacion AS ej ON c.idevajef=ej.ideva INNER JOIN persona AS pj ON ej.idpereval=pj.idper INNER JOIN evaluacion AS ep ON c.idevapar=ep.ideva INNER JOIN persona AS pp ON ep.idpereval=pp.idper INNER JOIN evaluacion AS ea ON c.idevaaut=ea.ideva LEFT JOIN evaluacion AS es ON c.idevasub=es.ideva LEFT JOIN persona AS ps ON es.idpereval=ps.idper INNER JOIN respuesta AS rjef ON ej.ideva=rjef.ideva INNER JOIN respuesta AS rpar ON ep.ideva=rpar.ideva LEFT JOIN respuesta AS rsub ON es.ideva=rsub.ideva INNER JOIN respuesta AS raut ON ea.ideva=raut.ideva INNER JOIN formato AS f ON ea.idfor=f.idfor";
             if($ope=="one") $sql .= " WHERE c.idcal=:idcal";
             if($ope=="bus"){
                 $sql .= " WHERE c.feccal!=''";
@@ -526,14 +526,14 @@
 
         function savePdf() {
             try{
-                $sql = "UPDATE calificacion SET rutpdf=:rutpdf WHERE idper=:id";
+                $sql = "UPDATE calificacion SET rutpdf=:rutpdf WHERE idcal=:id";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
+                $idcal = $this->getIdcal();
+                $result->bindParam(":id", $idcal);
                 $rutpdf = $this->getRutpdf();
                 $result->bindParam(":rutpdf", $rutpdf);
-                $idperevald = $this->getIdperevald();
-                $result->bindParam(":id", $idperevald);
                 $result->execute();
                 $res = $result-> fetchall(PDO::FETCH_ASSOC);
                 return $res;
@@ -616,6 +616,18 @@
             $result->bindParam(":ideva",$ideva);
             $result->execute();
             $res = $result-> fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+        
+        function getPdf(){
+            $sql = "SELECT rutpdf AS rut FROM calificacion WHERE idcal=:idcal";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idcal = $this->getIdcal();
+            $result->bindParam(":idcal", $idcal);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
             return $res;
         }
     }

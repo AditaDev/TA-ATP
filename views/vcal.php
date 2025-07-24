@@ -80,7 +80,7 @@ if($_SESSION['idpef']==2){?>
                         </div>
                         <div class="form-group col-md-2">
                             <?php if($dta['rutpdf'] && file_exists($dta['rutpdf'])) { ?>
-                                <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['idprm'] ?>', 'spt', '<?= basename($dta['sptrut']) ?>', '113')" title="Ver PDF"></i>
+                                <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['idcal'] ?>', 'spt', '<?= basename($dta['rutpdf']) ?>', '113')" title="Ver PDF"></i>
                             <?php } else { ?>
                                 <a href="views/pdfcal.php?idcal=<?=$dta['idcal'];?>" title="Generar PDF" target="_blank">
                                     <i class="fa fa-solid fa-file-pdf iconi"></i>
