@@ -718,7 +718,7 @@ function calcularNota($fila) {
                 $respondidas++;
             }
         }
-        $bloque[] = $respondidas > 0 ? $resParcial : null;
+        if ($respondidas > 0) $bloque[] = $resParcial;
         if ($i % 5 == 0) {
             $suma = 0;
             $cuenta = 0;
