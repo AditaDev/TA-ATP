@@ -699,7 +699,6 @@ function calcularNota($fila) {
     $bloque = [];
     $notas = [];
 
-    // Convertir los pesos enteros en decimales dividiendo entre 100
     $pesos = [
         'jef' => ($fila['porjef'])?floatval($fila['porjef'])/100:0,
         'aut' => ($fila['poraut'])?floatval($fila['poraut'])/100:0,
@@ -710,36 +709,30 @@ function calcularNota($fila) {
     for ($i=1; $i<=25; $i++) {
         $resParcial = 0;
         $respondidas = 0;
-
         foreach ($tipos as $tipo) {
             $campo = "r{$tipo}{$i}";
-
             if ($fila[$campo] && $fila[$campo]!=='') {
                 $resParcial += floatval($fila[$campo]) * $pesos[$tipo];
                 $respondidas++;
             }
         }
-
         $bloque[] = $respondidas > 0 ? $resParcial : null;
-
         if ($i % 5 == 0) {
             $suma = 0;
             $cuenta = 0;
-			
             foreach ($bloque as $nota) {
                 if (!is_null($nota)) {
                     $suma += $nota;
                     $cuenta++;
                 }
             }
-
 			if ($cuenta > 0) $notas[] = $suma / $cuenta;
             $bloque = [];
         }
     }
 
-    $Final = count($notas) > 0 ? array_sum($notas) / count($notas) : 0;
-    return round($Final, 2);
+    $final = count($notas) > 0 ? array_sum($notas) / count($notas) : 0;
+    return round($final, 2);
 }
 
 
