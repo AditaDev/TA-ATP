@@ -82,7 +82,7 @@ if($_SESSION['idpef']==2){?>
                             <?php if($dta['rutpdf'] && file_exists($dta['rutpdf'])) { ?>
                                 <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['idcal'] ?>', 'spt', '<?= basename($dta['rutpdf']) ?>', '113')" title="Ver PDF"></i>
                             <?php } else { ?>
-                                <a href="views/pdfcal.php?idcal=<?=$dta['idcal'];?>" title="Generar PDF" target="_blank">
+                                <a href="views/pdfcal.php?idcal=<?=$dta['idcal'];?>" title="Generar PDF" target="_blank" onclick="setTimeout(() => location.reload(), 1000);">
                                     <i class="fa fa-solid fa-file-pdf iconi"></i>
                                 </a>
                             <?php } ?>
