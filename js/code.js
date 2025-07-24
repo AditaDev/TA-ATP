@@ -90,7 +90,11 @@ function NumDecimal(e) {
     var valorActual = e.target.value;
 
     if (tecla === '.' && valorActual.indexOf('.') !== -1) return false;
-    
+
+	if (valorActual.indexOf('.') !== -1) {
+        var parteDecimal = valorActual.split('.')[1];
+        if (parteDecimal && parteDecimal.length >= 2) return false;
+    }    
     if (!regex.test(tecla) && tecla !== '.') return false;
     
 	return true;
