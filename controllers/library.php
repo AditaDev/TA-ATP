@@ -16,9 +16,11 @@ function titulo($ico, $tit, $mos, $pg)
 		
 		if ($mos == 1) {
 			$txt .= '<div class="titaju" style="float: right; font-size: 20px">';
-				$txt .= '<style"text-align: right;">Registrar </style>';
-				$txt .= '<i class="fa-solid fa-circle-plus" id="mas" onclick="ocul(' . $mos . ',1);"></i>';
-				$txt .= '<i class="fa-solid fa-circle-minus" id="menos" onclick="ocul(' . $mos . ',0);"></i>';
+				$txt .= '<div style="display: flex; align-items: center">';
+					$txt .= '<span style="text-align: right; margin-right: 5px">Registrar</span>';
+					$txt .= '<i class="fa-solid fa-circle-plus" id="mas" onclick="ocul(' . $mos . ',1);"></i>';
+					$txt .= '<i class="fa-solid fa-circle-minus" id="menos" onclick="ocul(' . $mos . ',0);"></i>';
+				$txt .= '</div>';
 			$txt .= '</div>';
 		}
 		
