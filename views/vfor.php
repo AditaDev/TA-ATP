@@ -65,12 +65,13 @@ include('controllers/cfor.php');
                 <div class="row" id="sec<?= $c; ?>" style="visibility: hidden; height: 0px; overflow: hidden; transition: height 0.5s ease, visibility 0s linear 0.5s;">
                     <div class="form-group col-lg-6">
                         <label for="nomsec<?= $c; ?>"><strong>Nombre:</strong></label>
-                        <input class="form-control" type="text" id="nomsec<?= $c; ?>" name="nomsec<?= $c; ?>" value="<?php if ($datOne) echo $datOne[0]['nomsec'.$c]; ?>" <?php ($c<=3) ? "required" : "";?>>
+                        <input class="form-control" type="text" id="nomsec<?= $c; ?>" name="nomsec<?= $c; ?>" value="<?php if ($datOne) echo $datOne[0]['nomsec'.$c]; ?>" <?php ($c<=3) ? "required" : "";?> oninput="valNomSec('nomsec', <?= $c ?>)">
+                        <small id="msjerror<?= $c; ?>" style="color: red; display: none; margin-top: 5px"></small>
                     </div>
             <?php } ?>
                     <div class="form-group col-lg-6">
                         <label for="pre<?= $i; ?>"><strong>Pregunta <?= $p ?>:</strong></label>
-                        <input class="form-control" type="text" id="pre<?= $i; ?>" name="pre<?= $i; ?>" value="<?php if ($datOne) echo $datOne[0]['pre'.$i]; ?>">
+                        <input class="form-control" type="text" id="pre<?= $i; ?>" name="pre<?= $i; ?>" value="<?php if ($datOne) echo $datOne[0]['pre'.$i]; ?>" oninput="valNomSec('nomsec', <?=$c;?>)">
                     </div>
             <?php if($i==5 || $i==10 || $i==15 || $i==20 || $i==25){ ?>
                 </div>
@@ -98,7 +99,7 @@ include('controllers/cfor.php');
         </div>
         <div class="form-group col-md-12" id="boxbtn">
             <br><br>
-            <input class="btn btn-primary" type="submit" value="Registrar" id="btns">
+            <input class="btn btn-primary" type="submit" value="Registrar" id="btnEnviar">
             <input type="hidden" name="ope" value="save">
             <input type="hidden" name="idfor" value="<?php if ($datOne) echo $datOne[0]['idfor']; ?>">
         </div>

@@ -327,6 +327,35 @@ function TipoEvaluacion(select) {
     document.getElementById('tipeva').value = tipo;
 }
 
+function valNomSec(baseNomSec, sec) {
+    const nombre = document.getElementById(baseNomSec + sec);
+    const error = document.getElementById("msjerror" + sec);
+    const btnEnviar = document.getElementById("btnEnviar");
+
+    let tieneRespuesta = false;
+    for (let i = 1; i <= 5; i++) {
+        const idx = (sec - 1) * 5 + i;
+        const preInput = document.getElementById("pre" + idx);
+        if (preInput && preInput.value.trim() !== "") {
+            tieneRespuesta = true;
+            break;
+        }
+    }
+
+    if (tieneRespuesta && nombre.value.trim() === "") {
+        error.innerText = "Ingrese el nombre de la sección.";
+        error.style.display = "block";
+    } else {
+        error.innerText = "";
+        error.style.display = "none";
+    }
+
+    // Verifica si hay errores visibles
+    const errores = document.querySelectorAll('small[id^="msjerror"]');
+    const hayErrores = Array.from(errores).some(e => e.style.display === "block");
+    btnEnviar.disabled = hayErrores;
+}
+
 
 // ---------- Persona -----------
 
