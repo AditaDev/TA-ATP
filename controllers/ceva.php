@@ -167,14 +167,17 @@
             if ($todosCompletos && !$meva->selectCal($idperevald, $tiposEvaluados)){
                 $meva->saveCal($idperevald, $tiposEvaluados);
                 $datos = $meva->selectCal($idperevald, $tiposEvaluados);
-                $meva->setIdcal($datos[0]['idcal']);
-                $reg = $meva->getAll("one");
-                $final = calcularNota($reg[0]);
-                $meva->setNota($final);
-                $meva->saveNota();
+                if($datos){
+                    $meva->setIdcal($datos[0]['idcal']);
+                    $reg = $meva->getAll("one");
+                    $final = calcularNota($reg[0]);
+                    $meva->setNota($final);
+                    $meva->saveNota();
+                    echo "<script>window.open('../views/pdfcal.php?idcal=".$reg[0]['idcal']."', '_blank');</script>";
+                }
             }
         }
-        echo "<script>window.location='home.php?pg=112';</script>";
+        // echo "<script>setTimeout(function() {window.location='home.php?pg=112';}, 1000);</script>";
     }
 
     //------------Evaluaciones-----------
