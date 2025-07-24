@@ -201,8 +201,8 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
     </body>
     </html>';
 
-    $fold = 'arc/permisos/'.$det['aper'].' '.$det['nper'].'_'.$det['dper'].'/';
-    $name = $det['tprm']."_".date("Y-m-d", strtotime($det['fecini'])).".pdf";
+    $fold = 'arc/'.$det['aper'].' '.$det['nper'].'_'.$det['dper'].'/Permisos/';
+    $name = $det['tprm']."_".date("d-m-Y", strtotime($det['fecini'])).".pdf";
 
     $dompdf->loadHtml($html);
     $dompdf->setPaper('Letter', 'portrait');

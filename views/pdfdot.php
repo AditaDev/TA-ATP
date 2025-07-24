@@ -271,7 +271,7 @@ if($ident){
 
     //-------Generarlo--------
     //-------Nombre y destino del pdf--------
-    $fold = 'arc/pdf/'.$det['nomprec'].'_'.$det['dprec'].'/';
+    $fold = 'arc/'.$det['apeper'].' '.$det['nomper'].'_'.$det['dprec'].'/Dotacion/';
     $name = $det['aprec']."_".$det['nomprec'].".pdf";
 
     // //-------Carga informacion y lo crea--------
