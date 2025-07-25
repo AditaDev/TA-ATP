@@ -4,7 +4,7 @@ require_once('controllers/cper.php');
 if($_SESSION['idpef']!=3){ ?>
     <div style="text-align: right;">
     <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?>carper" title="Importar Personas"></i>
-    <!-- <?php modalImp("mod", $pg, "Personas", "carper", ""); ?> -->
+    <?php modalImp("mod", $pg, "Personas", "carper"); ?>
     </div>
 <?php } ?>
 
