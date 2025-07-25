@@ -45,7 +45,7 @@
     $nombre = nombre($apeper." ".$nomper);
     $template = "views/mail.html";
     $mail_asun = "¡Bienvenido a TUMMY!";
-    $txt_mess = "Es un placer darte la bienvenida a TUMMY, nuestra nueva aplicación está diseñada para facilitar la gestión de tus permisos laborales y agilizar la solicitud de almuerzos.<br><br>
+    $txt_mess = "Es un placer darte la bienvenida a TUMMY, nuestra nueva aplicación diseñada para optimizar la gestión de permisos laborales, facilitar el seguimiento de entregas de dotaciones y permitir la realización de evaluaciones de desempeño periódicas de manera eficiente.<br><br>
     Aquí tienes tus credenciales de acceso:<br><br>
     <strong>• Usuario: </strong>".$ndper.(($emaper) ? " / ".$emaper : "")."<br>
     <strong>• Contraseña: </strong>".$pass."<br><br><br>
@@ -176,10 +176,10 @@
             $area = $sheet->getCell("G" . $row)->getValue();
             $mper->setIdval($area);
             $carea = $mper->CompVal();
-            $area = $carea[0]['idval'];
+            $areai = $carea[0]['idval'];
             
             $idvfor = $sheet->getCell("H" . $row)->getValue();
-            $mper->setIdvfor($idvfor);
+            $mper->setIdval($idvfor);
             $cidvfor = $mper->CompVal();
             $idvfori = $cidvfor[0]['idval'];
             
@@ -200,7 +200,7 @@
             if($idjefia) $idjefi = $idjefia[0]['idper'];
 
 
-            $ndjefa = $sheet->getCell("M" . $row)->getValue();
+            $ndjefa = $sheet->getCell("N" . $row)->getValue();
             $mper->setNdper($ndjefa); 
             $idjefaa = $mper->selectUsu(); 
             if($idjefaa) $idjefa = $idjefaa[0]['idper'];
@@ -234,8 +234,8 @@
     		 if($existingData){
                 $idper = $existingData[0]['idper'];
                 $mper->setIdper($idper);
-    		} if (count($idpefA)==$pf && (!$idvfor OR ($idvfori && $idvfor)) && (!$ndjefi OR ($ndjefi && $idjefi)) && (!$ndjefa OR ($ndjefa && $idjefa))) {
-    		    if (!empty($ndper)) {
+    		} if ($emaper && count($idpefA)==$pf && (!$area OR ($areai && $area)) && (!$idvfor OR ($idvfori && $idvfor)) && (!$ndjefi OR ($ndjefi && $idjefi)) && (!$ndjefa OR ($ndjefa && $idjefa))) {
+                if (!empty($ndper)) {
     		    	if (!$idper) {
     		    		$mper->save();
                         $per = $mper->getOneSPxF($ndper);
