@@ -23,6 +23,7 @@
     $ubicacion = "Bogotá D.C.";
     $web = "www.artepan.com.co";
 
-    $url = "http://localhost/TA-ATP/";
+    // $url = "http://localhost/TA-ATP/";
+    $url = "http://adita.artepan.com.co";
 
 ?>
