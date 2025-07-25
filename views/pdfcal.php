@@ -95,7 +95,7 @@ if($idcal){
                 <td class="tit td" style="width: 20%">CÓDIGO: '.$info['codfor'].'</td>
             </tr>
             <tr>
-                <td class="tit td" style="width: 20%">FECHA: '.date("d/m/Y", strtotime($info['feccal'])).'</td>
+                <td class="tit td" style="width: 20%">FECHA: '.date("d/m/Y", strtotime($info['fecfor'])).'</td>
             </tr>
             <tr>
                 <td class="tit td" style="width: 20%">PÁGINA: 1</td>
