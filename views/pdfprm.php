@@ -58,7 +58,7 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
     $mprm->editAct();
     $datDet = $mprm->getOne();
     $det = $datDet[0];
-    $datTprm = $mprm->getAllDom(4);
+    $datTprm = $mprm->getAllDom(1);
 
     $html = '';
     $html .= '
@@ -161,7 +161,7 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
             if($datTprm){ foreach($datTprm AS $i=>$dtp){
             $html .= '<td class="td datper" style="width: 45%">'.strtoupper($dtp['nomval']).'</td>
                 <td class="td datper fond2 tit" style="width: 5%">'.(($dtp['idval']==$det['idvtprm']) ? 'X' : '').'</td>';
-                if($i%2==1 && $dtp['idval']!=38) $html .= '</tr><tr>';
+                if($i%2==1 && $dtp['idval']!=8) $html .= '</tr><tr>';
             }}
     $html .= '
             </tr>
