@@ -131,15 +131,16 @@ if($_SESSION['idpef']==2){
                             <div class="form-group col-sm-10">
                                 <strong> <?= (date("d/m/Y", strtotime($dta['fecent']))).  " - "  . $dta['nomprec']; ?></strong>
                                 <div class="row">
-                                <?php if($dta['aprec']){?>
-                                    <div class="form-group col-sm-6">
-                                        <small><strong>Área: </strong> <?= $dta['aprec']; ?></small>
-                                    </div>
-                                <?php } if ($dta['observ']) { ?>
-                                    <div class="form-group col-sm-6">
-                                        <small><strong>Observación: </strong><?= $dta['observ']; ?></small>
-                                    </div>
-                                <?php } ?>
+                                    <?php if($dta['aprec']){?>
+                                        <div class="form-group col-sm-6">
+                                            <small><strong>Área: </strong> <?= $dta['aprec']; ?></small>
+                                        </div>
+                                    <?php } if ($dta['observ']) { ?>
+                                        <div class="form-group col-sm-6">
+                                            <small><strong>Observación: </strong><?= $dta['observ']; ?></small>
+                                        </div>
+                                    <?php } ?>
+                                </div>
                             </div>
                             <div class="form-group col-sm-2">
                                 <i class="fa fa-solid fa-eye iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbdet<?= $dta['ident']; ?>" title="Detalles"></i>
