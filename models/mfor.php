@@ -308,7 +308,7 @@
 
         function save(){
             try {
-                $sql = "INSERT INTO formato (tipfor, codfor, verfor, fecfor, nomsec1, pre1, pre2, pre3, pre4, pre5, nomsec2, pre6, pre7, pre8, pre9, pre10, nomsec3, pre11, pre12, pre13, pre14, pre15, nomsec4, pre16, pre17, pre18, pre19, pre20, nomsec5, pre21, pre22, pre23, pre24, pre25, porjef, porpar, poraut, porsub, actfor) VALUES (:tipfor, :codfor, :fecfor, :nomsec1, :pre1, :pre2, :pre3, :pre4, :pre5, :nomsec2, :pre6, :pre7, :pre8, :pre9, :pre10, :nomsec3, :pre11, :pre12, :pre13, :pre14, :pre15, :nomsec4, :pre16, :pre17, :pre18, :pre19, :pre20, :nomsec5, :pre21, :pre22, :pre23, :pre24, :pre25, :porjef, :porpar, :poraut, :porsub, :actfor)";
+                $sql = "INSERT INTO formato (tipfor, codfor, verfor, fecfor, nomsec1, pre1, pre2, pre3, pre4, pre5, nomsec2, pre6, pre7, pre8, pre9, pre10, nomsec3, pre11, pre12, pre13, pre14, pre15, nomsec4, pre16, pre17, pre18, pre19, pre20, nomsec5, pre21, pre22, pre23, pre24, pre25, porjef, porpar, poraut, porsub, actfor) VALUES (:tipfor, :codfor, :verfor, :fecfor, :nomsec1, :pre1, :pre2, :pre3, :pre4, :pre5, :nomsec2, :pre6, :pre7, :pre8, :pre9, :pre10, :nomsec3, :pre11, :pre12, :pre13, :pre14, :pre15, :nomsec4, :pre16, :pre17, :pre18, :pre19, :pre20, :nomsec5, :pre21, :pre22, :pre23, :pre24, :pre25, :porjef, :porpar, :poraut, :porsub, :actfor)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
