@@ -63,6 +63,19 @@ if($idcal){
                 border-collapse: collapse;
                 border: 1.5px solid #000;
             }
+            .obs{
+                text-align: left;
+                height: 100px;
+                vertical-align: top;
+                padding: 10px;
+            }
+            .fir{
+                width: 98%;
+                padding: 70px 0 40px 0;
+                display: flex;
+                justify-content: space-around;
+                padding-left: 1%;
+            }
             .tit{
                 text-align: center;
             }
@@ -194,6 +207,18 @@ if($idcal){
         </tfoot>
     </table>
     <span><br></span>
+    <table>
+        <tr>
+            <td class="td sub obs"><strong>Observación:</strong><br>'.$info['observ'].'</td>
+        </tr>
+        <tr>
+            <td class="td sub obs"><strong>Compromisos:</strong></td>
+        </tr>
+    </table>
+    <div class="sub fir">
+        <strong>Firma Jefe: ________________________________</strong>
+        <strong>Firma Colaboraor: ________________________________</strong>
+    </div>
     <table>
         <thead>
             <tr>
