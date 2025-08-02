@@ -23,6 +23,9 @@
 
 			$html .= '<div style="text-align: center; margin-top: 20px">';
     	        $html .= '<u><h5>'.$det['nomval'].'</h5></u>';
+				$html .= '<div class="formato">';
+    	    	    $html .= '<h6>Califique de uno (1) a cinco (5) las siguientes preguntas, siendo (1) la calificación más baja y (5) la más baja</h6>';
+    	    	$html .= '</div>';
     	    $html .= '</div>';
 			for($i=1; $i<=25; $i++){
 				$c = 0;
